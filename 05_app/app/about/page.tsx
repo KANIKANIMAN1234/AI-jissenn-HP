@@ -47,8 +47,8 @@ export default function AboutPage() {
         {/* Message */}
         <section className="py-20 lg:py-32 bg-card border-y border-border">
           <div className="max-w-7xl mx-auto px-6 lg:px-8">
-            <div className="flex flex-col lg:flex-row gap-12 lg:gap-16 items-center">
-              <div className="flex-1 prose prose-lg max-w-none space-y-6 text-muted-foreground">
+            <div className="flex flex-col lg:flex-row gap-8 lg:gap-12 items-start">
+              <div className="flex-1 prose prose-lg max-w-none space-y-6 text-muted-foreground lg:pr-8">
                 <p>
                   AI実践起業塾は、単に「AIを学ぶ場」ではなく、
                   <strong className="text-foreground">AIを活用して自分のビジネスを形にし、実際に収益を生み出すこと</strong>
@@ -79,13 +79,13 @@ export default function AboutPage() {
                   一緒に学び、支え合いながら、一歩ずつ前へ進んでいきましょう。
                 </p>
               </div>
-              <div className="flex-shrink-0 lg:w-[480px]">
+              <div className="flex-shrink-0 lg:w-[420px] lg:mt-0 mt-8">
                 <Image
                   src="/images/mission-vision-value.png"
                   alt="AI実践起業塾のミッション・ビジョン・バリュー"
                   width={960}
                   height={720}
-                  className="w-full h-auto"
+                  className="w-full h-auto rounded-lg"
                 />
               </div>
             </div>
