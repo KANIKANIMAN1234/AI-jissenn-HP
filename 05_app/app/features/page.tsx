@@ -59,10 +59,10 @@ export default function FeaturesPage() {
         <section className="py-10 lg:py-16 bg-background">
           <div className="max-w-7xl mx-auto px-6 lg:px-8">
             <div className="max-w-3xl">
-              <h1 className="text-4xl lg:text-5xl font-serif font-bold text-foreground tracking-tight whitespace-nowrap">
+              <h1 className="text-3xl sm:text-4xl lg:text-5xl font-serif font-bold text-foreground tracking-tight">
                 なぜ今「AI実装スキル」が必要なのか
               </h1>
-              <p className="mt-4 text-lg text-muted-foreground leading-relaxed">
+              <p className="mt-4 text-base sm:text-lg text-muted-foreground leading-relaxed">
                 2025-2026年のマクロトレンドと戦略的勝ち筋
               </p>
             </div>
@@ -73,9 +73,9 @@ export default function FeaturesPage() {
         <section className="py-16 lg:py-24 bg-card border-y border-border">
           <div className="max-w-7xl mx-auto px-6 lg:px-8">
             {/* Headline */}
-            <h2 className="text-2xl lg:text-3xl font-bold text-center mb-12">
-              <span className="text-destructive">2026年は補助金×AIアプリ開発が爆発</span>
-              <span className="text-foreground">——ここが一番重要です</span>
+            <h2 className="text-xl sm:text-2xl lg:text-3xl font-bold text-center mb-12">
+              <span className="text-destructive block sm:inline">2026年は補助金×AIアプリ開発が爆発</span>
+              <span className="text-foreground block sm:inline">——ここが一番重要です</span>
             </h2>
 
             {/* Two Cards Layout */}
@@ -83,19 +83,17 @@ export default function FeaturesPage() {
               {/* 2025年の振り返り */}
               <div className="bg-card border border-border rounded-xl p-6 lg:p-8 shadow-sm">
                 <div className="flex items-center gap-3 mb-4">
-                  <RotateCcw className="h-6 w-6 text-primary" />
-                  <h3 className="text-xl lg:text-2xl font-bold text-foreground">2025年の振り返り</h3>
+                  <RotateCcw className="h-5 w-5 sm:h-6 sm:w-6 text-primary flex-shrink-0" />
+                  <h3 className="text-lg sm:text-xl lg:text-2xl font-bold text-foreground">2025年の振り返り</h3>
                 </div>
                 <div className="border-t border-border pt-4">
-                  <p className="font-bold text-foreground mb-2">背景：リスキリング補助金</p>
+                  <p className="font-bold text-foreground mb-2 text-sm sm:text-base">背景：リスキリング補助金</p>
                   <p className="text-muted-foreground text-sm mb-4">
-                    昨年は教育分野への投資が活発で、<br />
-                    「AI講師」や「教育事業」が市場を牽引。
+                    昨年は教育分野への投資が活発で、「AI講師」や「教育事業」が市場を牽引。
                   </p>
-                  <div className="bg-muted rounded-lg p-4">
+                  <div className="bg-muted rounded-lg p-3 sm:p-4">
                     <p className="text-muted-foreground text-sm">
-                      「AIの使い方を教える」だけで<br />
-                      十分に仕事として成立した年でした。
+                      「AIの使い方を教える」だけで十分に仕事として成立した年でした。
                     </p>
                   </div>
                 </div>
@@ -111,28 +109,26 @@ export default function FeaturesPage() {
               {/* 2026年の大予測 */}
               <div className="bg-card border-2 border-destructive rounded-xl p-6 lg:p-8 shadow-sm">
                 <div className="flex items-center gap-3 mb-4">
-                  <Rocket className="h-6 w-6 text-foreground" />
-                  <h3 className="text-xl lg:text-2xl font-bold text-foreground">2026年の大予測</h3>
+                  <Rocket className="h-5 w-5 sm:h-6 sm:w-6 text-foreground flex-shrink-0" />
+                  <h3 className="text-lg sm:text-xl lg:text-2xl font-bold text-foreground">2026年の大予測</h3>
                 </div>
                 <div className="border-t border-border pt-4">
-                  <p className="font-bold text-foreground mb-2">背景：AI省力化・IT導入補助金</p>
+                  <p className="font-bold text-foreground mb-2 text-sm sm:text-base">背景：AI省力化・IT導入補助金</p>
                   <p className="text-muted-foreground text-sm mb-2">
-                    今年は流れが完全に変わります。<br />
-                    これら補助金を活用した
+                    今年は流れが完全に変わります。これら補助金を活用した
                   </p>
-                  <p className="text-lg font-bold text-primary mb-4">
+                  <p className="text-base sm:text-lg font-bold text-primary mb-4">
                     『AIアプリ開発』が爆発的に伸びます！
                   </p>
                   <div className="border-t border-border pt-4 mb-4">
-                    <p className="font-bold text-foreground mb-2">企業のニーズの変化</p>
+                    <p className="font-bold text-foreground mb-2 text-sm sm:text-base">企業のニーズの変化</p>
                     <p className="text-muted-foreground text-sm">
                       「学びたい」→「業務に実装してほしい」
                     </p>
                   </div>
-                  <div className="bg-primary/10 rounded-lg p-4 text-center">
-                    <p className="text-primary font-bold">
-                      今、「作る技術」を持っている<br />
-                      AIエンジニアが最強になります。
+                  <div className="bg-primary/10 rounded-lg p-3 sm:p-4 text-center">
+                    <p className="text-primary font-bold text-sm sm:text-base">
+                      今、「作る技術」を持っているAIエンジニアが最強になります。
                     </p>
                   </div>
                 </div>
