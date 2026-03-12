@@ -32,22 +32,34 @@ export async function GET(request: NextRequest) {
     const html = await response.text()
     console.log('HTML length:', html.length)
 
-    // OG:imageタグを抽出（複数のパターンに対応）
+    // OG:imageタグを抽出（複数のパターンに対応、より柔軟に）
     const ogImageMatch = html.match(/<meta\s+(?:property|name)=["']og:image["']\s+content=["']([^"']+)["']/i) ||
-                         html.match(/<meta\s+content=["']([^"']+)["']\s+(?:property|name)=["']og:image["']/i)
-    const ogImage = ogImageMatch ? ogImageMatch[1] : null
+                         html.match(/<meta\s+content=["']([^"']+)["']\s+(?:property|name)=["']og:image["']/i) ||
+                         html.match(/property=["']og:image["'][^>]*content=["']([^"']+)["']/i) ||
+                         html.match(/content=["']([^"']+)["'][^>]*property=["']og:image["']/i)
+    const ogImage = ogImageMatch ? ogImageMatch[1].trim() : null
 
     // OG:titleタグを抽出
     const ogTitleMatch = html.match(/<meta\s+(?:property|name)=["']og:title["']\s+content=["']([^"']+)["']/i) ||
-                         html.match(/<meta\s+content=["']([^"']+)["']\s+(?:property|name)=["']og:title["']/i)
-    const ogTitle = ogTitleMatch ? ogTitleMatch[1] : null
+                         html.match(/<meta\s+content=["']([^"']+)["']\s+(?:property|name)=["']og:title["']/i) ||
+                         html.match(/property=["']og:title["'][^>]*content=["']([^"']+)["']/i) ||
+                         html.match(/content=["']([^"']+)["'][^>]*property=["']og:title["']/i)
+    const ogTitle = ogTitleMatch ? ogTitleMatch[1].trim() : null
 
     // OG:descriptionタグを抽出
     const ogDescriptionMatch = html.match(/<meta\s+(?:property|name)=["']og:description["']\s+content=["']([^"']+)["']/i) ||
-                               html.match(/<meta\s+content=["']([^"']+)["']\s+(?:property|name)=["']og:description["']/i)
-    const ogDescription = ogDescriptionMatch ? ogDescriptionMatch[1] : null
+                               html.match(/<meta\s+content=["']([^"']+)["']\s+(?:property|name)=["']og:description["']/i) ||
+                               html.match(/property=["']og:description["'][^>]*content=["']([^"']+)["']/i) ||
+                               html.match(/content=["']([^"']+)["'][^>]*property=["']og:description["']/i)
+    const ogDescription = ogDescriptionMatch ? ogDescriptionMatch[1].trim() : null
 
     console.log('Extracted OG data:', { ogImage, ogTitle, ogDescription })
+    
+    // デバッグ用：og:imageタグの周辺を出力
+    if (!ogImage) {
+      const ogImageSection = html.match(/<meta[^>]*og:image[^>]*>/gi)
+      console.log('Found og:image tags:', ogImageSection)
+    }
 
     return NextResponse.json({
       thumbnail: ogImage,

@@ -218,8 +218,10 @@ export default function AdminBlogPage() {
       const newArticle = {
         id: Date.now().toString(),
         ...formData,
-        thumbnail: formData.thumbnail || "/placeholder.svg",
+        thumbnail: formData.thumbnail || "",
       }
+
+      console.log("Adding article with data:", newArticle)
 
       const response = await fetch("/api/blog", {
         method: "POST",
