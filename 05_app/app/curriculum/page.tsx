@@ -82,6 +82,12 @@ const detailedCurriculum = [
       "　・RSSフィードを活用し、最新NEWS情報のリンクを収集して自動投稿",
       "　・ファイル名をルールに沿ってリネーム修正する",
       "　・GASで作るWEBアプリ！見積もり作成ツール！",
+    ],
+  },
+  {
+    icon: MessageSquare,
+    category: "LINE公式＋αチャレンジ",
+    items: [
       "LINE公式＋αチャレンジ(6)",
       "　・LINE 予定管理 秘書bot（LINE＊GAS連携）",
       "　・LINE メール管理 AI秘書bot（LINE＊GAS連携）",
