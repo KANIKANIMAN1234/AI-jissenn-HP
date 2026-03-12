@@ -133,6 +133,31 @@ export default function FounderPage() {
           </div>
         </section>
 
+        {/* Business Model */}
+        <section className="py-20 lg:py-32 bg-muted border-y border-border">
+          <div className="max-w-7xl mx-auto px-6 lg:px-8">
+            <div className="text-center mb-12">
+              <h2 className="text-sm font-semibold text-primary uppercase tracking-wider mb-4">Business Model</h2>
+              <p className="text-3xl lg:text-4xl font-serif font-bold text-foreground mb-4">
+                AI実践 × 仕事循環モデル
+              </p>
+              <p className="text-muted-foreground max-w-3xl mx-auto">
+                入門コースからビジネスパートナーコースまで、あなたのステージに合わせた成長プログラム
+              </p>
+            </div>
+
+            <div className="flex justify-center">
+              <Image
+                src="/images/business-model.png"
+                alt="AI実践起業塾のビジネスモデル - 入門コース、グルコンコース、ビジネスパートナーコース"
+                width={1200}
+                height={675}
+                className="w-full max-w-5xl h-auto rounded-lg shadow-lg"
+              />
+            </div>
+          </div>
+        </section>
+
         {/* Founders */}
         <section className="py-20 lg:py-32 bg-muted">
           <div className="max-w-7xl mx-auto px-6 lg:px-8">
