@@ -3,7 +3,7 @@ import { redirect } from "next/navigation"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { signOut } from "@/auth"
-import { LogOut, FileText, Trophy, Settings } from "lucide-react"
+import { LogOut, FileText, Trophy, Video, Settings } from "lucide-react"
 import Link from "next/link"
 
 export default async function AdminDashboardPage() {
@@ -87,6 +87,30 @@ export default async function AdminDashboardPage() {
               <Button variant="outline" size="sm" className="w-full" asChild>
                 <Link href="/admin/success">
                   実績管理へ
+                </Link>
+              </Button>
+            </CardContent>
+          </Card>
+
+          <Card>
+            <CardHeader>
+              <div className="flex items-center gap-3">
+                <div className="w-10 h-10 rounded-lg bg-primary/10 flex items-center justify-center">
+                  <Video className="h-5 w-5 text-primary" />
+                </div>
+                <div>
+                  <CardTitle>セミナー管理</CardTitle>
+                  <CardDescription>セミナー情報の管理</CardDescription>
+                </div>
+              </div>
+            </CardHeader>
+            <CardContent>
+              <p className="text-sm text-muted-foreground mb-4">
+                セミナー情報を追加・編集・削除、並び替えができます
+              </p>
+              <Button variant="outline" size="sm" className="w-full" asChild>
+                <Link href="/admin/seminar">
+                  セミナー管理へ
                 </Link>
               </Button>
             </CardContent>

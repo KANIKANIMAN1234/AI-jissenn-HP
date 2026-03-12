@@ -1,0 +1,340 @@
+{
+  "seminars": [
+    {
+      "id": "1",
+      "number": 17,
+      "title": "商品開発の第一歩、自分の得意を見つけよう",
+      "videoUrl": "",
+      "description": "第1回『商品開発の第一歩』⇒第17回を視聴してください",
+      "thumbnail": ""
+    },
+    {
+      "id": "2",
+      "number": 18,
+      "title": "安定的・継続的にお金を稼ぐ方法",
+      "videoUrl": "",
+      "description": "第2回『お金を稼ぐということ』⇒第18回を視聴して下さい。",
+      "thumbnail": ""
+    },
+    {
+      "id": "3",
+      "number": 3,
+      "title": "商品開発の第一歩～得意を深掘りしてビジネスにつなげよう～",
+      "videoUrl": "",
+      "description": "",
+      "thumbnail": ""
+    },
+    {
+      "id": "4",
+      "number": 4,
+      "title": "1回で3度おいしいSNSコンテンツ活用",
+      "videoUrl": "",
+      "description": "",
+      "thumbnail": ""
+    },
+    {
+      "id": "5",
+      "number": 23,
+      "title": "noteが伸びる人、伸びない人",
+      "videoUrl": "",
+      "description": "第5回『noteが伸びる人、伸びない人』⇒第23回を視聴ください。",
+      "thumbnail": ""
+    },
+    {
+      "id": "6",
+      "number": 24,
+      "title": "リサーチするってどういうこと？",
+      "videoUrl": "",
+      "description": "第6回『リサーチするってどういうこと？』⇒第24回を視聴ください。",
+      "thumbnail": ""
+    },
+    {
+      "id": "7",
+      "number": 7,
+      "title": "効率が３倍になる文章AIの使い方",
+      "videoUrl": "",
+      "description": "",
+      "thumbnail": ""
+    },
+    {
+      "id": "8",
+      "number": 26,
+      "title": "AI業界の稼ぎ方・業界マップ",
+      "videoUrl": "",
+      "description": "第8回『AI業界の稼ぎ方・業界マップ』⇒第26回を視聴して下さい。",
+      "thumbnail": ""
+    },
+    {
+      "id": "9",
+      "number": 27,
+      "title": "商品販売で必須のファネル〜お客様と出会う3ステップ〜",
+      "videoUrl": "",
+      "description": "第9回『商品販売で失敗しないファネルとは』⇒第27回を視聴",
+      "thumbnail": ""
+    },
+    {
+      "id": "10",
+      "number": 28,
+      "title": "売れる行動心理学",
+      "videoUrl": "",
+      "description": "第10回『売れる行動心理学』⇒第28回を視聴してください。",
+      "thumbnail": ""
+    },
+    {
+      "id": "11",
+      "number": 29,
+      "title": "ブランディングの基礎",
+      "videoUrl": "",
+      "description": "第11回『ブランディングの教科書』⇒第29回を視聴",
+      "thumbnail": ""
+    },
+    {
+      "id": "12",
+      "number": 12,
+      "title": "プロンプトってなぁに？ChatGPTとの向き合い方・使い方",
+      "videoUrl": "",
+      "description": "",
+      "thumbnail": ""
+    },
+    {
+      "id": "13",
+      "number": 13,
+      "title": "AI実践起業塾の目指したい姿",
+      "videoUrl": "",
+      "description": "",
+      "thumbnail": ""
+    },
+    {
+      "id": "14",
+      "number": 14,
+      "title": "AI実践起業塾の目指したい姿・講座説明",
+      "videoUrl": "",
+      "description": "",
+      "thumbnail": ""
+    },
+    {
+      "id": "15",
+      "number": 15,
+      "title": "AI実践塾で得られる姿",
+      "videoUrl": "",
+      "description": "",
+      "thumbnail": ""
+    },
+    {
+      "id": "16",
+      "number": 16,
+      "title": "AIｘココナラで成果を上げる方法-未経験からの66万へ",
+      "videoUrl": "",
+      "description": "",
+      "thumbnail": ""
+    },
+    {
+      "id": "17",
+      "number": 17,
+      "title": "商品開発の第一歩、自分の得意を見つけよう",
+      "videoUrl": "",
+      "description": "",
+      "thumbnail": ""
+    },
+    {
+      "id": "18",
+      "number": 18,
+      "title": "安定的・継続的にお金を稼ぐ方法",
+      "videoUrl": "",
+      "description": "",
+      "thumbnail": ""
+    },
+    {
+      "id": "19",
+      "number": 19,
+      "title": "LPの基本、SaiponでLPを作ろう！",
+      "videoUrl": "",
+      "description": "",
+      "thumbnail": ""
+    },
+    {
+      "id": "20",
+      "number": 20,
+      "title": "nootebookLMの基礎と活用",
+      "videoUrl": "",
+      "description": "",
+      "thumbnail": ""
+    },
+    {
+      "id": "21",
+      "number": 0,
+      "title": "不動産で新しくマネタイズする方法（説明会アーカイブ）",
+      "videoUrl": "",
+      "description": "",
+      "thumbnail": ""
+    },
+    {
+      "id": "22",
+      "number": 21,
+      "title": "AIを活用してサクッと資料を作成する方法",
+      "videoUrl": "",
+      "description": "※felo、Gamma以外でサクッとサクサク♪",
+      "thumbnail": ""
+    },
+    {
+      "id": "23",
+      "number": 22,
+      "title": "特定のメールアドレスからの受信をLINEに自動通知する方法",
+      "videoUrl": "",
+      "description": "ハンズオンで設定しながらやってみよう(^^♪",
+      "thumbnail": ""
+    },
+    {
+      "id": "24",
+      "number": 23,
+      "title": "noteが伸びる人、伸びない人",
+      "videoUrl": "",
+      "description": "",
+      "thumbnail": ""
+    },
+    {
+      "id": "25",
+      "number": 24,
+      "title": "リサーチするってどういうこと？",
+      "videoUrl": "",
+      "description": "",
+      "thumbnail": ""
+    },
+    {
+      "id": "26",
+      "number": 25,
+      "title": "法人向けビジネスのトレンド情報",
+      "videoUrl": "",
+      "description": "幕張メッセ展示会のシェア会",
+      "thumbnail": ""
+    },
+    {
+      "id": "27",
+      "number": 26,
+      "title": "AI業界の稼ぎ方・業界マップ",
+      "videoUrl": "",
+      "description": "※第8回の更新版です",
+      "thumbnail": ""
+    },
+    {
+      "id": "28",
+      "number": 27,
+      "title": "商品販売で必須のファネル〜お客様と出会う3ステップ〜",
+      "videoUrl": "",
+      "description": "※第9回の更新版です",
+      "thumbnail": ""
+    },
+    {
+      "id": "29",
+      "number": 28,
+      "title": "売れる行動心理学",
+      "videoUrl": "",
+      "description": "",
+      "thumbnail": ""
+    },
+    {
+      "id": "30",
+      "number": 29,
+      "title": "ブランディングの基礎",
+      "videoUrl": "",
+      "description": "",
+      "thumbnail": ""
+    },
+    {
+      "id": "31",
+      "number": 30,
+      "title": "プロンプト不要？、たった３行でAIを操るコツ",
+      "videoUrl": "",
+      "description": "",
+      "thumbnail": ""
+    },
+    {
+      "id": "32",
+      "number": 31,
+      "title": "AIエンジニアのためのClaude 4.5ファミリー徹底比較と活用戦略",
+      "videoUrl": "",
+      "description": "",
+      "thumbnail": ""
+    },
+    {
+      "id": "33",
+      "number": 32,
+      "title": "AIエージェントをきちんと理解しておこう",
+      "videoUrl": "",
+      "description": "",
+      "thumbnail": ""
+    },
+    {
+      "id": "34",
+      "number": 33,
+      "title": "2025年振り返り、2026年告知！",
+      "videoUrl": "",
+      "description": "",
+      "thumbnail": ""
+    },
+    {
+      "id": "35",
+      "number": 34,
+      "title": "理想の１年を手に入れる「32マスの地図」",
+      "videoUrl": "",
+      "description": "",
+      "thumbnail": ""
+    },
+    {
+      "id": "36",
+      "number": 35,
+      "title": "AIを学んでも稼げない本当の理由とは？",
+      "videoUrl": "",
+      "description": "",
+      "thumbnail": ""
+    },
+    {
+      "id": "37",
+      "number": 36,
+      "title": "AIエンジニアになる方法＆塾のご案内",
+      "videoUrl": "",
+      "description": "",
+      "thumbnail": ""
+    },
+    {
+      "id": "38",
+      "number": 37,
+      "title": "AIセキュリティ、実は9割の人が知らない「本当に怖いこと」",
+      "videoUrl": "",
+      "description": "",
+      "thumbnail": ""
+    },
+    {
+      "id": "39",
+      "number": 38,
+      "title": "マジDEすごい！NotebookLM！",
+      "videoUrl": "",
+      "description": "",
+      "thumbnail": ""
+    },
+    {
+      "id": "40",
+      "number": 39,
+      "title": "AIでプレゼン資料作成（その２）",
+      "videoUrl": "",
+      "description": "",
+      "thumbnail": ""
+    },
+    {
+      "id": "41",
+      "number": 40,
+      "title": "AIエディターの種類について",
+      "videoUrl": "",
+      "description": "",
+      "thumbnail": ""
+    },
+    {
+      "id": "42",
+      "number": 41,
+      "title": "ManusAIを触ってみよう！",
+      "videoUrl": "",
+      "description": "",
+      "thumbnail": ""
+    }
+  ]
+}
