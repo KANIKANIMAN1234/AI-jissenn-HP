@@ -352,7 +352,7 @@ export default function AdminBlogPage() {
                     id="noteUrl"
                     placeholder="https://note.com/..."
                     value={formData.noteUrl}
-                    onChange={(e) => setFormData({ ...formData, noteUrl: e.target.value })}
+                    onChange={(e) => setFormData(prev => ({ ...prev, noteUrl: e.target.value }))}
                   />
                   {isFetchingOgImage && (
                     <p className="text-xs text-muted-foreground">
@@ -371,7 +371,7 @@ export default function AdminBlogPage() {
                     id="title"
                     placeholder="記事のタイトル"
                     value={formData.title}
-                    onChange={(e) => setFormData({ ...formData, title: e.target.value })}
+                    onChange={(e) => setFormData(prev => ({ ...prev, title: e.target.value }))}
                   />
                 </div>
                 <div className="space-y-2">
@@ -380,13 +380,13 @@ export default function AdminBlogPage() {
                     id="description"
                     placeholder="記事の説明"
                     value={formData.description}
-                    onChange={(e) => setFormData({ ...formData, description: e.target.value })}
+                    onChange={(e) => setFormData(prev => ({ ...prev, description: e.target.value }))}
                     rows={3}
                   />
                 </div>
                 <div className="space-y-2">
                   <Label htmlFor="category">カテゴリー *</Label>
-                  <Select value={formData.category} onValueChange={(value) => setFormData({ ...formData, category: value })}>
+                  <Select value={formData.category} onValueChange={(value) => setFormData(prev => ({ ...prev, category: value }))}>
                     <SelectTrigger>
                       <SelectValue placeholder="カテゴリーを選択" />
                     </SelectTrigger>
@@ -405,7 +405,7 @@ export default function AdminBlogPage() {
                     id="publishedAt"
                     type="date"
                     value={formData.publishedAt}
-                    onChange={(e) => setFormData({ ...formData, publishedAt: e.target.value })}
+                    onChange={(e) => setFormData(prev => ({ ...prev, publishedAt: e.target.value }))}
                   />
                 </div>
                 <div className="flex items-center gap-2">
@@ -413,7 +413,7 @@ export default function AdminBlogPage() {
                     type="checkbox"
                     id="featured"
                     checked={formData.featured}
-                    onChange={(e) => setFormData({ ...formData, featured: e.target.checked })}
+                    onChange={(e) => setFormData(prev => ({ ...prev, featured: e.target.checked }))}
                     className="w-4 h-4"
                   />
                   <Label htmlFor="featured" className="cursor-pointer">注目記事として表示</Label>
@@ -484,7 +484,7 @@ export default function AdminBlogPage() {
                   id="edit-noteUrl"
                   placeholder="https://note.com/..."
                   value={formData.noteUrl}
-                  onChange={(e) => setFormData({ ...formData, noteUrl: e.target.value })}
+                  onChange={(e) => setFormData(prev => ({ ...prev, noteUrl: e.target.value }))}
                 />
                 {isFetchingOgImage && (
                   <p className="text-xs text-muted-foreground">
@@ -498,7 +498,7 @@ export default function AdminBlogPage() {
                   id="edit-title"
                   placeholder="記事のタイトル"
                   value={formData.title}
-                  onChange={(e) => setFormData({ ...formData, title: e.target.value })}
+                  onChange={(e) => setFormData(prev => ({ ...prev, title: e.target.value }))}
                 />
               </div>
               <div className="space-y-2">
@@ -507,13 +507,13 @@ export default function AdminBlogPage() {
                   id="edit-description"
                   placeholder="記事の説明"
                   value={formData.description}
-                  onChange={(e) => setFormData({ ...formData, description: e.target.value })}
+                  onChange={(e) => setFormData(prev => ({ ...prev, description: e.target.value }))}
                   rows={3}
                 />
               </div>
               <div className="space-y-2">
                 <Label htmlFor="edit-category">カテゴリー *</Label>
-                <Select value={formData.category} onValueChange={(value) => setFormData({ ...formData, category: value })}>
+                <Select value={formData.category} onValueChange={(value) => setFormData(prev => ({ ...prev, category: value }))}>
                   <SelectTrigger>
                     <SelectValue placeholder="カテゴリーを選択" />
                   </SelectTrigger>
@@ -532,7 +532,7 @@ export default function AdminBlogPage() {
                   id="edit-publishedAt"
                   type="date"
                   value={formData.publishedAt}
-                  onChange={(e) => setFormData({ ...formData, publishedAt: e.target.value })}
+                  onChange={(e) => setFormData(prev => ({ ...prev, publishedAt: e.target.value }))}
                 />
               </div>
               <div className="flex items-center gap-2">
@@ -540,7 +540,7 @@ export default function AdminBlogPage() {
                   type="checkbox"
                   id="edit-featured"
                   checked={formData.featured}
-                  onChange={(e) => setFormData({ ...formData, featured: e.target.checked })}
+                  onChange={(e) => setFormData(prev => ({ ...prev, featured: e.target.checked }))}
                   className="w-4 h-4"
                 />
                 <Label htmlFor="edit-featured" className="cursor-pointer">注目記事として表示</Label>
