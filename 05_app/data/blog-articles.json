@@ -1,0 +1,43 @@
+{
+  "articles": [
+    {
+      "id": "1",
+      "noteUrl": "https://note.com/example/n/example1",
+      "title": "AIエンジニアとして稼ぐための第一歩",
+      "description": "AI実践起業塾で学んだことを活かして、最初の案件を獲得するまでの道のりをご紹介します。",
+      "thumbnail": "/images/blog/placeholder-1.jpg",
+      "category": "成功事例",
+      "publishedAt": "2025-03-01",
+      "featured": true
+    },
+    {
+      "id": "2",
+      "noteUrl": "https://note.com/example/n/example2",
+      "title": "2026年AI補助金の活用方法",
+      "description": "AI省力化補助金とIT導入補助金を活用して、企業のAI導入を支援する方法を解説します。",
+      "thumbnail": "/images/blog/placeholder-2.jpg",
+      "category": "AI戦略",
+      "publishedAt": "2025-02-15",
+      "featured": true
+    },
+    {
+      "id": "3",
+      "noteUrl": "https://note.com/example/n/example3",
+      "title": "ChatGPT APIを使ったアプリ開発入門",
+      "description": "プログラミング未経験者でも始められる、ChatGPT APIを使ったシンプルなアプリ開発の手順を解説。",
+      "thumbnail": "/images/blog/placeholder-3.jpg",
+      "category": "AI技術",
+      "publishedAt": "2025-02-01",
+      "featured": false
+    }
+  ],
+  "categories": [
+    "すべて",
+    "AI戦略",
+    "AI活用",
+    "成功事例",
+    "AI技術",
+    "キャリア",
+    "セミナー"
+  ]
+}
