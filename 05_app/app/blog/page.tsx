@@ -114,13 +114,14 @@ export default async function BlogPage() {
                     className="bg-card rounded-lg border border-border overflow-hidden hover:shadow-lg transition-shadow group"
                   >
                     {/* Thumbnail */}
-                    <div className="relative aspect-video bg-muted overflow-hidden">
+                    <div className="relative w-full h-[200px] bg-muted overflow-hidden">
                       {article.thumbnail ? (
                         <Image
                           src={article.thumbnail}
                           alt={article.title}
                           fill
                           className="object-cover group-hover:scale-105 transition-transform duration-300"
+                          sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 33vw"
                         />
                       ) : (
                         <div className="absolute inset-0 flex items-center justify-center bg-gradient-to-br from-primary/20 to-primary/5">
