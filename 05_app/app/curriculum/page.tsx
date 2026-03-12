@@ -1,7 +1,7 @@
 import { Header } from "@/components/header"
 import { Footer } from "@/components/footer"
 import { CTASection } from "@/components/home/cta-section"
-import { Rocket, Palette, Bot, Link2, Lightbulb, BarChart3 } from "lucide-react"
+import { Rocket, Palette, Bot, Link2, Lightbulb, BarChart3, MessageSquare, Zap, Code, ShoppingBag, Scale, Users } from "lucide-react"
 import type { Metadata } from "next"
 
 export const metadata: Metadata = {
@@ -59,6 +59,83 @@ const stats = [
   { value: "50万円", label: "相当の価値" },
   { value: "永年", label: "アクセス権" },
   { value: "11", label: "カテゴリー" },
+]
+
+const detailedCurriculum = [
+  {
+    icon: MessageSquare,
+    category: "SNS発信・マーケティング活用",
+    items: [
+      "SNSマーケティングノウハウ: AIを活用した発信戦略",
+      "note活用講座: AIを組み合わせて記事作成を効率化",
+      "X（旧Twitter）運用講座: AIによる効果的なポスト・運用術",
+      "LINE公式アカウント: 基本的な始め方から初期設定まで",
+    ],
+  },
+  {
+    icon: Zap,
+    category: "プロンプト・AIスキルアップ",
+    items: [
+      "プロンプトテクニック: 「鍋敷きAIメソッド」プロンプト動画コンテンツ",
+      "画像生成・デザイン: Midjourney（ミッドジャーニー）基礎講座",
+      "Canva（キャンバ）の基本的な使い方講座",
+      "魅力的なサムネイル画像の作成方法（チャレンジ企画）",
+      "ChatGPT活用: GPTs（カスタムGPT）特集講座",
+    ],
+  },
+  {
+    icon: Bot,
+    category: "自動化・システム開発（Dify / API）",
+    items: [
+      "Dify（ディフィー）基礎: APIの基礎、5つのアプリケーションタイプ",
+      "チャットボット・RAG（検索拡張生成）活用ボットの作成",
+      "SNS向けテキスト自動作成などの事例サンプル",
+      "Dify中級チャレンジ: 3,000文字のnote記事生成アプリ制作など",
+      "システム開発環境: GitHub、Obsidian、Cursorのインストール・基本操作",
+    ],
+  },
+  {
+    icon: Code,
+    category: "プログラミング・GAS（Google Apps Script）活用",
+    items: [
+      "GAS（ガス）入門: 「習うより慣れろ」をテーマにしたアプリ制作",
+      "LINE × GAS 連携アプリ開発:",
+      "　・Googleカレンダー連携の予定管理ボット",
+      "　・キーワード判別によるメールのLINE自動転送",
+      "　・飲食店向け順番待ちアプリ",
+      "　・宅配弁当予約ラインボット",
+      "　・EC予約システム",
+      "　・家計簿アプリ",
+    ],
+  },
+  {
+    icon: ShoppingBag,
+    category: "商品開発・収益化支援",
+    items: [
+      "商品開発講座: 自身の商品開発・作成の並走サポート",
+      "販売プラットフォーム構築:",
+      "　・STORES（ストアーズ）開設・登録方法",
+      "　・ココナラ開設・活用講座",
+      "伴走型アプリ開発・販売プログラム: 開発から販売までの概要解説",
+    ],
+  },
+  {
+    icon: Scale,
+    category: "法務・リスク管理（座学）",
+    items: [
+      "契約・法的知識: 特定商取引法、産業財産権、著作権法などの基礎知識",
+      "インシデント対策: AI利用時やビジネスにおける基本知識",
+    ],
+  },
+  {
+    icon: Users,
+    category: "コミュニティ・コンテンツ",
+    items: [
+      "共同マガジン企画: SNSの認知拡大を目指す参加型プロジェクト",
+      "動画アーカイブ: 無料講座アーカイブ（約42分）",
+      "会員限定講座（26本）",
+    ],
+  },
 ]
 
 export default function CurriculumPage() {
@@ -123,6 +200,45 @@ export default function CurriculumPage() {
                       <li key={point} className="flex items-center gap-2 text-sm text-foreground">
                         <span className="w-1.5 h-1.5 rounded-full bg-primary" />
                         {point}
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        {/* Detailed Curriculum List */}
+        <section className="py-16 lg:py-24 bg-background">
+          <div className="max-w-7xl mx-auto px-6 lg:px-8">
+            <div className="text-center mb-16">
+              <h2 className="text-sm font-semibold text-primary uppercase tracking-wider mb-4">Detailed Curriculum</h2>
+              <p className="text-3xl lg:text-4xl font-serif font-bold text-foreground">
+                AI実践起業塾 カリキュラム一覧
+              </p>
+            </div>
+
+            <div className="space-y-8">
+              {detailedCurriculum.map((section, index) => (
+                <div
+                  key={section.category}
+                  className="bg-card p-8 rounded-2xl border border-border"
+                >
+                  <div className="flex items-start gap-4 mb-6">
+                    <div className="w-12 h-12 rounded-lg bg-primary/10 flex items-center justify-center flex-shrink-0">
+                      <section.icon className="h-6 w-6 text-primary" />
+                    </div>
+                    <div>
+                      <span className="text-sm font-semibold text-primary">{index + 1}</span>
+                      <h3 className="text-2xl font-bold text-foreground">{section.category}</h3>
+                    </div>
+                  </div>
+                  <ul className="space-y-3 ml-16">
+                    {section.items.map((item, itemIndex) => (
+                      <li key={itemIndex} className="flex items-start gap-3">
+                        <span className="w-1.5 h-1.5 rounded-full bg-primary mt-2 flex-shrink-0" />
+                        <span className="text-muted-foreground leading-relaxed">{item}</span>
                       </li>
                     ))}
                   </ul>
