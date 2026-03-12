@@ -124,7 +124,7 @@ export default function CurriculumPage() {
           <div className="max-w-7xl mx-auto px-6 lg:px-8">
             <div className="max-w-3xl">
               <h1 className="text-4xl lg:text-5xl font-serif font-bold text-foreground tracking-tight">
-                実務直結のカリキュラム
+                AI実践起業塾 カリキュラム一覧
               </h1>
               <p className="mt-4 text-lg text-muted-foreground leading-relaxed">
                 300超の動画コンテンツで、AIエンジニアとしてのスキルを体系的に習得
