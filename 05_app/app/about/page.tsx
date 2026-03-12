@@ -34,7 +34,7 @@ export default function AboutPage() {
       <Header />
       <main className="pt-16 lg:pt-20">
         {/* Hero Section */}
-        <section className="py-20 lg:py-32 bg-background">
+        <section className="py-10 lg:py-16 bg-background">
           <div className="max-w-7xl mx-auto px-6 lg:px-8">
             <div className="max-w-3xl">
               <h1 className="text-4xl lg:text-5xl font-serif font-bold text-foreground tracking-tight">
