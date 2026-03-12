@@ -58,12 +58,28 @@ export function Header() {
           </nav>
 
           {/* CTA Button */}
-          <div className="flex items-center gap-4">
+          <div className="flex items-center gap-2">
             <Button
               asChild
               className="hidden sm:inline-flex bg-primary hover:bg-primary/90 text-primary-foreground"
             >
               <Link href="https://timerex.net/s/kanikaniman1234_00ba/202fa228" target="_blank" rel="noopener noreferrer">無料カウンセリング</Link>
+            </Button>
+
+            {/* Admin Login Button */}
+            <Button
+              asChild
+              variant="outline"
+              size="icon"
+              className="hidden sm:inline-flex border-border hover:bg-accent"
+              title="管理者ログイン"
+            >
+              <Link href="/admin/login">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                  <path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"/>
+                  <circle cx="12" cy="7" r="4"/>
+                </svg>
+              </Link>
             </Button>
 
             {/* Mobile Menu Button */}
