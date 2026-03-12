@@ -112,6 +112,14 @@ const detailedCurriculum = [
       "環境準備(3)",
     ],
   },
+  {
+    category: "システム開発の基礎　2026年1月～",
+    items: [
+      "準備・基礎（Git・Githubの基礎知識）(3)",
+      "Obsidianのインストールと初期設定(4)",
+      "Cursorのインストールと初期設定(3)",
+    ],
+  },
 ]
 
 export default function CurriculumPage() {
