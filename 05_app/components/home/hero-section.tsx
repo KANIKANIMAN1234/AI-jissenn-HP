@@ -1,7 +1,3 @@
-import Link from "next/link"
-import { Button } from "@/components/ui/button"
-import { ArrowRight } from "lucide-react"
-
 export function HeroSection() {
   return (
     <section className="relative min-h-screen flex items-center justify-center overflow-hidden bg-background">
@@ -25,20 +21,6 @@ export function HeroSection() {
             <br className="hidden sm:block" />
             市場価値を爆発させる最大のチャンスは、今この瞬間。
           </p>
-
-          {/* CTA Buttons */}
-          <div className="mt-10 flex flex-col sm:flex-row items-center justify-center gap-4">
-            <Button
-              asChild
-              size="lg"
-              className="w-full sm:w-auto bg-primary hover:bg-primary/90 text-primary-foreground px-8 py-6 text-base"
-            >
-              <Link href="https://timerex.net/s/kanikaniman1234_00ba/202fa228" target="_blank" rel="noopener noreferrer">
-                今すぐ無料カウンセリングを予約
-                <ArrowRight className="ml-2 h-4 w-4" />
-              </Link>
-            </Button>
-          </div>
 
           {/* Hero Stats */}
           <div className="mt-16 grid grid-cols-3 gap-8 max-w-xl mx-auto">
