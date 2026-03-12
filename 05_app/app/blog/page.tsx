@@ -115,7 +115,7 @@ export default async function BlogPage() {
                   >
                     {/* Thumbnail */}
                     <div className="relative aspect-video bg-muted overflow-hidden">
-                      {article.thumbnail && !article.thumbnail.includes('placeholder') ? (
+                      {article.thumbnail ? (
                         <Image
                           src={article.thumbnail}
                           alt={article.title}
