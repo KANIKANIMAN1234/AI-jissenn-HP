@@ -34,33 +34,6 @@ async function getSeminars() {
   }
 }
 
-const topics = [
-  {
-    title: "ManusAI完全攻略",
-    description: "自律型AIエージェントの使い方から、実務での活用事例まで徹底解説",
-  },
-  {
-    title: "BananaNL × NotebookLM",
-    description: "プレゼン資料を1/10の時間で作成する超速資料作成術",
-  },
-  {
-    title: "GAS × LINE × OpenAI連携",
-    description: "ビジネスの神経網を構築し、機会損失をゼロにする自動化戦略",
-  },
-  {
-    title: "AI補助金の活用戦略",
-    description: "2026年のAI補助金時代に向けた、先行者利益を獲得する戦略",
-  },
-  {
-    title: "高単価案件の受注方法",
-    description: "「0が1つ、2つ多い」案件を受注するための提案書作成と価格設定",
-  },
-  {
-    title: "塾生の成功事例紹介",
-    description: "ノンプログラマーから独立・高単価案件受注までの実際のストーリー",
-  },
-]
-
 export default async function SeminarPage() {
   const seminars = await getSeminars()
   
@@ -108,30 +81,6 @@ export default async function SeminarPage() {
                   <span>アーカイブ視聴</span>
                 </li>
               </ul>
-            </div>
-          </div>
-        </section>
-
-        {/* Topics */}
-        <section className="py-16 lg:py-24 bg-background">
-          <div className="max-w-7xl mx-auto px-6 lg:px-8">
-            <div className="text-center mb-16">
-              <h2 className="text-sm font-semibold text-primary uppercase tracking-wider mb-4">Topics</h2>
-              <p className="text-3xl lg:text-4xl font-serif font-bold text-foreground">
-                過去のセミナートピック例
-              </p>
-            </div>
-
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-              {topics.map((topic) => (
-                <div
-                  key={topic.title}
-                  className="p-6 bg-card rounded-lg border border-border hover:border-primary/30 transition-colors"
-                >
-                  <h3 className="text-lg font-bold text-foreground mb-2">{topic.title}</h3>
-                  <p className="text-sm text-muted-foreground leading-relaxed">{topic.description}</p>
-                </div>
-              ))}
             </div>
           </div>
         </section>
