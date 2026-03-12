@@ -103,7 +103,7 @@ export default function AboutPage() {
                   一緒に学び、支え合いながら、一歩ずつ前へ進んでいきましょう。
                 </p>
               </div>
-              <div className="flex-shrink-0 lg:w-[420px] lg:mt-0 mt-8">
+              <div className="flex-shrink-0 lg:w-[600px] lg:mt-0 mt-8">
                 <Image
                   src="/images/mission-vision-value.png"
                   alt="AI実践起業塾のミッション・ビジョン・バリュー"
