@@ -175,12 +175,21 @@ export default function AdminBlogPage() {
         thumbnail: "/placeholder.svg",
       }
 
-      await fetch("/api/blog", {
+      const response = await fetch("/api/blog", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(newArticle),
       })
 
+      const result = await response.json()
+      
+      if (!response.ok) {
+        console.error("Failed to add article:", result)
+        alert(`記事の追加に失敗しました: ${result.error || result.details || '不明なエラー'}`)
+        return
+      }
+
+      console.log("Article added successfully:", result)
       setIsAddDialogOpen(false)
       setFormData({
         noteUrl: "",
@@ -193,6 +202,7 @@ export default function AdminBlogPage() {
       loadBlogData()
     } catch (error) {
       console.error("Failed to add article:", error)
+      alert(`記事の追加に失敗しました: ${error instanceof Error ? error.message : '不明なエラー'}`)
     }
   }
 
@@ -200,12 +210,21 @@ export default function AdminBlogPage() {
     if (!editingArticle) return
 
     try {
-      await fetch("/api/blog", {
+      const response = await fetch("/api/blog", {
         method: "PUT",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ ...editingArticle, ...formData }),
       })
 
+      const result = await response.json()
+      
+      if (!response.ok) {
+        console.error("Failed to edit article:", result)
+        alert(`記事の編集に失敗しました: ${result.error || result.details || '不明なエラー'}`)
+        return
+      }
+
+      console.log("Article updated successfully:", result)
       setIsEditDialogOpen(false)
       setEditingArticle(null)
       setFormData({
@@ -219,6 +238,7 @@ export default function AdminBlogPage() {
       loadBlogData()
     } catch (error) {
       console.error("Failed to edit article:", error)
+      alert(`記事の編集に失敗しました: ${error instanceof Error ? error.message : '不明なエラー'}`)
     }
   }
 

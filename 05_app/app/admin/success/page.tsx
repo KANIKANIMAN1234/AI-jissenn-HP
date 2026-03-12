@@ -168,17 +168,27 @@ export default function AdminSuccessPage() {
         ...formData,
       }
 
-      await fetch("/api/success", {
+      const response = await fetch("/api/success", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(newStory),
       })
 
+      const result = await response.json()
+      
+      if (!response.ok) {
+        console.error("Failed to add story:", result)
+        alert(`実績の追加に失敗しました: ${result.error || result.details || '不明なエラー'}`)
+        return
+      }
+
+      console.log("Story added successfully:", result)
       setIsAddDialogOpen(false)
       resetForm()
       loadSuccessData()
     } catch (error) {
       console.error("Failed to add story:", error)
+      alert(`実績の追加に失敗しました: ${error instanceof Error ? error.message : '不明なエラー'}`)
     }
   }
 
@@ -186,18 +196,28 @@ export default function AdminSuccessPage() {
     if (!editingStory) return
 
     try {
-      await fetch("/api/success", {
+      const response = await fetch("/api/success", {
         method: "PUT",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ ...editingStory, ...formData }),
       })
 
+      const result = await response.json()
+      
+      if (!response.ok) {
+        console.error("Failed to edit story:", result)
+        alert(`実績の編集に失敗しました: ${result.error || result.details || '不明なエラー'}`)
+        return
+      }
+
+      console.log("Story updated successfully:", result)
       setIsEditDialogOpen(false)
       setEditingStory(null)
       resetForm()
       loadSuccessData()
     } catch (error) {
       console.error("Failed to edit story:", error)
+      alert(`実績の編集に失敗しました: ${error instanceof Error ? error.message : '不明なエラー'}`)
     }
   }
 

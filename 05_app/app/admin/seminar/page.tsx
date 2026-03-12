@@ -183,17 +183,27 @@ export default function AdminSeminarPage() {
         ...formData,
       }
 
-      await fetch("/api/seminar", {
+      const response = await fetch("/api/seminar", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(newSeminar),
       })
 
+      const result = await response.json()
+      
+      if (!response.ok) {
+        console.error("Failed to add seminar:", result)
+        alert(`セミナーの追加に失敗しました: ${result.error || result.details || '不明なエラー'}`)
+        return
+      }
+
+      console.log("Seminar added successfully:", result)
       setIsAddDialogOpen(false)
       resetForm()
       loadSeminarData()
     } catch (error) {
       console.error("Failed to add seminar:", error)
+      alert(`セミナーの追加に失敗しました: ${error instanceof Error ? error.message : '不明なエラー'}`)
     }
   }
 
@@ -201,18 +211,28 @@ export default function AdminSeminarPage() {
     if (!editingSeminar) return
 
     try {
-      await fetch("/api/seminar", {
+      const response = await fetch("/api/seminar", {
         method: "PUT",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ ...editingSeminar, ...formData }),
       })
 
+      const result = await response.json()
+      
+      if (!response.ok) {
+        console.error("Failed to edit seminar:", result)
+        alert(`セミナーの編集に失敗しました: ${result.error || result.details || '不明なエラー'}`)
+        return
+      }
+
+      console.log("Seminar updated successfully:", result)
       setIsEditDialogOpen(false)
       setEditingSeminar(null)
       resetForm()
       loadSeminarData()
     } catch (error) {
       console.error("Failed to edit seminar:", error)
+      alert(`セミナーの編集に失敗しました: ${error instanceof Error ? error.message : '不明なエラー'}`)
     }
   }
 

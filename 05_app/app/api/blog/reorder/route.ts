@@ -2,6 +2,9 @@ import { NextRequest, NextResponse } from "next/server"
 import { promises as fs } from "fs"
 import path from "path"
 
+export const runtime = 'nodejs'
+export const dynamic = 'force-dynamic'
+
 const dataFilePath = path.join(process.cwd(), "data", "blog-articles.json")
 
 export async function POST(request: NextRequest) {

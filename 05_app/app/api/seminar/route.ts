@@ -2,6 +2,9 @@ import { NextRequest, NextResponse } from "next/server"
 import { promises as fs } from "fs"
 import path from "path"
 
+export const runtime = 'nodejs'
+export const dynamic = 'force-dynamic'
+
 const dataFilePath = path.join(process.cwd(), "data", "seminars.json")
 
 async function readSeminarData() {
@@ -25,33 +28,47 @@ export async function GET() {
 export async function POST(request: NextRequest) {
   try {
     const newSeminar = await request.json()
-    const data = await readSeminarData()
+    console.log("Adding new seminar:", newSeminar)
     
+    const data = await readSeminarData()
     data.seminars.push(newSeminar)
     await writeSeminarData(data)
     
+    console.log("Seminar added successfully")
     return NextResponse.json({ success: true, seminar: newSeminar })
   } catch (error) {
-    return NextResponse.json({ error: "Failed to add seminar" }, { status: 500 })
+    console.error("Failed to add seminar:", error)
+    return NextResponse.json({ 
+      error: "Failed to add seminar", 
+      details: error instanceof Error ? error.message : String(error)
+    }, { status: 500 })
   }
 }
 
 export async function PUT(request: NextRequest) {
   try {
     const updatedSeminar = await request.json()
+    console.log("Updating seminar:", updatedSeminar)
+    
     const data = await readSeminarData()
     
     const index = data.seminars.findIndex((s: any) => s.id === updatedSeminar.id)
     if (index === -1) {
+      console.error("Seminar not found:", updatedSeminar.id)
       return NextResponse.json({ error: "Seminar not found" }, { status: 404 })
     }
     
     data.seminars[index] = updatedSeminar
     await writeSeminarData(data)
     
+    console.log("Seminar updated successfully")
     return NextResponse.json({ success: true, seminar: updatedSeminar })
   } catch (error) {
-    return NextResponse.json({ error: "Failed to update seminar" }, { status: 500 })
+    console.error("Failed to update seminar:", error)
+    return NextResponse.json({ 
+      error: "Failed to update seminar",
+      details: error instanceof Error ? error.message : String(error)
+    }, { status: 500 })
   }
 }
 
