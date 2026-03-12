@@ -1,7 +1,8 @@
 import { Header } from "@/components/header"
 import { Footer } from "@/components/footer"
 import { CTASection } from "@/components/home/cta-section"
-import { Handshake, Lightbulb, Rocket } from "lucide-react"
+import { ImageDialog } from "@/components/image-dialog"
+import { Handshake, Lightbulb, Rocket, Target, Users, Wallet } from "lucide-react"
 import type { Metadata } from "next"
 import Image from "next/image"
 
@@ -25,6 +26,29 @@ const values = [
     icon: Rocket,
     title: "まず動く",
     description: "完璧じゃなくていい。小さな一歩を踏み出すことを大切にする",
+  },
+]
+
+const philosophy = [
+  {
+    icon: Target,
+    title: "実務直結",
+    description: "理論だけでなく、実際に動くものを作る。すぐに使えるスキルを習得する。",
+  },
+  {
+    icon: Users,
+    title: "伴走型サポート",
+    description: "一人で悩まず、チーム全体で支援。技術的な壁を一緒に乗り越える。",
+  },
+  {
+    icon: Wallet,
+    title: "稼げる技術",
+    description: "学習だけでなく、高単価案件を受注できる市場価値を獲得する。",
+  },
+  {
+    icon: Rocket,
+    title: "先行者利益",
+    description: "今この瞬間に動くことで、2026年のAI補助金時代の先行者となる。",
   },
 ]
 
@@ -115,6 +139,98 @@ export default function AboutPage() {
                   <p className="text-muted-foreground leading-relaxed">{value.description}</p>
                 </div>
               ))}
+            </div>
+          </div>
+        </section>
+
+        {/* Story */}
+        <section className="py-16 lg:py-24 bg-card border-y border-border">
+          <div className="max-w-7xl mx-auto px-6 lg:px-8">
+            <h2 className="text-2xl font-bold text-foreground mb-8 text-center">なぜAI実践起業塾を立ち上げたのか</h2>
+            
+            <div className="flex flex-col lg:flex-row gap-8 lg:gap-12 items-start">
+              <div className="flex-1 prose prose-lg max-w-none text-muted-foreground space-y-6">
+                <p className="text-xl text-foreground font-medium">「作る技術を持つ者が最強である」</p>
+                <p>
+                  この信念のもと、AI実践起業塾は誕生しました。2025年から2026年にかけて、日本の労働市場は「生存レベルの分断」という劇的な転換期を迎えます。政府のリスキリング補助金による教育フェーズは終わり、2026年からは「AI補助金」という、実務への直接的な実装・導入を支援するフェーズへと移行します。
+                </p>
+                <p>
+                  この変化の中で、AIを単に使うだけの「ユーザー」と、ビジネスの仕組みそのものを構築する「AIエンジニア」との間には、圧倒的な市場価値の差が生まれます。後者は2026年において、既存の給料より「0が1つ、2つ多い」案件を受注できる最強の市場価値を持つことになります。
+                </p>
+                <p>
+                  しかし、多くの人がこのチャンスに気づいていません。あるいは、気づいていても「どこから始めればいいのか分からない」という壁に直面しています。
+                </p>
+                <p>
+                  AI実践起業塾は、プログラミング未経験からでもAIエンジニアとして自立できる環境を提供し、あなたが新しい時代の「AIエンジニア」として成長し、共に稼げる仲間となるための伴走者であることを約束します。
+                </p>
+              </div>
+              
+              <div className="flex-shrink-0 lg:w-[420px] lg:mt-0 mt-8 space-y-6">
+                <ImageDialog
+                  src="/images/mission-vision-value-founder.png"
+                  alt="AI実践起業塾のミッション・ビジョン・バリュー"
+                  width={960}
+                  height={720}
+                  className="border-2 border-primary/20"
+                />
+                
+                <ImageDialog
+                  src="/images/business-model-detail.png"
+                  alt="AI実践×仕事循環モデル - 詳細図"
+                  width={1200}
+                  height={900}
+                  className="border-2 border-primary/20"
+                />
+              </div>
+            </div>
+          </div>
+        </section>
+
+        {/* Philosophy */}
+        <section className="py-16 lg:py-24 bg-background">
+          <div className="max-w-7xl mx-auto px-6 lg:px-8">
+            <div className="text-center mb-16">
+              <h2 className="text-sm font-semibold text-primary uppercase tracking-wider mb-4">Philosophy</h2>
+              <p className="text-3xl lg:text-4xl font-serif font-bold text-foreground">
+                私たちの理念
+              </p>
+            </div>
+
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+              {philosophy.map((item) => (
+                <div key={item.title} className="text-center">
+                  <div className="w-14 h-14 rounded-lg bg-primary/10 flex items-center justify-center mx-auto mb-6">
+                    <item.icon className="h-7 w-7 text-primary" />
+                  </div>
+                  <h3 className="text-lg font-bold text-foreground mb-3">{item.title}</h3>
+                  <p className="text-sm text-muted-foreground leading-relaxed">{item.description}</p>
+                </div>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        {/* Business Model */}
+        <section className="py-16 lg:py-24 bg-muted border-y border-border">
+          <div className="max-w-7xl mx-auto px-6 lg:px-8">
+            <div className="text-center mb-12">
+              <h2 className="text-sm font-semibold text-primary uppercase tracking-wider mb-4">Business Model</h2>
+              <p className="text-3xl lg:text-4xl font-serif font-bold text-foreground mb-4">
+                AI実践 × 仕事循環モデル
+              </p>
+              <p className="text-muted-foreground max-w-3xl mx-auto">
+                入門コースからビジネスパートナーコースまで、あなたのステージに合わせた成長プログラム
+              </p>
+            </div>
+            
+            <div className="flex justify-center">
+              <Image
+                src="/images/business-model.png"
+                alt="AI実践×仕事循環モデル - 入門コースからビジネスパートナーコースまでの成長プログラム"
+                width={1200}
+                height={800}
+                className="w-full max-w-5xl h-auto rounded-lg"
+              />
             </div>
           </div>
         </section>
