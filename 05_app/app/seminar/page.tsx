@@ -1,7 +1,7 @@
 import { Header } from "@/components/header"
 import { Footer } from "@/components/footer"
 import { CTASection } from "@/components/home/cta-section"
-import { Calendar, Video, Users, BookOpen, Flame, Lightbulb, MessageCircle, Archive, PlayCircle } from "lucide-react"
+import { Calendar, Video, Users, BookOpen, PlayCircle } from "lucide-react"
 import type { Metadata } from "next"
 import Image from "next/image"
 import { sql } from "@/lib/db"
@@ -33,29 +33,6 @@ async function getSeminars() {
     return []
   }
 }
-
-const features = [
-  {
-    icon: Flame,
-    title: "最新技術の解説",
-    description: "ManusAI、BananaNL、Cursorなど、最新のAI技術をいち早く解説。実務での活用方法を具体的に学べます。",
-  },
-  {
-    icon: Lightbulb,
-    title: "実践事例の共有",
-    description: "塾生の成功事例、失敗事例を共有。リアルな実務での活用方法を学び、自分のビジネスに応用できます。",
-  },
-  {
-    icon: MessageCircle,
-    title: "質疑応答・相談",
-    description: "セミナー内で直接質問が可能。あなたの疑問や課題に、講師や他の塾生が答えます。",
-  },
-  {
-    icon: Archive,
-    title: "アーカイブ視聴",
-    description: "過去67回分以上のセミナーアーカイブにアクセス可能。いつでも好きな時に復習できます。",
-  },
-]
 
 const topics = [
   {
@@ -131,26 +108,6 @@ export default async function SeminarPage() {
                   <span>アーカイブ視聴</span>
                 </li>
               </ul>
-            </div>
-          </div>
-        </section>
-
-        {/* Features */}
-        <section className="py-20 lg:py-32 bg-card">
-          <div className="max-w-7xl mx-auto px-6 lg:px-8">
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-              {features.map((feature) => (
-                <div
-                  key={feature.title}
-                  className="p-8 bg-background rounded-lg border border-border hover:border-primary/30 transition-colors"
-                >
-                  <div className="w-12 h-12 rounded-lg bg-primary/10 flex items-center justify-center mb-6">
-                    <feature.icon className="h-6 w-6 text-primary" />
-                  </div>
-                  <h3 className="text-xl font-bold text-foreground mb-3">{feature.title}</h3>
-                  <p className="text-muted-foreground leading-relaxed">{feature.description}</p>
-                </div>
-              ))}
             </div>
           </div>
         </section>
