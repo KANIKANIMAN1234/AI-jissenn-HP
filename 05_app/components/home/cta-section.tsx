@@ -4,7 +4,7 @@ import { ArrowRight } from "lucide-react"
 
 export function CTASection() {
   return (
-    <section id="apply" className="py-20 lg:py-32 bg-muted">
+    <section id="apply" className="py-16 lg:py-24 bg-muted">
       <div className="max-w-4xl mx-auto px-6 lg:px-8 text-center">
         <h2 className="text-3xl lg:text-4xl font-serif font-bold text-foreground leading-tight text-balance">
           2025年、AIを単なる流行で終わらせるのか、

@@ -45,7 +45,7 @@ export default function CompanyPage() {
       <Header />
       <main className="pt-16 lg:pt-20">
         {/* Hero Section */}
-        <section className="py-20 lg:py-32 bg-background">
+        <section className="py-10 lg:py-16 bg-background">
           <div className="max-w-7xl mx-auto px-6 lg:px-8">
             <div className="max-w-3xl">
               <h1 className="text-4xl lg:text-5xl font-serif font-bold text-foreground tracking-tight">
@@ -56,7 +56,7 @@ export default function CompanyPage() {
         </section>
 
         {/* Content */}
-        <section className="py-20 lg:py-32 bg-card border-y border-border">
+        <section className="py-16 lg:py-24 bg-card border-y border-border">
           <div className="max-w-4xl mx-auto px-6 lg:px-8">
             <div className="space-y-12">
               {/* Name */}

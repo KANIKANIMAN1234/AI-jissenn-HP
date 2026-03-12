@@ -54,7 +54,7 @@ const quickLinks = [
 
 export function QuickLinksSection() {
   return (
-    <section className="py-20 lg:py-32 bg-background">
+    <section className="py-16 lg:py-24 bg-background">
       <div className="max-w-7xl mx-auto px-6 lg:px-8">
         <div className="text-center mb-16">
           <h2 className="text-sm font-semibold text-primary uppercase tracking-wider mb-4">
