@@ -54,13 +54,6 @@ const curriculumItems = [
   },
 ]
 
-const stats = [
-  { value: "300+", label: "動画コンテンツ" },
-  { value: "50万円", label: "相当の価値" },
-  { value: "永年", label: "アクセス権" },
-  { value: "11", label: "カテゴリー" },
-]
-
 const detailedCurriculum = [
   {
     icon: MessageSquare,
@@ -153,22 +146,6 @@ export default function CurriculumPage() {
               <p className="mt-4 text-lg text-muted-foreground leading-relaxed">
                 300超の動画コンテンツで、AIエンジニアとしてのスキルを体系的に習得
               </p>
-            </div>
-          </div>
-        </section>
-
-        {/* Stats Section */}
-        <section className="py-16 lg:py-24 bg-primary">
-          <div className="max-w-7xl mx-auto px-6 lg:px-8">
-            <div className="grid grid-cols-2 lg:grid-cols-4 gap-8">
-              {stats.map((stat) => (
-                <div key={stat.label} className="text-center">
-                  <div className="text-3xl lg:text-4xl font-serif font-bold text-primary-foreground">
-                    {stat.value}
-                  </div>
-                  <div className="mt-2 text-sm text-primary-foreground/80">{stat.label}</div>
-                </div>
-              ))}
             </div>
           </div>
         </section>
