@@ -138,9 +138,13 @@ export default function AdminBlogPage() {
     try {
       const response = await fetch("/api/blog")
       const data = await response.json()
-      setBlogData(data)
+      // データベースから直接配列が返される
+      const articles = Array.isArray(data) ? data : []
+      const categories = Array.from(new Set(articles.map((a: BlogArticle) => a.category).filter(Boolean)))
+      setBlogData({ articles, categories: categories as string[] })
     } catch (error) {
       console.error("Failed to load blog data:", error)
+      setBlogData({ articles: [], categories: [] })
     }
   }
 
