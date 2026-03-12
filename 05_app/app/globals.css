@@ -127,3 +127,27 @@
     @apply bg-background text-foreground;
   }
 }
+
+@layer components {
+  .page-title-arrow::before {
+    content: '↑';
+    position: absolute;
+    left: -0.75rem;
+    top: -1.5rem;
+    color: oklch(0.577 0.245 27.325);
+    font-size: 2rem;
+    font-weight: bold;
+    line-height: 1;
+  }
+  
+  .page-title-arrow::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    width: 4px;
+    background-color: oklch(0.577 0.245 27.325);
+    height: 6rem;
+  }
+}

@@ -36,7 +36,7 @@ export default function AboutPage() {
         {/* Hero Section */}
         <section className="py-20 lg:py-32 bg-background">
           <div className="max-w-7xl mx-auto px-6 lg:px-8">
-            <div className="max-w-3xl">
+            <div className="max-w-3xl pl-6 relative page-title-arrow">
               <h1 className="text-4xl lg:text-5xl font-serif font-bold text-foreground tracking-tight">
                 はじめに
               </h1>

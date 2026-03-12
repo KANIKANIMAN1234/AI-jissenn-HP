@@ -73,7 +73,7 @@ export default function SeminarPage() {
         {/* Hero Section */}
         <section className="py-10 lg:py-16 bg-background">
           <div className="max-w-7xl mx-auto px-6 lg:px-8">
-            <div className="max-w-3xl">
+            <div className="max-w-3xl pl-6 relative page-title-arrow">
               <h1 className="text-4xl lg:text-5xl font-serif font-bold text-foreground tracking-tight">
                 定期セミナー
               </h1>
