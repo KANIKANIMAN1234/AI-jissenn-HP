@@ -64,17 +64,6 @@ export default function FounderPage() {
               </p>
             </div>
 
-            {/* Founders Image */}
-            <div className="flex justify-center mb-16">
-              <Image
-                src="/images/founders.png"
-                alt="共同発起人 - たけさん（井上 剛聡）× なべさん（渡邉 裕司）"
-                width={600}
-                height={400}
-                className="w-full max-w-lg h-auto"
-              />
-            </div>
-
             <div className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-4xl mx-auto">
               {founders.map((founder) => (
                 <div
@@ -115,19 +104,6 @@ export default function FounderPage() {
                 </div>
               ))}
             </div>
-          </div>
-        </section>
-
-        {/* Vision */}
-        <section className="py-16 lg:py-24 bg-card border-y border-border">
-          <div className="max-w-4xl mx-auto px-6 lg:px-8 text-center">
-            <h2 className="text-2xl font-bold text-foreground mb-6">私たちのビジョン</h2>
-            <p className="text-muted-foreground leading-relaxed mb-4">
-              2026年、AI補助金時代の到来により、市場価値を爆発させる最大のチャンスが訪れます。AI実践起業塾は、あなたがこのチャンスを確実に掴み、次世代の「AIエンジニア」として飛躍するための最短ルートを提供します。
-            </p>
-            <p className="text-muted-foreground leading-relaxed">
-              今はまだ、AIを仕組みとして構築できる人材は稀少です。だからこそ、今この瞬間に動くことに最大の戦略的価値があります。共に未来を切り開きましょう。
-            </p>
           </div>
         </section>
 
