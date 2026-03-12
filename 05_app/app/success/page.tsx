@@ -94,7 +94,9 @@ export default async function SuccessPage() {
                     </div>
                   </div>
                   <h4 className="text-lg font-bold text-foreground mb-4">{story.title}</h4>
-                  <p className="text-muted-foreground leading-relaxed mb-6">{story.description}</p>
+                  <div className="text-muted-foreground leading-relaxed mb-6 space-y-4 whitespace-pre-wrap">
+                    {story.description}
+                  </div>
                   <div className="mb-6">
                     <h5 className="text-sm font-semibold text-foreground uppercase tracking-wider mb-4">主な成果</h5>
                     <ul className="space-y-3">
