@@ -44,9 +44,6 @@ export default function FounderPage() {
               <h1 className="text-4xl lg:text-5xl font-serif font-bold text-foreground tracking-tight">
                 発起人
               </h1>
-              <p className="mt-4 text-lg text-muted-foreground leading-relaxed">
-                共に歩む仲間たち
-              </p>
             </div>
           </div>
         </section>
