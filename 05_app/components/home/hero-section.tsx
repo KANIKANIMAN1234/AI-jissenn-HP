@@ -17,10 +17,10 @@ export function HeroSection() {
       {/* Overlay for better text readability */}
       <div className="absolute inset-0 w-full h-full bg-white/85" />
 
-      <div className="relative max-w-7xl mx-auto px-6 lg:px-8 pt-8 lg:pt-16 pb-20 lg:pb-32">
+      <div className="relative max-w-7xl mx-auto px-6 lg:px-8 pt-16 lg:pt-24 pb-20 lg:pb-32">
         <div className="max-w-4xl mx-auto text-center">
           {/* Badge */}
-          <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-primary/10 text-primary text-sm font-medium mb-6">
+          <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-primary/10 text-primary text-sm font-medium mb-8">
             <span className="w-2 h-2 rounded-full bg-primary animate-pulse" />
             2026年 AI補助金時代の到来
           </div>
@@ -32,7 +32,7 @@ export function HeroSection() {
           </h1>
 
           {/* Subtitle */}
-          <p className="mt-6 text-lg lg:text-xl text-muted-foreground max-w-2xl mx-auto leading-relaxed">
+          <p className="mt-8 text-lg lg:text-xl text-muted-foreground max-w-2xl mx-auto leading-relaxed">
             実務で稼げるAIエンジニアになる。
             <br className="hidden sm:block" />
             市場価値を爆発させる最大のチャンスは、今この瞬間。
