@@ -66,18 +66,6 @@ export default async function SuccessPage() {
           </div>
         </section>
 
-        {/* Intro */}
-        <section className="py-16 lg:py-24 bg-muted border-y border-border">
-          <div className="max-w-7xl mx-auto px-6 lg:px-8">
-            <div className="max-w-3xl">
-              <h2 className="text-2xl font-bold text-foreground mb-4">実務で稼げるAIエンジニアへ</h2>
-              <p className="text-muted-foreground leading-relaxed">
-                AI実践起業塾では、プログラミング未経験からでも、実務で稼げるAIエンジニアとして自立できる環境を提供しています。ここでは、実際に塾生が達成した成果をご紹介します。
-              </p>
-            </div>
-          </div>
-        </section>
-
         {/* Success Stories */}
         <section className="py-16 lg:py-24 bg-card">
           <div className="max-w-7xl mx-auto px-6 lg:px-8">
