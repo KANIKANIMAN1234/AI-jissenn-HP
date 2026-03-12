@@ -85,22 +85,6 @@ export default async function SeminarPage() {
           </div>
         </section>
 
-        {/* Schedule */}
-        <section className="py-16 lg:py-24 bg-muted border-y border-border">
-          <div className="max-w-7xl mx-auto px-6 lg:px-8">
-            <h2 className="text-2xl font-bold text-foreground mb-8 text-center">開催スケジュール</h2>
-            <div className="flex justify-center">
-              <Image
-                src="/images/seminar-schedule.png"
-                alt="セミナー開催スケジュール - 毎週1回開催、Zoom参加、アーカイブ視聴可能、無料（塾生限定）"
-                width={1200}
-                height={300}
-                className="w-full max-w-5xl h-auto rounded-lg"
-              />
-            </div>
-          </div>
-        </section>
-
         {/* Seminar Archive */}
         <section className="py-16 lg:py-24 bg-background">
           <div className="max-w-7xl mx-auto px-6 lg:px-8">
