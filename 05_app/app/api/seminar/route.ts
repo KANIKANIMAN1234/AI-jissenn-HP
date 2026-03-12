@@ -1,27 +1,22 @@
 import { NextRequest, NextResponse } from "next/server"
-import { promises as fs } from "fs"
-import path from "path"
+import { sql } from "@/lib/db"
 
-export const runtime = 'nodejs'
+export const runtime = 'edge'
 export const dynamic = 'force-dynamic'
-
-const dataFilePath = path.join(process.cwd(), "data", "seminars.json")
-
-async function readSeminarData() {
-  const fileContent = await fs.readFile(dataFilePath, "utf-8")
-  return JSON.parse(fileContent)
-}
-
-async function writeSeminarData(data: any) {
-  await fs.writeFile(dataFilePath, JSON.stringify(data, null, 2), "utf-8")
-}
 
 export async function GET() {
   try {
-    const data = await readSeminarData()
-    return NextResponse.json(data)
+    const seminars = await sql`
+      SELECT * FROM seminars 
+      ORDER BY display_order ASC, created_at DESC
+    `
+    return NextResponse.json({ seminars })
   } catch (error) {
-    return NextResponse.json({ error: "Failed to read seminar data" }, { status: 500 })
+    console.error("Failed to read seminar data:", error)
+    return NextResponse.json({ 
+      error: "Failed to read seminar data",
+      details: error instanceof Error ? error.message : String(error)
+    }, { status: 500 })
   }
 }
 
@@ -30,12 +25,29 @@ export async function POST(request: NextRequest) {
     const newSeminar = await request.json()
     console.log("Adding new seminar:", newSeminar)
     
-    const data = await readSeminarData()
-    data.seminars.push(newSeminar)
-    await writeSeminarData(data)
+    // 現在の最大display_orderを取得
+    const maxOrder = await sql`
+      SELECT COALESCE(MAX(display_order), -1) as max_order FROM seminars
+    `
+    const displayOrder = (maxOrder[0]?.max_order ?? -1) + 1
+    
+    const result = await sql`
+      INSERT INTO seminars (
+        id, number, title, video_url, description, thumbnail, display_order
+      ) VALUES (
+        ${newSeminar.id},
+        ${newSeminar.number || 0},
+        ${newSeminar.title},
+        ${newSeminar.videoUrl || ''},
+        ${newSeminar.description || ''},
+        ${newSeminar.thumbnail || ''},
+        ${displayOrder}
+      )
+      RETURNING *
+    `
     
     console.log("Seminar added successfully")
-    return NextResponse.json({ success: true, seminar: newSeminar })
+    return NextResponse.json({ success: true, seminar: result[0] })
   } catch (error) {
     console.error("Failed to add seminar:", error)
     return NextResponse.json({ 
@@ -50,19 +62,25 @@ export async function PUT(request: NextRequest) {
     const updatedSeminar = await request.json()
     console.log("Updating seminar:", updatedSeminar)
     
-    const data = await readSeminarData()
+    const result = await sql`
+      UPDATE seminars SET
+        number = ${updatedSeminar.number || 0},
+        title = ${updatedSeminar.title},
+        video_url = ${updatedSeminar.videoUrl || ''},
+        description = ${updatedSeminar.description || ''},
+        thumbnail = ${updatedSeminar.thumbnail || ''},
+        updated_at = CURRENT_TIMESTAMP
+      WHERE id = ${updatedSeminar.id}
+      RETURNING *
+    `
     
-    const index = data.seminars.findIndex((s: any) => s.id === updatedSeminar.id)
-    if (index === -1) {
+    if (result.length === 0) {
       console.error("Seminar not found:", updatedSeminar.id)
       return NextResponse.json({ error: "Seminar not found" }, { status: 404 })
     }
     
-    data.seminars[index] = updatedSeminar
-    await writeSeminarData(data)
-    
     console.log("Seminar updated successfully")
-    return NextResponse.json({ success: true, seminar: updatedSeminar })
+    return NextResponse.json({ success: true, seminar: result[0] })
   } catch (error) {
     console.error("Failed to update seminar:", error)
     return NextResponse.json({ 
@@ -81,12 +99,14 @@ export async function DELETE(request: NextRequest) {
       return NextResponse.json({ error: "Seminar ID is required" }, { status: 400 })
     }
     
-    const data = await readSeminarData()
-    data.seminars = data.seminars.filter((s: any) => s.id !== id)
-    await writeSeminarData(data)
+    await sql`DELETE FROM seminars WHERE id = ${id}`
     
     return NextResponse.json({ success: true })
   } catch (error) {
-    return NextResponse.json({ error: "Failed to delete seminar" }, { status: 500 })
+    console.error("Failed to delete seminar:", error)
+    return NextResponse.json({ 
+      error: "Failed to delete seminar",
+      details: error instanceof Error ? error.message : String(error)
+    }, { status: 500 })
   }
 }

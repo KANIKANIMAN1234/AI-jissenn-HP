@@ -1,25 +1,28 @@
 import { NextRequest, NextResponse } from "next/server"
-import { promises as fs } from "fs"
-import path from "path"
+import { sql } from "@/lib/db"
 
-export const runtime = 'nodejs'
+export const runtime = 'edge'
 export const dynamic = 'force-dynamic'
-
-const dataFilePath = path.join(process.cwd(), "data", "seminars.json")
 
 export async function POST(request: NextRequest) {
   try {
     const { seminars } = await request.json()
     
-    const fileContent = await fs.readFile(dataFilePath, "utf-8")
-    const data = JSON.parse(fileContent)
-    
-    data.seminars = seminars
-    
-    await fs.writeFile(dataFilePath, JSON.stringify(data, null, 2), "utf-8")
+    // 各セミナーのdisplay_orderを更新
+    for (let i = 0; i < seminars.length; i++) {
+      await sql`
+        UPDATE seminars 
+        SET display_order = ${i}
+        WHERE id = ${seminars[i].id}
+      `
+    }
     
     return NextResponse.json({ success: true })
   } catch (error) {
-    return NextResponse.json({ error: "Failed to reorder seminars" }, { status: 500 })
+    console.error("Failed to reorder seminars:", error)
+    return NextResponse.json({ 
+      error: "Failed to reorder seminars",
+      details: error instanceof Error ? error.message : String(error)
+    }, { status: 500 })
   }
 }

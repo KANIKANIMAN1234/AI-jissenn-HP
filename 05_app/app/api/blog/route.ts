@@ -1,60 +1,96 @@
 import { NextRequest, NextResponse } from "next/server"
-import { promises as fs } from "fs"
-import path from "path"
+import { sql } from "@/lib/db"
 
-export const runtime = 'nodejs'
+export const runtime = 'edge'
 export const dynamic = 'force-dynamic'
-
-const dataFilePath = path.join(process.cwd(), "data", "blog-articles.json")
-
-async function readBlogData() {
-  const fileContent = await fs.readFile(dataFilePath, "utf-8")
-  return JSON.parse(fileContent)
-}
-
-async function writeBlogData(data: any) {
-  await fs.writeFile(dataFilePath, JSON.stringify(data, null, 2), "utf-8")
-}
 
 export async function GET() {
   try {
-    const data = await readBlogData()
-    return NextResponse.json(data)
+    const articles = await sql`
+      SELECT * FROM blog_articles 
+      ORDER BY display_order ASC, created_at DESC
+    `
+    return NextResponse.json({ articles })
   } catch (error) {
-    return NextResponse.json({ error: "Failed to read blog data" }, { status: 500 })
+    console.error("Failed to read blog data:", error)
+    return NextResponse.json({ 
+      error: "Failed to read blog data",
+      details: error instanceof Error ? error.message : String(error)
+    }, { status: 500 })
   }
 }
 
 export async function POST(request: NextRequest) {
   try {
     const newArticle = await request.json()
-    const data = await readBlogData()
+    console.log("Adding new article:", newArticle)
     
-    data.articles.push(newArticle)
-    await writeBlogData(data)
+    // 現在の最大display_orderを取得
+    const maxOrder = await sql`
+      SELECT COALESCE(MAX(display_order), -1) as max_order FROM blog_articles
+    `
+    const displayOrder = (maxOrder[0]?.max_order ?? -1) + 1
     
-    return NextResponse.json({ success: true, article: newArticle })
+    const result = await sql`
+      INSERT INTO blog_articles (
+        id, note_url, title, description, thumbnail, category, published_at, featured, display_order
+      ) VALUES (
+        ${newArticle.id},
+        ${newArticle.noteUrl},
+        ${newArticle.title},
+        ${newArticle.description || ''},
+        ${newArticle.thumbnail || ''},
+        ${newArticle.category || ''},
+        ${newArticle.publishedAt || ''},
+        ${newArticle.featured || false},
+        ${displayOrder}
+      )
+      RETURNING *
+    `
+    
+    console.log("Article added successfully")
+    return NextResponse.json({ success: true, article: result[0] })
   } catch (error) {
-    return NextResponse.json({ error: "Failed to add article" }, { status: 500 })
+    console.error("Failed to add article:", error)
+    return NextResponse.json({ 
+      error: "Failed to add article",
+      details: error instanceof Error ? error.message : String(error)
+    }, { status: 500 })
   }
 }
 
 export async function PUT(request: NextRequest) {
   try {
     const updatedArticle = await request.json()
-    const data = await readBlogData()
+    console.log("Updating article:", updatedArticle)
     
-    const index = data.articles.findIndex((a: any) => a.id === updatedArticle.id)
-    if (index === -1) {
+    const result = await sql`
+      UPDATE blog_articles SET
+        note_url = ${updatedArticle.noteUrl},
+        title = ${updatedArticle.title},
+        description = ${updatedArticle.description || ''},
+        thumbnail = ${updatedArticle.thumbnail || ''},
+        category = ${updatedArticle.category || ''},
+        published_at = ${updatedArticle.publishedAt || ''},
+        featured = ${updatedArticle.featured || false},
+        updated_at = CURRENT_TIMESTAMP
+      WHERE id = ${updatedArticle.id}
+      RETURNING *
+    `
+    
+    if (result.length === 0) {
+      console.error("Article not found:", updatedArticle.id)
       return NextResponse.json({ error: "Article not found" }, { status: 404 })
     }
     
-    data.articles[index] = updatedArticle
-    await writeBlogData(data)
-    
-    return NextResponse.json({ success: true, article: updatedArticle })
+    console.log("Article updated successfully")
+    return NextResponse.json({ success: true, article: result[0] })
   } catch (error) {
-    return NextResponse.json({ error: "Failed to update article" }, { status: 500 })
+    console.error("Failed to update article:", error)
+    return NextResponse.json({ 
+      error: "Failed to update article",
+      details: error instanceof Error ? error.message : String(error)
+    }, { status: 500 })
   }
 }
 
@@ -67,12 +103,14 @@ export async function DELETE(request: NextRequest) {
       return NextResponse.json({ error: "Article ID is required" }, { status: 400 })
     }
     
-    const data = await readBlogData()
-    data.articles = data.articles.filter((a: any) => a.id !== id)
-    await writeBlogData(data)
+    await sql`DELETE FROM blog_articles WHERE id = ${id}`
     
     return NextResponse.json({ success: true })
   } catch (error) {
-    return NextResponse.json({ error: "Failed to delete article" }, { status: 500 })
+    console.error("Failed to delete article:", error)
+    return NextResponse.json({ 
+      error: "Failed to delete article",
+      details: error instanceof Error ? error.message : String(error)
+    }, { status: 500 })
   }
 }
