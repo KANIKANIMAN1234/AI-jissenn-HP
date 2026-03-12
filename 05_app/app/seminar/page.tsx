@@ -5,6 +5,7 @@ import { Calendar, Video, Users, BookOpen, Flame, Lightbulb, MessageCircle, Arch
 import type { Metadata } from "next"
 import Image from "next/image"
 import { sql } from "@/lib/db"
+import { getThumbnailUrl } from "@/lib/youtube"
 
 export const metadata: Metadata = {
   title: "セミナー | AI実践起業塾",
@@ -214,32 +215,35 @@ export default async function SeminarPage() {
               </div>
             ) : (
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                {seminars.map((seminar) => (
-                  <div
-                    key={seminar.id}
-                    className="bg-card rounded-lg border border-border overflow-hidden hover:border-primary/30 transition-colors group"
-                  >
-                    {/* Thumbnail */}
-                    <div className="relative aspect-video bg-muted flex items-center justify-center">
-                      {seminar.thumbnail ? (
-                        <Image
-                          src={seminar.thumbnail}
-                          alt={seminar.title}
-                          fill
-                          className="object-cover"
-                        />
-                      ) : (
-                        <div className="flex flex-col items-center justify-center text-muted-foreground">
-                          <Video className="h-12 w-12 mb-2" />
-                          <span className="text-sm">サムネイル未設定</span>
-                        </div>
-                      )}
-                      {seminar.videoUrl && (
-                        <div className="absolute inset-0 bg-black/40 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
-                          <PlayCircle className="h-16 w-16 text-white" />
-                        </div>
-                      )}
-                    </div>
+                {seminars.map((seminar) => {
+                  const thumbnailUrl = getThumbnailUrl(seminar.thumbnail, seminar.videoUrl)
+                  
+                  return (
+                    <div
+                      key={seminar.id}
+                      className="bg-card rounded-lg border border-border overflow-hidden hover:border-primary/30 transition-colors group"
+                    >
+                      {/* Thumbnail */}
+                      <div className="relative aspect-video bg-muted flex items-center justify-center">
+                        {thumbnailUrl ? (
+                          <Image
+                            src={thumbnailUrl}
+                            alt={seminar.title}
+                            fill
+                            className="object-cover"
+                          />
+                        ) : (
+                          <div className="flex flex-col items-center justify-center text-muted-foreground">
+                            <Video className="h-12 w-12 mb-2" />
+                            <span className="text-sm">サムネイル未設定</span>
+                          </div>
+                        )}
+                        {seminar.videoUrl && (
+                          <div className="absolute inset-0 bg-black/40 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
+                            <PlayCircle className="h-16 w-16 text-white" />
+                          </div>
+                        )}
+                      </div>
 
                     {/* Content */}
                     <div className="p-6">
@@ -271,7 +275,8 @@ export default async function SeminarPage() {
                       )}
                     </div>
                   </div>
-                ))}
+                )
+              })}
               </div>
             )}
           </div>

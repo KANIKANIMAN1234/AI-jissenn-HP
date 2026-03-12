@@ -13,6 +13,7 @@ import Image from "next/image"
 import { DndContext, closestCenter, KeyboardSensor, PointerSensor, useSensor, useSensors, DragEndEvent } from "@dnd-kit/core"
 import { arrayMove, SortableContext, sortableKeyboardCoordinates, verticalListSortingStrategy, useSortable } from "@dnd-kit/sortable"
 import { CSS } from "@dnd-kit/utilities"
+import { getThumbnailUrl } from "@/lib/youtube"
 
 interface Seminar {
   id: string
@@ -56,16 +57,19 @@ function SortableSeminarCard({ seminar, onEdit, onDelete }: { seminar: Seminar; 
         
         {/* Thumbnail */}
         <div className="relative w-32 h-20 bg-muted rounded flex-shrink-0 flex items-center justify-center overflow-hidden">
-          {seminar.thumbnail ? (
-            <Image
-              src={seminar.thumbnail}
-              alt={seminar.title}
-              fill
-              className="object-cover"
-            />
-          ) : (
-            <Video className="h-8 w-8 text-muted-foreground" />
-          )}
+          {(() => {
+            const thumbnailUrl = getThumbnailUrl(seminar.thumbnail, seminar.videoUrl)
+            return thumbnailUrl ? (
+              <Image
+                src={thumbnailUrl}
+                alt={seminar.title}
+                fill
+                className="object-cover"
+              />
+            ) : (
+              <Video className="h-8 w-8 text-muted-foreground" />
+            )
+          })()}
         </div>
 
         <div className="flex-1 min-w-0">
