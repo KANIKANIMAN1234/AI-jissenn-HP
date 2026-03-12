@@ -7,6 +7,7 @@ import { Label } from "@/components/ui/label"
 import { Textarea } from "@/components/ui/textarea"
 import { Card, CardContent } from "@/components/ui/card"
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog"
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { Plus, Edit, Trash2, GripVertical, ArrowLeft, Video, PlayCircle } from "lucide-react"
 import Link from "next/link"
 import Image from "next/image"
@@ -279,13 +280,22 @@ export default function AdminSeminarPage() {
     <div className="space-y-4 py-4">
       <div className="space-y-2">
         <Label htmlFor="number">第〇回（0の場合は表示されません）</Label>
-        <Input
-          id="number"
-          type="number"
-          placeholder="1"
-          value={formData.number}
-          onChange={(e) => setFormData({ ...formData, number: parseInt(e.target.value) || 0 })}
-        />
+        <Select
+          value={formData.number.toString()}
+          onValueChange={(value) => setFormData(prev => ({ ...prev, number: parseInt(value) }))}
+        >
+          <SelectTrigger>
+            <SelectValue placeholder="回数を選択" />
+          </SelectTrigger>
+          <SelectContent className="max-h-[300px]">
+            <SelectItem value="0">表示しない（0）</SelectItem>
+            {Array.from({ length: 500 }, (_, i) => i + 1).map((num) => (
+              <SelectItem key={num} value={num.toString()}>
+                第{num}回
+              </SelectItem>
+            ))}
+          </SelectContent>
+        </Select>
       </div>
       <div className="space-y-2">
         <Label htmlFor="title">セミナー題名 *</Label>
@@ -293,7 +303,7 @@ export default function AdminSeminarPage() {
           id="title"
           placeholder="商品開発の第一歩、自分の得意を見つけよう"
           value={formData.title}
-          onChange={(e) => setFormData({ ...formData, title: e.target.value })}
+          onChange={(e) => setFormData(prev => ({ ...prev, title: e.target.value }))}
         />
       </div>
       <div className="space-y-2">
@@ -303,7 +313,7 @@ export default function AdminSeminarPage() {
           type="url"
           placeholder="https://youtube.com/..."
           value={formData.videoUrl}
-          onChange={(e) => setFormData({ ...formData, videoUrl: e.target.value })}
+          onChange={(e) => setFormData(prev => ({ ...prev, videoUrl: e.target.value }))}
         />
       </div>
       <div className="space-y-2">
@@ -312,7 +322,7 @@ export default function AdminSeminarPage() {
           id="description"
           placeholder="セミナーの概要や補足情報"
           value={formData.description}
-          onChange={(e) => setFormData({ ...formData, description: e.target.value })}
+          onChange={(e) => setFormData(prev => ({ ...prev, description: e.target.value }))}
           rows={3}
         />
       </div>
@@ -323,7 +333,7 @@ export default function AdminSeminarPage() {
           type="url"
           placeholder="https://example.com/thumbnail.jpg"
           value={formData.thumbnail}
-          onChange={(e) => setFormData({ ...formData, thumbnail: e.target.value })}
+          onChange={(e) => setFormData(prev => ({ ...prev, thumbnail: e.target.value }))}
         />
         <p className="text-xs text-muted-foreground">
           YouTubeのサムネイルは自動取得されます。カスタムサムネイルを使用する場合のみ入力してください。
