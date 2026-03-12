@@ -1,11 +1,13 @@
 import { Header } from "@/components/header"
 import { Footer } from "@/components/footer"
 import { CTASection } from "@/components/home/cta-section"
-import { Calendar, Video, Users, BookOpen, PlayCircle } from "lucide-react"
+import { Calendar, Video, Users, BookOpen, PlayCircle, MessageCircle } from "lucide-react"
 import type { Metadata } from "next"
 import Image from "next/image"
+import Link from "next/link"
 import { sql } from "@/lib/db"
 import { getThumbnailUrl } from "@/lib/youtube"
+import { Button } from "@/components/ui/button"
 
 export const metadata: Metadata = {
   title: "セミナー | AI実践起業塾",
@@ -51,6 +53,14 @@ export default async function SeminarPage() {
               <p className="mt-4 text-lg text-muted-foreground leading-relaxed">
                 毎週木曜日14時～15時の無料セミナーで、最新のAI技術とビジネス戦略を学ぶ
               </p>
+              <div className="mt-6">
+                <Button asChild size="lg" className="gap-2">
+                  <Link href="https://www.chatwork.com/g/qyorym87oyox4t" target="_blank" rel="noopener noreferrer">
+                    <MessageCircle className="h-5 w-5" />
+                    無料のチャットワークグループに入る
+                  </Link>
+                </Button>
+              </div>
             </div>
           </div>
         </section>
