@@ -136,6 +136,17 @@ export default function AdminBlogPage() {
     loadBlogData()
   }, [])
 
+  // noteURLが変更されたら自動的にOG情報を取得
+  useEffect(() => {
+    if (formData.noteUrl && formData.noteUrl.includes('note.com')) {
+      const timeoutId = setTimeout(() => {
+        fetchOgImage(formData.noteUrl)
+      }, 1000) // 1秒待ってから取得（入力中の連続取得を防ぐ）
+
+      return () => clearTimeout(timeoutId)
+    }
+  }, [formData.noteUrl])
+
   const loadBlogData = async () => {
     try {
       const response = await fetch("/api/blog")
@@ -152,7 +163,6 @@ export default function AdminBlogPage() {
 
   const fetchOgImage = async (url: string) => {
     if (!url || !url.includes('note.com')) {
-      alert('noteのURLを入力してください')
       return
     }
 
@@ -164,24 +174,17 @@ export default function AdminBlogPage() {
 
       console.log('OG data response:', data)
 
-      if (!response.ok) {
-        throw new Error(data.details || data.error || 'Failed to fetch OG data')
-      }
-
-      if (data.thumbnail || data.title || data.description) {
+      if (response.ok && (data.thumbnail || data.title || data.description)) {
         setFormData(prev => ({
           ...prev,
           thumbnail: data.thumbnail || prev.thumbnail,
           title: data.title || prev.title,
           description: data.description || prev.description,
         }))
-        alert('情報を取得しました！')
-      } else {
-        alert('OG情報が見つかりませんでした。手動で入力してください。')
+        console.log('OG情報を自動取得しました')
       }
     } catch (error) {
       console.error("Failed to fetch OG image:", error)
-      alert(`情報取得に失敗しました: ${error instanceof Error ? error.message : '不明なエラー'}`)
     } finally {
       setIsFetchingOgImage(false)
     }
@@ -343,26 +346,22 @@ export default function AdminBlogPage() {
               <div className="space-y-4 py-4">
                 <div className="space-y-2">
                   <Label htmlFor="noteUrl">note記事URL *</Label>
-                  <div className="flex gap-2">
-                    <Input
-                      id="noteUrl"
-                      placeholder="https://note.com/..."
-                      value={formData.noteUrl}
-                      onChange={(e) => setFormData({ ...formData, noteUrl: e.target.value })}
-                      className="flex-1"
-                    />
-                    <Button
-                      type="button"
-                      variant="outline"
-                      onClick={() => fetchOgImage(formData.noteUrl)}
-                      disabled={isFetchingOgImage || !formData.noteUrl}
-                    >
-                      {isFetchingOgImage ? "取得中..." : "情報取得"}
-                    </Button>
-                  </div>
-                  <p className="text-xs text-muted-foreground">
-                    noteのURLを入力後、「情報取得」ボタンでタイトル・説明・サムネイルを自動取得できます
-                  </p>
+                  <Input
+                    id="noteUrl"
+                    placeholder="https://note.com/..."
+                    value={formData.noteUrl}
+                    onChange={(e) => setFormData({ ...formData, noteUrl: e.target.value })}
+                  />
+                  {isFetchingOgImage && (
+                    <p className="text-xs text-muted-foreground">
+                      記事情報を自動取得中...
+                    </p>
+                  )}
+                  {!isFetchingOgImage && formData.noteUrl && (
+                    <p className="text-xs text-muted-foreground">
+                      URLを入力すると自動的にタイトル・説明・サムネイルを取得します
+                    </p>
+                  )}
                 </div>
                 <div className="space-y-2">
                   <Label htmlFor="title">タイトル *</Label>
@@ -485,6 +484,11 @@ export default function AdminBlogPage() {
                   value={formData.noteUrl}
                   onChange={(e) => setFormData({ ...formData, noteUrl: e.target.value })}
                 />
+                {isFetchingOgImage && (
+                  <p className="text-xs text-muted-foreground">
+                    記事情報を自動取得中...
+                  </p>
+                )}
               </div>
               <div className="space-y-2">
                 <Label htmlFor="edit-title">タイトル *</Label>
