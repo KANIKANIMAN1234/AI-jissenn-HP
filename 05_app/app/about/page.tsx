@@ -146,11 +146,10 @@ export default function AboutPage() {
         {/* Story */}
         <section className="py-16 lg:py-24 bg-card border-y border-border">
           <div className="max-w-7xl mx-auto px-6 lg:px-8">
-            <h2 className="text-2xl font-bold text-foreground mb-8 text-center">なぜAI実践起業塾を立ち上げたのか</h2>
+            <h2 className="text-2xl font-bold text-foreground mb-8 text-center">「作る技術を持つ者が最強である」</h2>
             
-            <div className="flex flex-col lg:flex-row gap-8 lg:gap-12 items-start">
-              <div className="flex-1 prose prose-lg max-w-none text-muted-foreground space-y-6">
-                <p className="text-xl text-foreground font-medium">「作る技術を持つ者が最強である」</p>
+            <div className="max-w-4xl mx-auto">
+              <div className="prose prose-lg max-w-none text-muted-foreground space-y-6">
                 <p>
                   この信念のもと、AI実践起業塾は誕生しました。2025年から2026年にかけて、日本の労働市場は「生存レベルの分断」という劇的な転換期を迎えます。政府のリスキリング補助金による教育フェーズは終わり、2026年からは「AI補助金」という、実務への直接的な実装・導入を支援するフェーズへと移行します。
                 </p>
@@ -163,24 +162,6 @@ export default function AboutPage() {
                 <p>
                   AI実践起業塾は、プログラミング未経験からでもAIエンジニアとして自立できる環境を提供し、あなたが新しい時代の「AIエンジニア」として成長し、共に稼げる仲間となるための伴走者であることを約束します。
                 </p>
-              </div>
-              
-              <div className="flex-shrink-0 lg:w-[420px] lg:mt-0 mt-8 space-y-6">
-                <ImageDialog
-                  src="/images/mission-vision-value-founder.png"
-                  alt="AI実践起業塾のミッション・ビジョン・バリュー"
-                  width={960}
-                  height={720}
-                  className="border-2 border-primary/20"
-                />
-                
-                <ImageDialog
-                  src="/images/business-model-detail.png"
-                  alt="AI実践×仕事循環モデル - 詳細図"
-                  width={1200}
-                  height={900}
-                  className="border-2 border-primary/20"
-                />
               </div>
             </div>
           </div>
