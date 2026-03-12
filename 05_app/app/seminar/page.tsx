@@ -164,24 +164,15 @@ export default function SeminarPage() {
         {/* Schedule */}
         <section className="py-16 bg-muted border-y border-border">
           <div className="max-w-7xl mx-auto px-6 lg:px-8">
-            <h2 className="text-2xl font-bold text-foreground mb-8">開催スケジュール</h2>
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-              <div className="p-6 bg-card rounded-lg border border-border">
-                <h3 className="text-sm font-semibold text-primary uppercase tracking-wider mb-2">開催頻度</h3>
-                <p className="text-foreground">毎週1回（曜日・時間は塾生コミュニティで告知）</p>
-              </div>
-              <div className="p-6 bg-card rounded-lg border border-border">
-                <h3 className="text-sm font-semibold text-primary uppercase tracking-wider mb-2">参加方法</h3>
-                <p className="text-foreground">Zoom（オンライン）</p>
-              </div>
-              <div className="p-6 bg-card rounded-lg border border-border">
-                <h3 className="text-sm font-semibold text-primary uppercase tracking-wider mb-2">アーカイブ</h3>
-                <p className="text-foreground">全セミナーを録画。後日視聴可能</p>
-              </div>
-              <div className="p-6 bg-card rounded-lg border border-border">
-                <h3 className="text-sm font-semibold text-primary uppercase tracking-wider mb-2">参加費</h3>
-                <p className="text-foreground">無料（塾生限定）</p>
-              </div>
+            <h2 className="text-2xl font-bold text-foreground mb-8 text-center">開催スケジュール</h2>
+            <div className="flex justify-center">
+              <Image
+                src="/images/seminar-schedule.png"
+                alt="セミナー開催スケジュール - 毎週1回開催、Zoom参加、アーカイブ視聴可能、無料（塾生限定）"
+                width={1200}
+                height={300}
+                className="w-full max-w-5xl h-auto rounded-lg"
+              />
             </div>
           </div>
         </section>
