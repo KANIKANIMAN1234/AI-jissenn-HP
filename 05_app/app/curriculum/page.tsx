@@ -1,7 +1,6 @@
 import { Header } from "@/components/header"
 import { Footer } from "@/components/footer"
 import { CTASection } from "@/components/home/cta-section"
-import { MessageSquare, Zap, Code, ShoppingBag, Scale, Users, Bot, Palette, Trophy, Flame } from "lucide-react"
 import type { Metadata } from "next"
 
 export const metadata: Metadata = {
@@ -11,7 +10,6 @@ export const metadata: Metadata = {
 
 const detailedCurriculum = [
   {
-    icon: MessageSquare,
     category: "AI活用のSNS発信・マーケティングノウハウ",
     items: [
       "マーケティングの基礎(1)",
@@ -23,21 +21,18 @@ const detailedCurriculum = [
     ],
   },
   {
-    icon: Zap,
     category: "プロのAI活用テクニック",
     items: [
       "なべ式 AIメソッド（AIを気軽に、自在に操る本質のテクニック）(9)",
     ],
   },
   {
-    icon: ShoppingBag,
     category: "商品開発",
     items: [
       "はじめての商品開発講座(8)",
     ],
   },
   {
-    icon: ShoppingBag,
     category: "販売サイトの登録方法",
     items: [
       "ストア開設講座(10)",
@@ -45,7 +40,6 @@ const detailedCurriculum = [
     ],
   },
   {
-    icon: Bot,
     category: "Dify基礎（ノーコード自動化ツール）",
     items: [
       "Dify概要(3)",
@@ -59,28 +53,24 @@ const detailedCurriculum = [
     ],
   },
   {
-    icon: Palette,
     category: "Midjourney基礎講座",
     items: [
       "Midjourney基礎講座(16)",
     ],
   },
   {
-    icon: Bot,
     category: "GPTs選習講座",
     items: [
       "GPTs選習講座(4)",
     ],
   },
   {
-    icon: Palette,
     category: "Canva基礎講座",
     items: [
       "Canva基礎講座(22)",
     ],
   },
   {
-    icon: Code,
     category: "GoogleAppsScriptScript（GAS）",
     items: [
       "GAS色々なアプリを作ってみよう(10)",
@@ -97,7 +87,6 @@ const detailedCurriculum = [
     ],
   },
   {
-    icon: MessageSquare,
     category: "LINE公式＋αチャレンジ",
     items: [
       "LINE公式＋αチャレンジ(6)",
@@ -110,7 +99,6 @@ const detailedCurriculum = [
     ],
   },
   {
-    icon: Trophy,
     category: "チャレンジ企画",
     items: [
       "魅力的なセールスメイル画像作成(4)",
@@ -119,7 +107,6 @@ const detailedCurriculum = [
     ],
   },
   {
-    icon: Flame,
     category: "FireBase+WEBアプリ作成",
     items: [
       "環境準備(3)",
@@ -164,10 +151,9 @@ export default function CurriculumPage() {
                 >
                   <div className="flex items-start gap-4 mb-6">
                     <div className="w-12 h-12 rounded-lg bg-primary/10 flex items-center justify-center flex-shrink-0">
-                      <section.icon className="h-6 w-6 text-primary" />
+                      <span className="text-2xl font-bold text-primary">{index + 1}</span>
                     </div>
                     <div>
-                      <span className="text-sm font-semibold text-primary">{index + 1}</span>
                       <h3 className="text-2xl font-bold text-foreground">{section.category}</h3>
                     </div>
                   </div>
