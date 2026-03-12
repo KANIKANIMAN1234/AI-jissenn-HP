@@ -98,12 +98,12 @@ export default function FounderPage() {
               </div>
               
               <div className="flex-shrink-0 lg:w-[420px] lg:mt-0 mt-8 space-y-6">
-                <Image
+                <ImageDialog
                   src="/images/mission-vision-value-founder.png"
                   alt="AI実践起業塾のミッション・ビジョン・バリュー"
                   width={960}
                   height={720}
-                  className="w-full h-auto rounded-lg"
+                  className="border-2 border-primary/20"
                 />
                 
                 <ImageDialog

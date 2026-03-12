@@ -31,14 +31,14 @@ export function ImageDialog({ src, alt, width, height, className }: ImageDialogP
       </div>
 
       <Dialog open={open} onOpenChange={setOpen}>
-        <DialogContent className="max-w-[90vw] max-h-[90vh] p-0">
-          <div className="relative w-full h-full">
+        <DialogContent className="max-w-[70vw] max-h-[70vh] p-2">
+          <div className="relative w-full h-full flex items-center justify-center overflow-auto">
             <Image
               src={src}
               alt={alt}
               width={width}
               height={height}
-              className="w-full h-auto"
+              className="w-auto h-auto max-w-full max-h-full object-contain"
             />
           </div>
         </DialogContent>
