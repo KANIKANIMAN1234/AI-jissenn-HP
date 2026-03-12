@@ -263,25 +263,29 @@ export default function AdminSuccessPage() {
   }
 
   const addAchievement = () => {
-    setFormData({ ...formData, achievements: [...formData.achievements, ""] })
+    setFormData(prev => ({ ...prev, achievements: [...prev.achievements, ""] }))
   }
 
   const updateAchievement = (index: number, value: string) => {
-    const newAchievements = [...formData.achievements]
-    newAchievements[index] = value
-    setFormData({ ...formData, achievements: newAchievements })
+    setFormData(prev => {
+      const newAchievements = [...prev.achievements]
+      newAchievements[index] = value
+      return { ...prev, achievements: newAchievements }
+    })
   }
 
   const removeAchievement = (index: number) => {
-    const newAchievements = formData.achievements.filter((_, i) => i !== index)
-    setFormData({ ...formData, achievements: newAchievements })
+    setFormData(prev => ({
+      ...prev,
+      achievements: prev.achievements.filter((_, i) => i !== index)
+    }))
   }
 
   const FormFields = () => (
     <div className="space-y-4 py-4">
       <div className="space-y-2">
         <Label htmlFor="icon">アイコン *</Label>
-        <Select value={formData.icon} onValueChange={(value) => setFormData({ ...formData, icon: value })}>
+        <Select value={formData.icon} onValueChange={(value) => setFormData(prev => ({ ...prev, icon: value }))}>
           <SelectTrigger>
             <SelectValue placeholder="アイコンを選択" />
           </SelectTrigger>
@@ -298,7 +302,7 @@ export default function AdminSuccessPage() {
           id="name"
           placeholder="エレンさん"
           value={formData.name}
-          onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+          onChange={(e) => setFormData(prev => ({ ...prev, name: e.target.value }))}
         />
       </div>
       <div className="space-y-2">
@@ -307,7 +311,7 @@ export default function AdminSuccessPage() {
           id="role"
           placeholder="元会社員 → 独立AIエンジニア"
           value={formData.role}
-          onChange={(e) => setFormData({ ...formData, role: e.target.value })}
+          onChange={(e) => setFormData(prev => ({ ...prev, role: e.target.value }))}
         />
       </div>
       <div className="space-y-2">
@@ -316,7 +320,7 @@ export default function AdminSuccessPage() {
           id="title"
           placeholder="プログラミング経験ゼロから独立へ"
           value={formData.title}
-          onChange={(e) => setFormData({ ...formData, title: e.target.value })}
+          onChange={(e) => setFormData(prev => ({ ...prev, title: e.target.value }))}
         />
       </div>
       <div className="space-y-2">
@@ -325,7 +329,7 @@ export default function AdminSuccessPage() {
           id="description"
           placeholder="成功事例の詳細な説明"
           value={formData.description}
-          onChange={(e) => setFormData({ ...formData, description: e.target.value })}
+          onChange={(e) => setFormData(prev => ({ ...prev, description: e.target.value }))}
           rows={4}
         />
       </div>
@@ -366,7 +370,7 @@ export default function AdminSuccessPage() {
           id="quote"
           placeholder="本人のコメント"
           value={formData.quote}
-          onChange={(e) => setFormData({ ...formData, quote: e.target.value })}
+          onChange={(e) => setFormData(prev => ({ ...prev, quote: e.target.value }))}
           rows={3}
         />
       </div>
@@ -375,7 +379,7 @@ export default function AdminSuccessPage() {
           type="checkbox"
           id="featured"
           checked={formData.featured}
-          onChange={(e) => setFormData({ ...formData, featured: e.target.checked })}
+          onChange={(e) => setFormData(prev => ({ ...prev, featured: e.target.checked }))}
           className="w-4 h-4"
         />
         <Label htmlFor="featured" className="cursor-pointer">注目の実績として表示</Label>
