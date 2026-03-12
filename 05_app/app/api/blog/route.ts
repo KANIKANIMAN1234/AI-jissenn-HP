@@ -10,7 +10,7 @@ export async function GET() {
       SELECT * FROM blog_articles 
       ORDER BY display_order ASC, created_at DESC
     `
-    return NextResponse.json({ articles })
+    return NextResponse.json(articles)
   } catch (error) {
     console.error("Failed to read blog data:", error)
     return NextResponse.json({ 
