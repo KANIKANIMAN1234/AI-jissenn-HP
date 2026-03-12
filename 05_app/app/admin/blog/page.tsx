@@ -118,10 +118,12 @@ export default function AdminBlogPage() {
     noteUrl: "",
     title: "",
     description: "",
+    thumbnail: "",
     category: "",
     publishedAt: "",
     featured: false,
   })
+  const [isFetchingOgImage, setIsFetchingOgImage] = useState(false)
 
   const sensors = useSensors(
     useSensor(PointerSensor),
@@ -145,6 +147,31 @@ export default function AdminBlogPage() {
     } catch (error) {
       console.error("Failed to load blog data:", error)
       setBlogData({ articles: [], categories: [] })
+    }
+  }
+
+  const fetchOgImage = async (url: string) => {
+    if (!url || !url.includes('note.com')) {
+      return
+    }
+
+    setIsFetchingOgImage(true)
+    try {
+      const response = await fetch(`/api/fetch-og-image?url=${encodeURIComponent(url)}`)
+      const data = await response.json()
+
+      if (response.ok && data.thumbnail) {
+        setFormData(prev => ({
+          ...prev,
+          thumbnail: data.thumbnail,
+          title: data.title || prev.title,
+          description: data.description || prev.description,
+        }))
+      }
+    } catch (error) {
+      console.error("Failed to fetch OG image:", error)
+    } finally {
+      setIsFetchingOgImage(false)
     }
   }
 
@@ -176,7 +203,7 @@ export default function AdminBlogPage() {
       const newArticle = {
         id: Date.now().toString(),
         ...formData,
-        thumbnail: "/placeholder.svg",
+        thumbnail: formData.thumbnail || "/placeholder.svg",
       }
 
       const response = await fetch("/api/blog", {
@@ -199,6 +226,7 @@ export default function AdminBlogPage() {
         noteUrl: "",
         title: "",
         description: "",
+        thumbnail: "",
         category: "",
         publishedAt: "",
         featured: false,
@@ -303,12 +331,26 @@ export default function AdminBlogPage() {
               <div className="space-y-4 py-4">
                 <div className="space-y-2">
                   <Label htmlFor="noteUrl">note記事URL *</Label>
-                  <Input
-                    id="noteUrl"
-                    placeholder="https://note.com/..."
-                    value={formData.noteUrl}
-                    onChange={(e) => setFormData({ ...formData, noteUrl: e.target.value })}
-                  />
+                  <div className="flex gap-2">
+                    <Input
+                      id="noteUrl"
+                      placeholder="https://note.com/..."
+                      value={formData.noteUrl}
+                      onChange={(e) => setFormData({ ...formData, noteUrl: e.target.value })}
+                      className="flex-1"
+                    />
+                    <Button
+                      type="button"
+                      variant="outline"
+                      onClick={() => fetchOgImage(formData.noteUrl)}
+                      disabled={isFetchingOgImage || !formData.noteUrl}
+                    >
+                      {isFetchingOgImage ? "取得中..." : "情報取得"}
+                    </Button>
+                  </div>
+                  <p className="text-xs text-muted-foreground">
+                    noteのURLを入力後、「情報取得」ボタンでタイトル・説明・サムネイルを自動取得できます
+                  </p>
                 </div>
                 <div className="space-y-2">
                   <Label htmlFor="title">タイトル *</Label>
