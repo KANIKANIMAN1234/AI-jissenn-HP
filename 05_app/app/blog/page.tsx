@@ -102,15 +102,6 @@ export default async function BlogPage() {
         {/* Blog Posts */}
         <section className="py-16 lg:py-24 bg-muted">
           <div className="max-w-7xl mx-auto px-6 lg:px-8">
-            {/* How to add articles notice */}
-            <div className="mb-8 p-4 bg-card border border-border rounded-lg">
-              <p className="text-sm text-muted-foreground">
-                <strong className="text-foreground">記事の追加方法:</strong>{" "}
-                <code className="px-2 py-1 bg-muted rounded text-xs">data/blog-articles.json</code> 
-                ファイルにnote記事のURLと情報を追加してGitHubにプッシュすると、自動的にこのページに反映されます。
-              </p>
-            </div>
-
             {articles.length === 0 ? (
               <div className="text-center py-16">
                 <p className="text-muted-foreground">まだ記事がありません。</p>
