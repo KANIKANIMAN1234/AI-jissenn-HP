@@ -105,9 +105,6 @@ export default async function BlogPage() {
             {articles.length === 0 ? (
               <div className="text-center py-16">
                 <p className="text-muted-foreground">まだ記事がありません。</p>
-                <p className="text-sm text-muted-foreground mt-2">
-                  data/blog-articles.json に記事を追加してください。
-                </p>
               </div>
             ) : (
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
