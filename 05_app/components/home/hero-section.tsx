@@ -4,19 +4,7 @@ import { ArrowRight } from "lucide-react"
 
 export function HeroSection() {
   return (
-    <section className="relative min-h-screen flex items-center justify-center overflow-hidden">
-      {/* Background Image - fills viewport width/height */}
-      <div 
-        className="absolute inset-0 w-full h-full bg-cover bg-center bg-no-repeat"
-        style={{ 
-          backgroundImage: "url('/images/hero-classroom.png')",
-          backgroundSize: "cover",
-          backgroundPosition: "center center"
-        }}
-      />
-      {/* Overlay for better text readability */}
-      <div className="absolute inset-0 w-full h-full bg-white/85" />
-
+    <section className="relative min-h-screen flex items-center justify-center overflow-hidden bg-background">
       <div className="relative max-w-7xl mx-auto px-6 lg:px-8 pt-16 lg:pt-24 pb-20 lg:pb-32">
         <div className="max-w-4xl mx-auto text-center">
           {/* Badge */}
