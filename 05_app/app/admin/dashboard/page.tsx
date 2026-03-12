@@ -4,6 +4,7 @@ import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { signOut } from "@/auth"
 import { LogOut, FileText, Users, Settings } from "lucide-react"
+import Link from "next/link"
 
 export default async function AdminDashboardPage() {
   const session = await auth()
@@ -57,10 +58,12 @@ export default async function AdminDashboardPage() {
             </CardHeader>
             <CardContent>
               <p className="text-sm text-muted-foreground mb-4">
-                data/blog-articles.json を編集してブログ記事を管理できます
+                note記事の追加・編集・削除、並び替えができます
               </p>
-              <Button variant="outline" size="sm" className="w-full">
-                記事管理へ
+              <Button variant="outline" size="sm" className="w-full" asChild>
+                <Link href="/admin/blog">
+                  記事管理へ
+                </Link>
               </Button>
             </CardContent>
           </Card>
