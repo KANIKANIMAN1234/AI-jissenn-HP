@@ -1,6 +1,7 @@
 import { Header } from "@/components/header"
 import { Footer } from "@/components/footer"
 import { CTASection } from "@/components/home/cta-section"
+import { ImageDialog } from "@/components/image-dialog"
 import { Target, Users, Wallet, Rocket, ExternalLink } from "lucide-react"
 import Link from "next/link"
 import Image from "next/image"
@@ -96,13 +97,21 @@ export default function FounderPage() {
                 </p>
               </div>
               
-              <div className="flex-shrink-0 lg:w-[420px] lg:mt-0 mt-8">
+              <div className="flex-shrink-0 lg:w-[420px] lg:mt-0 mt-8 space-y-6">
                 <Image
                   src="/images/mission-vision-value-founder.png"
                   alt="AI実践起業塾のミッション・ビジョン・バリュー"
                   width={960}
                   height={720}
                   className="w-full h-auto rounded-lg"
+                />
+                
+                <ImageDialog
+                  src="/images/business-model-detail.png"
+                  alt="AI実践×仕事循環モデル - 詳細図"
+                  width={1200}
+                  height={900}
+                  className="border-2 border-primary/20"
                 />
               </div>
             </div>
