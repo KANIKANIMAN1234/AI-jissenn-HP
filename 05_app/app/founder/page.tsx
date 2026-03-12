@@ -76,22 +76,35 @@ export default function FounderPage() {
 
         {/* Story */}
         <section className="py-20 lg:py-32 bg-card border-y border-border">
-          <div className="max-w-4xl mx-auto px-6 lg:px-8">
-            <h2 className="text-2xl font-bold text-foreground mb-8">なぜAI実践起業塾を立ち上げたのか</h2>
-            <div className="prose prose-lg max-w-none text-muted-foreground space-y-6">
-              <p className="text-xl text-foreground font-medium">「作る技術を持つ者が最強である」</p>
-              <p>
-                この信念のもと、AI実践起業塾は誕生しました。2025年から2026年にかけて、日本の労働市場は「生存レベルの分断」という劇的な転換期を迎えます。政府のリスキリング補助金による教育フェーズは終わり、2026年からは「AI補助金」という、実務への直接的な実装・導入を支援するフェーズへと移行します。
-              </p>
-              <p>
-                この変化の中で、AIを単に使うだけの「ユーザー」と、ビジネスの仕組みそのものを構築する「AIエンジニア」との間には、圧倒的な市場価値の差が生まれます。後者は2026年において、既存の給料より「0が1つ、2つ多い」案件を受注できる最強の市場価値を持つことになります。
-              </p>
-              <p>
-                しかし、多くの人がこのチャンスに気づいていません。あるいは、気づいていても「どこから始めればいいのか分からない」という壁に直面しています。
-              </p>
-              <p>
-                AI実践起業塾は、プログラミング未経験からでもAIエンジニアとして自立できる環境を提供し、あなたが新しい時代の「AIエンジニア」として成長し、共に稼げる仲間となるための伴走者であることを約束します。
-              </p>
+          <div className="max-w-7xl mx-auto px-6 lg:px-8">
+            <h2 className="text-2xl font-bold text-foreground mb-8 text-center">なぜAI実践起業塾を立ち上げたのか</h2>
+            
+            <div className="flex flex-col lg:flex-row gap-8 lg:gap-12 items-start">
+              <div className="flex-1 prose prose-lg max-w-none text-muted-foreground space-y-6">
+                <p className="text-xl text-foreground font-medium">「作る技術を持つ者が最強である」</p>
+                <p>
+                  この信念のもと、AI実践起業塾は誕生しました。2025年から2026年にかけて、日本の労働市場は「生存レベルの分断」という劇的な転換期を迎えます。政府のリスキリング補助金による教育フェーズは終わり、2026年からは「AI補助金」という、実務への直接的な実装・導入を支援するフェーズへと移行します。
+                </p>
+                <p>
+                  この変化の中で、AIを単に使うだけの「ユーザー」と、ビジネスの仕組みそのものを構築する「AIエンジニア」との間には、圧倒的な市場価値の差が生まれます。後者は2026年において、既存の給料より「0が1つ、2つ多い」案件を受注できる最強の市場価値を持つことになります。
+                </p>
+                <p>
+                  しかし、多くの人がこのチャンスに気づいていません。あるいは、気づいていても「どこから始めればいいのか分からない」という壁に直面しています。
+                </p>
+                <p>
+                  AI実践起業塾は、プログラミング未経験からでもAIエンジニアとして自立できる環境を提供し、あなたが新しい時代の「AIエンジニア」として成長し、共に稼げる仲間となるための伴走者であることを約束します。
+                </p>
+              </div>
+              
+              <div className="flex-shrink-0 lg:w-[420px] lg:mt-0 mt-8">
+                <Image
+                  src="/images/mission-vision-value-founder.png"
+                  alt="AI実践起業塾のミッション・ビジョン・バリュー"
+                  width={960}
+                  height={720}
+                  className="w-full h-auto rounded-lg"
+                />
+              </div>
             </div>
           </div>
         </section>
