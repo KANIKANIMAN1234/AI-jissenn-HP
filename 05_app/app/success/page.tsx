@@ -38,13 +38,6 @@ async function getSuccessStories() {
   }
 }
 
-const metrics = [
-  { value: "300+", label: "動画コンテンツ" },
-  { value: "67+", label: "セミナー開催回数" },
-  { value: "多数", label: "独立・転職成功者" },
-  { value: "高単価", label: "案件受注実績" },
-]
-
 export default async function SuccessPage() {
   const successStories = await getSuccessStories()
   
@@ -114,23 +107,6 @@ export default async function SuccessPage() {
                       <p className="text-foreground italic">"{story.quote}"</p>
                     </div>
                   )}
-                </div>
-              ))}
-            </div>
-          </div>
-        </section>
-
-        {/* Metrics */}
-        <section className="py-16 lg:py-24 bg-primary">
-          <div className="max-w-7xl mx-auto px-6 lg:px-8">
-            <h2 className="text-center text-xl font-bold text-primary-foreground mb-12">塾全体の実績</h2>
-            <div className="grid grid-cols-2 lg:grid-cols-4 gap-8">
-              {metrics.map((metric) => (
-                <div key={metric.label} className="text-center">
-                  <div className="text-3xl lg:text-4xl font-serif font-bold text-primary-foreground">
-                    {metric.value}
-                  </div>
-                  <div className="mt-2 text-sm text-primary-foreground/80">{metric.label}</div>
                 </div>
               ))}
             </div>
