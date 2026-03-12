@@ -3,7 +3,7 @@ import { redirect } from "next/navigation"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { signOut } from "@/auth"
-import { LogOut, FileText, Users, Settings } from "lucide-react"
+import { LogOut, FileText, Trophy, Settings } from "lucide-react"
 import Link from "next/link"
 
 export default async function AdminDashboardPage() {
@@ -72,20 +72,22 @@ export default async function AdminDashboardPage() {
             <CardHeader>
               <div className="flex items-center gap-3">
                 <div className="w-10 h-10 rounded-lg bg-primary/10 flex items-center justify-center">
-                  <Users className="h-5 w-5 text-primary" />
+                  <Trophy className="h-5 w-5 text-primary" />
                 </div>
                 <div>
-                  <CardTitle>ユーザー管理</CardTitle>
-                  <CardDescription>塾生情報の管理</CardDescription>
+                  <CardTitle>実績管理</CardTitle>
+                  <CardDescription>成功事例の管理</CardDescription>
                 </div>
               </div>
             </CardHeader>
             <CardContent>
               <p className="text-sm text-muted-foreground mb-4">
-                塾生の登録情報や進捗状況を確認できます
+                塾生の成功事例を追加・編集・削除、並び替えができます
               </p>
-              <Button variant="outline" size="sm" className="w-full" disabled>
-                準備中
+              <Button variant="outline" size="sm" className="w-full" asChild>
+                <Link href="/admin/success">
+                  実績管理へ
+                </Link>
               </Button>
             </CardContent>
           </Card>
