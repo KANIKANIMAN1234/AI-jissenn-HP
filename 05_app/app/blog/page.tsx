@@ -5,11 +5,35 @@ import { Calendar, ExternalLink } from "lucide-react"
 import Link from "next/link"
 import Image from "next/image"
 import type { Metadata } from "next"
-import blogData from "@/data/blog-articles.json"
+import { sql } from "@/lib/db"
 
 export const metadata: Metadata = {
   title: "Blog | AI実践起業塾",
   description: "AI実践起業塾のブログ。AI技術、ビジネス活用、成功事例など最新情報をお届けします。",
+}
+
+export const revalidate = 0
+
+async function getBlogArticles() {
+  try {
+    const articles = await sql`
+      SELECT 
+        id,
+        note_url as "noteUrl",
+        title,
+        description,
+        thumbnail,
+        category,
+        published_at as "publishedAt",
+        featured
+      FROM blog_articles 
+      ORDER BY display_order ASC, created_at DESC
+    `
+    return articles
+  } catch (error) {
+    console.error("Failed to fetch blog articles:", error)
+    return []
+  }
 }
 
 interface BlogArticle {
@@ -32,9 +56,9 @@ function formatDate(dateString: string): string {
   })
 }
 
-export default function BlogPage() {
-  const articles: BlogArticle[] = blogData.articles
-  const categories: string[] = blogData.categories
+export default async function BlogPage() {
+  const articles: BlogArticle[] = await getBlogArticles()
+  const categories: string[] = Array.from(new Set(articles.map(a => a.category).filter(Boolean)))
 
   return (
     <div className="min-h-screen flex flex-col bg-background">

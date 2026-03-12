@@ -3,12 +3,14 @@ import { Footer } from "@/components/footer"
 import { CTASection } from "@/components/home/cta-section"
 import { Trophy, Briefcase, GraduationCap, Quote } from "lucide-react"
 import type { Metadata } from "next"
-import successData from "@/data/success-stories.json"
+import { sql } from "@/lib/db"
 
 export const metadata: Metadata = {
   title: "実績 | AI実践起業塾",
   description: "AI実践起業塾の実績 - ノンプログラマーから独立・高単価案件受注までの成功事例",
 }
+
+export const revalidate = 0
 
 const iconMap = {
   Trophy,
@@ -16,14 +18,36 @@ const iconMap = {
   GraduationCap,
 }
 
-const successStories = successData.stories.map(story => ({
-  ...story,
-  icon: iconMap[story.icon as keyof typeof iconMap] || Trophy,
-}))
+async function getSuccessStories() {
+  try {
+    const stories = await sql`
+      SELECT * FROM success_stories 
+      ORDER BY display_order ASC, created_at DESC
+    `
+    
+    return stories.map(story => ({
+      ...story,
+      icon: iconMap[story.icon as keyof typeof iconMap] || Trophy,
+      achievements: typeof story.achievements === 'string' 
+        ? JSON.parse(story.achievements) 
+        : story.achievements
+    }))
+  } catch (error) {
+    console.error("Failed to fetch success stories:", error)
+    return []
+  }
+}
 
-const metrics = successData.metrics
+const metrics = [
+  { value: "300+", label: "動画コンテンツ" },
+  { value: "67+", label: "セミナー開催回数" },
+  { value: "多数", label: "独立・転職成功者" },
+  { value: "高単価", label: "案件受注実績" },
+]
 
-export default function SuccessPage() {
+export default async function SuccessPage() {
+  const successStories = await getSuccessStories()
+  
   return (
     <>
       <Header />
