@@ -33,12 +33,6 @@ async function getSeminars() {
   }
 }
 
-const stats = [
-  { icon: Calendar, value: "毎週", label: "定期開催" },
-  { icon: Video, value: "67回+", label: "アーカイブ動画" },
-  { icon: Users, value: "参加自由", label: "塾生限定" },
-]
-
 const features = [
   {
     icon: Flame,
@@ -122,26 +116,7 @@ export default async function SeminarPage() {
           </div>
         </section>
 
-        {/* Stats */}
-        <section className="py-16 bg-primary">
-          <div className="max-w-7xl mx-auto px-6 lg:px-8">
-            <div className="grid grid-cols-3 gap-8">
-              {stats.map((stat) => (
-                <div key={stat.label} className="text-center">
-                  <div className="inline-flex items-center justify-center w-12 h-12 rounded-lg bg-primary-foreground/20 mb-4">
-                    <stat.icon className="h-6 w-6 text-primary-foreground" />
-                  </div>
-                  <div className="text-2xl lg:text-3xl font-serif font-bold text-primary-foreground">
-                    {stat.value}
-                  </div>
-                  <div className="mt-1 text-sm text-primary-foreground/80">{stat.label}</div>
-                </div>
-              ))}
-            </div>
-          </div>
-        </section>
-
-        {/* Features */}
+        {/* Features */}}
         <section className="py-20 lg:py-32 bg-card">
           <div className="max-w-7xl mx-auto px-6 lg:px-8">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
