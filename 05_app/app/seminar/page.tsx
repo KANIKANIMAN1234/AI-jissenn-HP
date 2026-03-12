@@ -55,36 +55,6 @@ export default async function SeminarPage() {
           </div>
         </section>
 
-        {/* Intro */}
-        <section className="py-12 bg-muted border-y border-border">
-          <div className="max-w-7xl mx-auto px-6 lg:px-8">
-            <div className="max-w-3xl">
-              <h2 className="text-2xl font-bold text-foreground mb-4">常に最新の情報をキャッチアップ</h2>
-              <p className="text-muted-foreground leading-relaxed mb-6">
-                AI技術は日々進化しています。AI実践起業塾では、毎週開催される無料セミナーを通じて、最新のAI技術、ビジネス戦略、実務での活用事例を共有しています。
-              </p>
-              <ul className="space-y-3 text-muted-foreground">
-                <li className="flex items-start gap-3">
-                  <span className="w-1.5 h-1.5 rounded-full bg-primary mt-2 flex-shrink-0" />
-                  <span>最新技術の解説</span>
-                </li>
-                <li className="flex items-start gap-3">
-                  <span className="w-1.5 h-1.5 rounded-full bg-primary mt-2 flex-shrink-0" />
-                  <span>実践事例の共有</span>
-                </li>
-                <li className="flex items-start gap-3">
-                  <span className="w-1.5 h-1.5 rounded-full bg-primary mt-2 flex-shrink-0" />
-                  <span>質疑応答・相談</span>
-                </li>
-                <li className="flex items-start gap-3">
-                  <span className="w-1.5 h-1.5 rounded-full bg-primary mt-2 flex-shrink-0" />
-                  <span>アーカイブ視聴</span>
-                </li>
-              </ul>
-            </div>
-          </div>
-        </section>
-
         {/* Seminar Archive */}
         <section className="py-16 lg:py-24 bg-background">
           <div className="max-w-7xl mx-auto px-6 lg:px-8">
