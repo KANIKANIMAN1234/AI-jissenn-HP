@@ -26,16 +26,6 @@ export function CTASection() {
               <ArrowRight className="ml-2 h-4 w-4" />
             </Link>
           </Button>
-          <Button
-            asChild
-            variant="outline"
-            size="lg"
-            className="w-full sm:w-auto border-border hover:bg-card px-8 py-6 text-base"
-          >
-            <Link href="https://forms.gle/example" target="_blank" rel="noopener noreferrer">
-              Googleフォームで申し込む
-            </Link>
-          </Button>
         </div>
 
         <p className="mt-8 text-sm text-muted-foreground">
