@@ -30,7 +30,7 @@ export default function PricingPage() {
         {/* Hero Section */}
         <section className="py-10 lg:py-16 bg-background">
           <div className="max-w-7xl mx-auto px-6 lg:px-8">
-            <div className="text-center max-w-3xl mx-auto pl-6 relative page-title-arrow">
+            <div className="text-center max-w-3xl mx-auto">
               <h1 className="text-4xl lg:text-5xl font-serif font-bold text-foreground tracking-tight">
                 料金プラン
               </h1>
