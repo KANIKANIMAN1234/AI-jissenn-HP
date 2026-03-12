@@ -50,16 +50,6 @@ export function HeroSection() {
                 <ArrowRight className="ml-2 h-4 w-4" />
               </Link>
             </Button>
-            <Button
-              asChild
-              variant="outline"
-              size="lg"
-              className="w-full sm:w-auto border-border hover:bg-accent px-8 py-6 text-base"
-            >
-              <Link href="/seminar">
-                無料セミナーに参加
-              </Link>
-            </Button>
           </div>
 
           {/* Hero Stats */}
