@@ -152,24 +152,36 @@ export default function AdminBlogPage() {
 
   const fetchOgImage = async (url: string) => {
     if (!url || !url.includes('note.com')) {
+      alert('noteのURLを入力してください')
       return
     }
 
     setIsFetchingOgImage(true)
     try {
+      console.log('Fetching OG data for:', url)
       const response = await fetch(`/api/fetch-og-image?url=${encodeURIComponent(url)}`)
       const data = await response.json()
 
-      if (response.ok && data.thumbnail) {
+      console.log('OG data response:', data)
+
+      if (!response.ok) {
+        throw new Error(data.details || data.error || 'Failed to fetch OG data')
+      }
+
+      if (data.thumbnail || data.title || data.description) {
         setFormData(prev => ({
           ...prev,
-          thumbnail: data.thumbnail,
+          thumbnail: data.thumbnail || prev.thumbnail,
           title: data.title || prev.title,
           description: data.description || prev.description,
         }))
+        alert('情報を取得しました！')
+      } else {
+        alert('OG情報が見つかりませんでした。手動で入力してください。')
       }
     } catch (error) {
       console.error("Failed to fetch OG image:", error)
+      alert(`情報取得に失敗しました: ${error instanceof Error ? error.message : '不明なエラー'}`)
     } finally {
       setIsFetchingOgImage(false)
     }
