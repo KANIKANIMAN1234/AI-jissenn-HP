@@ -46,7 +46,7 @@ export default async function SeminarPage() {
           <div className="max-w-7xl mx-auto px-6 lg:px-8">
             <div className="max-w-3xl">
               <h1 className="text-4xl lg:text-5xl font-serif font-bold text-foreground tracking-tight">
-                無料セミナー
+                無料セミナーアーカイブ一覧
               </h1>
               <p className="mt-4 text-lg text-muted-foreground leading-relaxed">
                 毎週木曜日14時～15時の無料セミナーで、最新のAI技術とビジネス戦略を学ぶ
@@ -58,15 +58,6 @@ export default async function SeminarPage() {
         {/* Seminar Archive */}
         <section className="py-16 lg:py-24 bg-background">
           <div className="max-w-7xl mx-auto px-6 lg:px-8">
-            <div className="text-center mb-16">
-              <h2 className="text-sm font-semibold text-primary uppercase tracking-wider mb-4">Archive</h2>
-              <p className="text-3xl lg:text-4xl font-serif font-bold text-foreground mb-4">
-                無料セミナーアーカイブ一覧
-              </p>
-              <p className="text-muted-foreground">
-                過去のセミナー動画をいつでも視聴できます
-              </p>
-            </div>
 
             {seminars.length === 0 ? (
               <div className="text-center py-16">
