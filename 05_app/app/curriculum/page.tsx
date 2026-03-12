@@ -136,13 +136,6 @@ export default function CurriculumPage() {
         {/* Detailed Curriculum List */}
         <section className="py-16 lg:py-24 bg-background">
           <div className="max-w-7xl mx-auto px-6 lg:px-8">
-            <div className="text-center mb-16">
-              <h2 className="text-sm font-semibold text-primary uppercase tracking-wider mb-4">Detailed Curriculum</h2>
-              <p className="text-3xl lg:text-4xl font-serif font-bold text-foreground">
-                AI実践起業塾 カリキュラム一覧
-              </p>
-            </div>
-
             <div className="space-y-8">
               {detailedCurriculum.map((section, index) => (
                 <div
