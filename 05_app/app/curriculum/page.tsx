@@ -1,7 +1,7 @@
 import { Header } from "@/components/header"
 import { Footer } from "@/components/footer"
 import { CTASection } from "@/components/home/cta-section"
-import { MessageSquare, Zap, Code, ShoppingBag, Scale, Users, Bot, Palette } from "lucide-react"
+import { MessageSquare, Zap, Code, ShoppingBag, Scale, Users, Bot, Palette, Trophy, Flame } from "lucide-react"
 import type { Metadata } from "next"
 
 export const metadata: Metadata = {
@@ -60,10 +60,22 @@ const detailedCurriculum = [
   },
   {
     icon: Palette,
-    category: "スキル習得",
+    category: "Midjourney基礎講座",
     items: [
       "Midjourney基礎講座(16)",
+    ],
+  },
+  {
+    icon: Bot,
+    category: "GPTs選習講座",
+    items: [
       "GPTs選習講座(4)",
+    ],
+  },
+  {
+    icon: Palette,
+    category: "Canva基礎講座",
+    items: [
       "Canva基礎講座(22)",
     ],
   },
@@ -95,6 +107,22 @@ const detailedCurriculum = [
       "　・宅配弁当LINEbot(chatGPT連携)",
       "　・LINEとGASで作る歯科医院予約システムの構築ガイド",
       "　・LINE公式アカウント家計簿アプリ（GAS・Googleスプレッドシート連携）",
+    ],
+  },
+  {
+    icon: Trophy,
+    category: "チャレンジ企画",
+    items: [
+      "魅力的なセールスメイル画像作成(4)",
+      "Difyアプリ中級チャレンジ(1)",
+      "LINE公式＋αチャレンジ(6)",
+    ],
+  },
+  {
+    icon: Flame,
+    category: "FireBase+WEBアプリ作成",
+    items: [
+      "環境準備(3)",
     ],
   },
 ]
