@@ -148,7 +148,7 @@ export default async function SuccessPage() {
         </section>
 
         {/* Next Success */}
-        <section className="py-20 bg-background">
+        <section className="py-16 lg:py-24 bg-background">
           <div className="max-w-3xl mx-auto px-6 lg:px-8 text-center">
             <h2 className="text-2xl font-bold text-foreground mb-4">あなたも次の成功者に</h2>
             <p className="text-muted-foreground leading-relaxed">

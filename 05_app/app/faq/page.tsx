@@ -98,7 +98,7 @@ export default function FAQPage() {
         </section>
 
         {/* FAQ Content */}
-        <section className="py-20 lg:py-32 bg-card">
+        <section className="py-16 lg:py-24 bg-card">
           <div className="max-w-4xl mx-auto px-6 lg:px-8">
             <div className="space-y-12">
               {faqCategories.map((category) => (

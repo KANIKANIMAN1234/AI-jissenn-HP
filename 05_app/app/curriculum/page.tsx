@@ -81,7 +81,7 @@ export default function CurriculumPage() {
         </section>
 
         {/* Stats Section */}
-        <section className="py-12 bg-primary">
+        <section className="py-16 lg:py-24 bg-primary">
           <div className="max-w-7xl mx-auto px-6 lg:px-8">
             <div className="grid grid-cols-2 lg:grid-cols-4 gap-8">
               {stats.map((stat) => (
@@ -97,7 +97,7 @@ export default function CurriculumPage() {
         </section>
 
         {/* Curriculum Grid */}
-        <section className="py-20 lg:py-32 bg-card">
+        <section className="py-16 lg:py-24 bg-card">
           <div className="max-w-7xl mx-auto px-6 lg:px-8">
             <div className="text-center mb-16">
               <h2 className="text-sm font-semibold text-primary uppercase tracking-wider mb-4">Curriculum</h2>

@@ -76,7 +76,7 @@ export default function FounderPage() {
         </section>
 
         {/* Story */}
-        <section className="py-20 lg:py-32 bg-card border-y border-border">
+        <section className="py-16 lg:py-24 bg-card border-y border-border">
           <div className="max-w-7xl mx-auto px-6 lg:px-8">
             <h2 className="text-2xl font-bold text-foreground mb-8 text-center">なぜAI実践起業塾を立ち上げたのか</h2>
             
@@ -119,7 +119,7 @@ export default function FounderPage() {
         </section>
 
         {/* Philosophy */}
-        <section className="py-20 lg:py-32 bg-background">
+        <section className="py-16 lg:py-24 bg-background">
           <div className="max-w-7xl mx-auto px-6 lg:px-8">
             <div className="text-center mb-16">
               <h2 className="text-sm font-semibold text-primary uppercase tracking-wider mb-4">Philosophy</h2>
@@ -143,7 +143,7 @@ export default function FounderPage() {
         </section>
 
         {/* Business Model */}
-        <section className="py-20 lg:py-32 bg-muted border-y border-border">
+        <section className="py-16 lg:py-24 bg-muted border-y border-border">
           <div className="max-w-7xl mx-auto px-6 lg:px-8">
             <div className="text-center mb-12">
               <h2 className="text-sm font-semibold text-primary uppercase tracking-wider mb-4">Business Model</h2>
@@ -168,7 +168,7 @@ export default function FounderPage() {
         </section>
 
         {/* Founders */}
-        <section className="py-20 lg:py-32 bg-muted">
+        <section className="py-16 lg:py-24 bg-muted">
           <div className="max-w-7xl mx-auto px-6 lg:px-8">
             <div className="text-center mb-16">
               <h2 className="text-sm font-semibold text-primary uppercase tracking-wider mb-4">Team</h2>
@@ -235,7 +235,7 @@ export default function FounderPage() {
         </section>
 
         {/* Vision */}
-        <section className="py-20 bg-card border-y border-border">
+        <section className="py-16 lg:py-24 bg-card border-y border-border">
           <div className="max-w-4xl mx-auto px-6 lg:px-8 text-center">
             <h2 className="text-2xl font-bold text-foreground mb-6">私たちのビジョン</h2>
             <p className="text-muted-foreground leading-relaxed mb-4">

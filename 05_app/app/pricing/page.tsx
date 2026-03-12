@@ -42,7 +42,7 @@ export default function PricingPage() {
         </section>
 
         {/* Pricing Card */}
-        <section className="py-20 lg:py-32 bg-muted">
+        <section className="py-16 lg:py-24 bg-muted">
           <div className="max-w-4xl mx-auto px-6 lg:px-8">
             <div className="bg-card rounded-2xl border border-border shadow-xl overflow-hidden">
               {/* Header */}
@@ -109,7 +109,7 @@ export default function PricingPage() {
         </section>
 
         {/* Value Comparison */}
-        <section className="py-20 lg:py-32 bg-background">
+        <section className="py-16 lg:py-24 bg-background">
           <div className="max-w-5xl mx-auto px-6 lg:px-8">
             <div className="text-center mb-16">
               <h2 className="text-sm font-semibold text-primary uppercase tracking-wider mb-4">Value</h2>
