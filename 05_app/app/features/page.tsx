@@ -70,7 +70,7 @@ export default function FeaturesPage() {
         </section>
 
         {/* Timeline Section */}
-        <section className="py-16 bg-card border-y border-border">
+        <section className="py-16 lg:py-24 bg-card border-y border-border">
           <div className="max-w-7xl mx-auto px-6 lg:px-8">
             {/* Headline */}
             <h2 className="text-2xl lg:text-3xl font-bold text-center mb-12">
@@ -142,7 +142,7 @@ export default function FeaturesPage() {
         </section>
 
         {/* Why Now Section */}
-        <section className="py-20 lg:py-32 bg-background">
+        <section className="py-16 lg:py-24 bg-background">
           <div className="max-w-7xl mx-auto px-6 lg:px-8">
             <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
               {whyNowReasons.map((reason) => (
@@ -159,7 +159,7 @@ export default function FeaturesPage() {
         </section>
 
         {/* Features Section */}
-        <section className="py-20 lg:py-32 bg-muted">
+        <section className="py-16 lg:py-24 bg-muted">
           <div className="max-w-7xl mx-auto px-6 lg:px-8">
             <div className="text-center mb-16">
               <h2 className="text-sm font-semibold text-primary uppercase tracking-wider mb-4">Our Features</h2>

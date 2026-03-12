@@ -113,7 +113,7 @@ export default async function SeminarPage() {
         </section>
 
         {/* Topics */}
-        <section className="py-20 lg:py-32 bg-background">
+        <section className="py-16 lg:py-24 bg-background">
           <div className="max-w-7xl mx-auto px-6 lg:px-8">
             <div className="text-center mb-16">
               <h2 className="text-sm font-semibold text-primary uppercase tracking-wider mb-4">Topics</h2>
@@ -137,7 +137,7 @@ export default async function SeminarPage() {
         </section>
 
         {/* Schedule */}
-        <section className="py-16 bg-muted border-y border-border">
+        <section className="py-16 lg:py-24 bg-muted border-y border-border">
           <div className="max-w-7xl mx-auto px-6 lg:px-8">
             <h2 className="text-2xl font-bold text-foreground mb-8 text-center">開催スケジュール</h2>
             <div className="flex justify-center">
@@ -153,7 +153,7 @@ export default async function SeminarPage() {
         </section>
 
         {/* Seminar Archive */}
-        <section className="py-20 lg:py-32 bg-background">
+        <section className="py-16 lg:py-24 bg-background">
           <div className="max-w-7xl mx-auto px-6 lg:px-8">
             <div className="text-center mb-16">
               <h2 className="text-sm font-semibold text-primary uppercase tracking-wider mb-4">Archive</h2>

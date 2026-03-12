@@ -67,7 +67,7 @@ export default async function SuccessPage() {
         </section>
 
         {/* Intro */}
-        <section className="py-12 bg-muted border-y border-border">
+        <section className="py-16 lg:py-24 bg-muted border-y border-border">
           <div className="max-w-7xl mx-auto px-6 lg:px-8">
             <div className="max-w-3xl">
               <h2 className="text-2xl font-bold text-foreground mb-4">実務で稼げるAIエンジニアへ</h2>
@@ -79,7 +79,7 @@ export default async function SuccessPage() {
         </section>
 
         {/* Success Stories */}
-        <section className="py-20 lg:py-32 bg-card">
+        <section className="py-16 lg:py-24 bg-card">
           <div className="max-w-7xl mx-auto px-6 lg:px-8">
             <div className="space-y-12">
               {successStories.map((story) => (
@@ -131,7 +131,7 @@ export default async function SuccessPage() {
         </section>
 
         {/* Metrics */}
-        <section className="py-16 bg-primary">
+        <section className="py-16 lg:py-24 bg-primary">
           <div className="max-w-7xl mx-auto px-6 lg:px-8">
             <h2 className="text-center text-xl font-bold text-primary-foreground mb-12">塾全体の実績</h2>
             <div className="grid grid-cols-2 lg:grid-cols-4 gap-8">
