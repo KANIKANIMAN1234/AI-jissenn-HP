@@ -276,72 +276,6 @@ export default function AdminSeminarPage() {
     })
   }
 
-  const FormFields = () => (
-    <div className="space-y-4 py-4">
-      <div className="space-y-2">
-        <Label htmlFor="number">第〇回（0の場合は表示されません）</Label>
-        <Select
-          value={formData.number.toString()}
-          onValueChange={(value) => setFormData(prev => ({ ...prev, number: parseInt(value) }))}
-        >
-          <SelectTrigger>
-            <SelectValue placeholder="回数を選択" />
-          </SelectTrigger>
-          <SelectContent className="max-h-[300px]">
-            <SelectItem value="0">表示しない（0）</SelectItem>
-            {Array.from({ length: 500 }, (_, i) => i + 1).map((num) => (
-              <SelectItem key={num} value={num.toString()}>
-                第{num}回
-              </SelectItem>
-            ))}
-          </SelectContent>
-        </Select>
-      </div>
-      <div className="space-y-2">
-        <Label htmlFor="title">セミナー題名 *</Label>
-        <Input
-          id="title"
-          placeholder="商品開発の第一歩、自分の得意を見つけよう"
-          value={formData.title}
-          onChange={(e) => setFormData(prev => ({ ...prev, title: e.target.value }))}
-        />
-      </div>
-      <div className="space-y-2">
-        <Label htmlFor="videoUrl">動画URL</Label>
-        <Input
-          id="videoUrl"
-          type="url"
-          placeholder="https://youtube.com/..."
-          value={formData.videoUrl}
-          onChange={(e) => setFormData(prev => ({ ...prev, videoUrl: e.target.value }))}
-        />
-      </div>
-      <div className="space-y-2">
-        <Label htmlFor="description">セミナー概要</Label>
-        <Textarea
-          id="description"
-          placeholder="セミナーの概要や補足情報"
-          value={formData.description}
-          onChange={(e) => setFormData(prev => ({ ...prev, description: e.target.value }))}
-          rows={3}
-        />
-      </div>
-      <div className="space-y-2">
-        <Label htmlFor="thumbnail">サムネイルURL</Label>
-        <Input
-          id="thumbnail"
-          type="url"
-          placeholder="https://example.com/thumbnail.jpg"
-          value={formData.thumbnail}
-          onChange={(e) => setFormData(prev => ({ ...prev, thumbnail: e.target.value }))}
-        />
-        <p className="text-xs text-muted-foreground">
-          YouTubeのサムネイルは自動取得されます。カスタムサムネイルを使用する場合のみ入力してください。
-        </p>
-      </div>
-    </div>
-  )
-
   return (
     <div className="min-h-screen bg-muted">
       <header className="bg-card border-b border-border">
@@ -370,7 +304,69 @@ export default function AdminSeminarPage() {
                 <DialogTitle>新規セミナー追加</DialogTitle>
                 <DialogDescription>セミナー情報を入力してください</DialogDescription>
               </DialogHeader>
-              <FormFields />
+              <div className="space-y-4 py-4">
+                <div className="space-y-2">
+                  <Label htmlFor="add-number">第〇回（0の場合は表示されません）</Label>
+                  <Select
+                    value={formData.number.toString()}
+                    onValueChange={(value) => setFormData(prev => ({ ...prev, number: parseInt(value) }))}
+                  >
+                    <SelectTrigger>
+                      <SelectValue placeholder="回数を選択" />
+                    </SelectTrigger>
+                    <SelectContent className="max-h-[300px]">
+                      <SelectItem value="0">表示しない（0）</SelectItem>
+                      {Array.from({ length: 500 }, (_, i) => i + 1).map((num) => (
+                        <SelectItem key={num} value={num.toString()}>
+                          第{num}回
+                        </SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
+                </div>
+                <div className="space-y-2">
+                  <Label htmlFor="add-title">セミナー題名 *</Label>
+                  <Input
+                    id="add-title"
+                    placeholder="商品開発の第一歩、自分の得意を見つけよう"
+                    value={formData.title}
+                    onChange={(e) => setFormData(prev => ({ ...prev, title: e.target.value }))}
+                  />
+                </div>
+                <div className="space-y-2">
+                  <Label htmlFor="add-videoUrl">動画URL</Label>
+                  <Input
+                    id="add-videoUrl"
+                    type="url"
+                    placeholder="https://youtube.com/..."
+                    value={formData.videoUrl}
+                    onChange={(e) => setFormData(prev => ({ ...prev, videoUrl: e.target.value }))}
+                  />
+                </div>
+                <div className="space-y-2">
+                  <Label htmlFor="add-description">セミナー概要</Label>
+                  <Textarea
+                    id="add-description"
+                    placeholder="セミナーの概要や補足情報"
+                    value={formData.description}
+                    onChange={(e) => setFormData(prev => ({ ...prev, description: e.target.value }))}
+                    rows={3}
+                  />
+                </div>
+                <div className="space-y-2">
+                  <Label htmlFor="add-thumbnail">サムネイルURL</Label>
+                  <Input
+                    id="add-thumbnail"
+                    type="url"
+                    placeholder="https://example.com/thumbnail.jpg"
+                    value={formData.thumbnail}
+                    onChange={(e) => setFormData(prev => ({ ...prev, thumbnail: e.target.value }))}
+                  />
+                  <p className="text-xs text-muted-foreground">
+                    YouTubeのサムネイルは自動取得されます。カスタムサムネイルを使用する場合のみ入力してください。
+                  </p>
+                </div>
+              </div>
               <div className="flex justify-end gap-2">
                 <Button variant="outline" onClick={() => setIsAddDialogOpen(false)}>
                   キャンセル
@@ -429,7 +425,69 @@ export default function AdminSeminarPage() {
               <DialogTitle>セミナーを編集</DialogTitle>
               <DialogDescription>セミナー情報を編集してください</DialogDescription>
             </DialogHeader>
-            <FormFields />
+            <div className="space-y-4 py-4">
+              <div className="space-y-2">
+                <Label htmlFor="edit-number">第〇回（0の場合は表示されません）</Label>
+                <Select
+                  value={formData.number.toString()}
+                  onValueChange={(value) => setFormData(prev => ({ ...prev, number: parseInt(value) }))}
+                >
+                  <SelectTrigger>
+                    <SelectValue placeholder="回数を選択" />
+                  </SelectTrigger>
+                  <SelectContent className="max-h-[300px]">
+                    <SelectItem value="0">表示しない（0）</SelectItem>
+                    {Array.from({ length: 500 }, (_, i) => i + 1).map((num) => (
+                      <SelectItem key={num} value={num.toString()}>
+                        第{num}回
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+              </div>
+              <div className="space-y-2">
+                <Label htmlFor="edit-title">セミナー題名 *</Label>
+                <Input
+                  id="edit-title"
+                  placeholder="商品開発の第一歩、自分の得意を見つけよう"
+                  value={formData.title}
+                  onChange={(e) => setFormData(prev => ({ ...prev, title: e.target.value }))}
+                />
+              </div>
+              <div className="space-y-2">
+                <Label htmlFor="edit-videoUrl">動画URL</Label>
+                <Input
+                  id="edit-videoUrl"
+                  type="url"
+                  placeholder="https://youtube.com/..."
+                  value={formData.videoUrl}
+                  onChange={(e) => setFormData(prev => ({ ...prev, videoUrl: e.target.value }))}
+                />
+              </div>
+              <div className="space-y-2">
+                <Label htmlFor="edit-description">セミナー概要</Label>
+                <Textarea
+                  id="edit-description"
+                  placeholder="セミナーの概要や補足情報"
+                  value={formData.description}
+                  onChange={(e) => setFormData(prev => ({ ...prev, description: e.target.value }))}
+                  rows={3}
+                />
+              </div>
+              <div className="space-y-2">
+                <Label htmlFor="edit-thumbnail">サムネイルURL</Label>
+                <Input
+                  id="edit-thumbnail"
+                  type="url"
+                  placeholder="https://example.com/thumbnail.jpg"
+                  value={formData.thumbnail}
+                  onChange={(e) => setFormData(prev => ({ ...prev, thumbnail: e.target.value }))}
+                />
+                <p className="text-xs text-muted-foreground">
+                  YouTubeのサムネイルは自動取得されます。カスタムサムネイルを使用する場合のみ入力してください。
+                </p>
+              </div>
+            </div>
             <div className="flex justify-end gap-2">
               <Button variant="outline" onClick={() => setIsEditDialogOpen(false)}>
                 キャンセル

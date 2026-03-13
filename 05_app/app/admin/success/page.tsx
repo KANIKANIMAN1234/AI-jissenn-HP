@@ -281,112 +281,6 @@ export default function AdminSuccessPage() {
     }))
   }
 
-  const FormFields = () => (
-    <div className="space-y-4 py-4">
-      <div className="space-y-2">
-        <Label htmlFor="icon">アイコン *</Label>
-        <Select value={formData.icon} onValueChange={(value) => setFormData(prev => ({ ...prev, icon: value }))}>
-          <SelectTrigger>
-            <SelectValue placeholder="アイコンを選択" />
-          </SelectTrigger>
-          <SelectContent>
-            <SelectItem value="Trophy">トロフィー (Trophy)</SelectItem>
-            <SelectItem value="Briefcase">ブリーフケース (Briefcase)</SelectItem>
-            <SelectItem value="GraduationCap">卒業帽 (GraduationCap)</SelectItem>
-          </SelectContent>
-        </Select>
-      </div>
-      <div className="space-y-2">
-        <Label htmlFor="name">名前 *</Label>
-        <Input
-          id="name"
-          placeholder="エレンさん"
-          value={formData.name}
-          onChange={(e) => setFormData(prev => ({ ...prev, name: e.target.value }))}
-        />
-      </div>
-      <div className="space-y-2">
-        <Label htmlFor="role">役職・肩書き *</Label>
-        <Input
-          id="role"
-          placeholder="元会社員 → 独立AIエンジニア"
-          value={formData.role}
-          onChange={(e) => setFormData(prev => ({ ...prev, role: e.target.value }))}
-        />
-      </div>
-      <div className="space-y-2">
-        <Label htmlFor="title">タイトル *</Label>
-        <Input
-          id="title"
-          placeholder="プログラミング経験ゼロから独立へ"
-          value={formData.title}
-          onChange={(e) => setFormData(prev => ({ ...prev, title: e.target.value }))}
-        />
-      </div>
-      <div className="space-y-2">
-        <Label htmlFor="description">説明 *</Label>
-        <Textarea
-          id="description"
-          placeholder="成功事例の詳細な説明"
-          value={formData.description}
-          onChange={(e) => setFormData(prev => ({ ...prev, description: e.target.value }))}
-          rows={4}
-        />
-      </div>
-      <div className="space-y-2">
-        <Label>主な成果 *</Label>
-        {formData.achievements.map((achievement, index) => (
-          <div key={index} className="flex items-center gap-2">
-            <Input
-              placeholder={`成果 ${index + 1}`}
-              value={achievement}
-              onChange={(e) => updateAchievement(index, e.target.value)}
-            />
-            {formData.achievements.length > 1 && (
-              <Button
-                type="button"
-                variant="ghost"
-                size="icon"
-                onClick={() => removeAchievement(index)}
-              >
-                <X className="h-4 w-4" />
-              </Button>
-            )}
-          </div>
-        ))}
-        <Button
-          type="button"
-          variant="outline"
-          size="sm"
-          onClick={addAchievement}
-        >
-          <Plus className="h-4 w-4 mr-1" />
-          成果を追加
-        </Button>
-      </div>
-      <div className="space-y-2">
-        <Label htmlFor="quote">コメント（任意）</Label>
-        <Textarea
-          id="quote"
-          placeholder="本人のコメント"
-          value={formData.quote}
-          onChange={(e) => setFormData(prev => ({ ...prev, quote: e.target.value }))}
-          rows={3}
-        />
-      </div>
-      <div className="flex items-center gap-2">
-        <input
-          type="checkbox"
-          id="featured"
-          checked={formData.featured}
-          onChange={(e) => setFormData(prev => ({ ...prev, featured: e.target.checked }))}
-          className="w-4 h-4"
-        />
-        <Label htmlFor="featured" className="cursor-pointer">注目の実績として表示</Label>
-      </div>
-    </div>
-  )
-
   return (
     <div className="min-h-screen bg-muted">
       <header className="bg-card border-b border-border">
@@ -415,7 +309,109 @@ export default function AdminSuccessPage() {
                 <DialogTitle>新規実績追加</DialogTitle>
                 <DialogDescription>成功事例の情報を入力してください</DialogDescription>
               </DialogHeader>
-              <FormFields />
+              <div className="space-y-4 py-4">
+                <div className="space-y-2">
+                  <Label htmlFor="add-icon">アイコン *</Label>
+                  <Select value={formData.icon} onValueChange={(value) => setFormData(prev => ({ ...prev, icon: value }))}>
+                    <SelectTrigger>
+                      <SelectValue placeholder="アイコンを選択" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value="Trophy">トロフィー (Trophy)</SelectItem>
+                      <SelectItem value="Briefcase">ブリーフケース (Briefcase)</SelectItem>
+                      <SelectItem value="GraduationCap">卒業帽 (GraduationCap)</SelectItem>
+                    </SelectContent>
+                  </Select>
+                </div>
+                <div className="space-y-2">
+                  <Label htmlFor="add-name">名前 *</Label>
+                  <Input
+                    id="add-name"
+                    placeholder="エレンさん"
+                    value={formData.name}
+                    onChange={(e) => setFormData(prev => ({ ...prev, name: e.target.value }))}
+                  />
+                </div>
+                <div className="space-y-2">
+                  <Label htmlFor="add-role">役職・肩書き *</Label>
+                  <Input
+                    id="add-role"
+                    placeholder="元会社員 → 独立AIエンジニア"
+                    value={formData.role}
+                    onChange={(e) => setFormData(prev => ({ ...prev, role: e.target.value }))}
+                  />
+                </div>
+                <div className="space-y-2">
+                  <Label htmlFor="add-title">タイトル *</Label>
+                  <Input
+                    id="add-title"
+                    placeholder="プログラミング経験ゼロから独立へ"
+                    value={formData.title}
+                    onChange={(e) => setFormData(prev => ({ ...prev, title: e.target.value }))}
+                  />
+                </div>
+                <div className="space-y-2">
+                  <Label htmlFor="add-description">説明 *</Label>
+                  <Textarea
+                    id="add-description"
+                    placeholder="成功事例の詳細な説明"
+                    value={formData.description}
+                    onChange={(e) => setFormData(prev => ({ ...prev, description: e.target.value }))}
+                    rows={4}
+                  />
+                </div>
+                <div className="space-y-2">
+                  <Label>主な成果 *</Label>
+                  {formData.achievements.map((achievement, index) => (
+                    <div key={index} className="flex items-center gap-2">
+                      <Input
+                        placeholder={`成果 ${index + 1}`}
+                        value={achievement}
+                        onChange={(e) => updateAchievement(index, e.target.value)}
+                      />
+                      {formData.achievements.length > 1 && (
+                        <Button
+                          type="button"
+                          variant="ghost"
+                          size="icon"
+                          onClick={() => removeAchievement(index)}
+                        >
+                          <X className="h-4 w-4" />
+                        </Button>
+                      )}
+                    </div>
+                  ))}
+                  <Button
+                    type="button"
+                    variant="outline"
+                    size="sm"
+                    onClick={addAchievement}
+                  >
+                    <Plus className="h-4 w-4 mr-1" />
+                    成果を追加
+                  </Button>
+                </div>
+                <div className="space-y-2">
+                  <Label htmlFor="add-quote">コメント（任意）</Label>
+                  <Textarea
+                    id="add-quote"
+                    placeholder="本人のコメント"
+                    value={formData.quote}
+                    onChange={(e) => setFormData(prev => ({ ...prev, quote: e.target.value }))}
+                    rows={3}
+                  />
+                </div>
+                <div className="flex items-center gap-2">
+                  <input
+                    type="checkbox"
+                    id="add-featured"
+                    checked={formData.featured}
+                    onChange={(e) => setFormData(prev => ({ ...prev, featured: e.target.checked }))}
+                    className="w-4 h-4"
+                  />
+                  <Label htmlFor="add-featured" className="cursor-pointer">注目の実績として表示</Label>
+                </div>
+              </div>
               <div className="flex justify-end gap-2">
                 <Button variant="outline" onClick={() => setIsAddDialogOpen(false)}>
                   キャンセル
@@ -474,7 +470,109 @@ export default function AdminSuccessPage() {
               <DialogTitle>実績を編集</DialogTitle>
               <DialogDescription>成功事例の情報を編集してください</DialogDescription>
             </DialogHeader>
-            <FormFields />
+            <div className="space-y-4 py-4">
+              <div className="space-y-2">
+                <Label htmlFor="edit-icon">アイコン *</Label>
+                <Select value={formData.icon} onValueChange={(value) => setFormData(prev => ({ ...prev, icon: value }))}>
+                  <SelectTrigger>
+                    <SelectValue placeholder="アイコンを選択" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="Trophy">トロフィー (Trophy)</SelectItem>
+                    <SelectItem value="Briefcase">ブリーフケース (Briefcase)</SelectItem>
+                    <SelectItem value="GraduationCap">卒業帽 (GraduationCap)</SelectItem>
+                  </SelectContent>
+                </Select>
+              </div>
+              <div className="space-y-2">
+                <Label htmlFor="edit-name">名前 *</Label>
+                <Input
+                  id="edit-name"
+                  placeholder="エレンさん"
+                  value={formData.name}
+                  onChange={(e) => setFormData(prev => ({ ...prev, name: e.target.value }))}
+                />
+              </div>
+              <div className="space-y-2">
+                <Label htmlFor="edit-role">役職・肩書き *</Label>
+                <Input
+                  id="edit-role"
+                  placeholder="元会社員 → 独立AIエンジニア"
+                  value={formData.role}
+                  onChange={(e) => setFormData(prev => ({ ...prev, role: e.target.value }))}
+                />
+              </div>
+              <div className="space-y-2">
+                <Label htmlFor="edit-title">タイトル *</Label>
+                <Input
+                  id="edit-title"
+                  placeholder="プログラミング経験ゼロから独立へ"
+                  value={formData.title}
+                  onChange={(e) => setFormData(prev => ({ ...prev, title: e.target.value }))}
+                />
+              </div>
+              <div className="space-y-2">
+                <Label htmlFor="edit-description">説明 *</Label>
+                <Textarea
+                  id="edit-description"
+                  placeholder="成功事例の詳細な説明"
+                  value={formData.description}
+                  onChange={(e) => setFormData(prev => ({ ...prev, description: e.target.value }))}
+                  rows={4}
+                />
+              </div>
+              <div className="space-y-2">
+                <Label>主な成果 *</Label>
+                {formData.achievements.map((achievement, index) => (
+                  <div key={index} className="flex items-center gap-2">
+                    <Input
+                      placeholder={`成果 ${index + 1}`}
+                      value={achievement}
+                      onChange={(e) => updateAchievement(index, e.target.value)}
+                    />
+                    {formData.achievements.length > 1 && (
+                      <Button
+                        type="button"
+                        variant="ghost"
+                        size="icon"
+                        onClick={() => removeAchievement(index)}
+                      >
+                        <X className="h-4 w-4" />
+                      </Button>
+                    )}
+                  </div>
+                ))}
+                <Button
+                  type="button"
+                  variant="outline"
+                  size="sm"
+                  onClick={addAchievement}
+                >
+                  <Plus className="h-4 w-4 mr-1" />
+                  成果を追加
+                </Button>
+              </div>
+              <div className="space-y-2">
+                <Label htmlFor="edit-quote">コメント（任意）</Label>
+                <Textarea
+                  id="edit-quote"
+                  placeholder="本人のコメント"
+                  value={formData.quote}
+                  onChange={(e) => setFormData(prev => ({ ...prev, quote: e.target.value }))}
+                  rows={3}
+                />
+              </div>
+              <div className="flex items-center gap-2">
+                <input
+                  type="checkbox"
+                  id="edit-featured"
+                  checked={formData.featured}
+                  onChange={(e) => setFormData(prev => ({ ...prev, featured: e.target.checked }))}
+                  className="w-4 h-4"
+                />
+                <Label htmlFor="edit-featured" className="cursor-pointer">注目の実績として表示</Label>
+              </div>
+            </div>
             <div className="flex justify-end gap-2">
               <Button variant="outline" onClick={() => setIsEditDialogOpen(false)}>
                 キャンセル
