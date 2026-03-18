@@ -91,7 +91,7 @@ export default async function SuccessPage() {
                   
                   {/* Image */}
                   {story.image_url && (
-                    <div className="relative w-full h-[300px] mb-6 rounded-lg overflow-hidden bg-muted">
+                    <div className="relative w-full aspect-[1.91/1] mb-6 rounded-lg overflow-hidden bg-muted">
                       <Image
                         src={story.image_url}
                         alt={story.title}

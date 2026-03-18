@@ -481,7 +481,7 @@ export default function AdminSuccessPage() {
                       </div>
                     )}
                   </div>
-                  <p className="text-xs text-muted-foreground">推奨サイズ: 1200px × 600px（最大5MB）</p>
+                  <p className="text-xs text-muted-foreground">推奨サイズ: 1280px × 670px（最大5MB）</p>
                 </div>
                 <div className="space-y-2">
                   <Label htmlFor="add-quote">コメント（任意）</Label>
@@ -684,7 +684,7 @@ export default function AdminSuccessPage() {
                     </div>
                   )}
                 </div>
-                <p className="text-xs text-muted-foreground">推奨サイズ: 1200px × 600px（最大5MB）</p>
+                <p className="text-xs text-muted-foreground">推奨サイズ: 1280px × 670px（最大5MB）</p>
               </div>
               <div className="space-y-2">
                 <Label htmlFor="edit-quote">コメント（任意）</Label>
