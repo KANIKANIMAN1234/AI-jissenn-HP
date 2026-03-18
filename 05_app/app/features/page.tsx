@@ -46,7 +46,7 @@ const features = [
   {
     number: "04",
     title: "最新技術を網羅",
-    description: "ManusAI、BananaNL、GAS連携など、最先端のAI技術を習得。毎週のセミナーで最新トレンドもキャッチアップできます。",
+    description: "NotebookLM,ClaudeCode、Cowork、Antigravity、Cursorなど最新情報も常に網羅し続ける",
   },
 ]
 
