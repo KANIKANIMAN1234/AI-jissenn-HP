@@ -91,13 +91,13 @@ export default async function SuccessPage() {
                   
                   {/* Image */}
                   {story.image_url && (
-                    <div className="relative w-full aspect-[1.91/1] mb-6 rounded-lg overflow-hidden bg-muted">
+                    <div className="relative w-full max-w-2xl aspect-[1.91/1] mb-6 rounded-lg overflow-hidden bg-muted">
                       <Image
                         src={story.image_url}
                         alt={story.title}
                         fill
                         className="object-cover"
-                        sizes="(max-width: 768px) 100vw, (max-width: 1024px) 80vw, 1200px"
+                        sizes="(max-width: 768px) 100vw, (max-width: 1024px) 80vw, 768px"
                       />
                     </div>
                   )}
