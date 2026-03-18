@@ -304,25 +304,30 @@ export default function AdminSuccessPage() {
 
     setUploading(true)
     try {
-      const formData = new FormData()
-      formData.append('file', file)
+      const uploadFormData = new FormData()
+      uploadFormData.append('file', file)
 
       const response = await fetch('/api/upload', {
         method: 'POST',
-        body: formData,
+        body: uploadFormData,
       })
 
+      const data = await response.json()
+
       if (!response.ok) {
-        throw new Error('アップロードに失敗しました')
+        throw new Error(data.error || data.details || 'アップロードに失敗しました')
       }
 
-      const data = await response.json()
       setFormData(prev => ({ ...prev, image_url: data.url }))
+      alert('画像をアップロードしました')
     } catch (error) {
       console.error('Upload error:', error)
-      alert('画像のアップロードに失敗しました')
+      alert(`画像のアップロードに失敗しました: ${error instanceof Error ? error.message : String(error)}`)
     } finally {
       setUploading(false)
+      if (fileInputRef.current) {
+        fileInputRef.current.value = ''
+      }
     }
   }
 
