@@ -34,19 +34,6 @@ export function HeroSection() {
             <br className="hidden sm:block" />
             市場価値を爆発させる最大のチャンスは、今この瞬間。
           </p>
-
-          {/* Hero Stats */}
-          <div className="mt-16 grid grid-cols-3 gap-8 max-w-xl">
-            <div className="text-center">
-              <div className="text-3xl lg:text-4xl font-serif font-bold text-foreground">300+</div>
-            </div>
-            <div className="text-center">
-              <div className="text-3xl lg:text-4xl font-serif font-bold text-foreground">50万円</div>
-            </div>
-            <div className="text-center">
-              <div className="text-3xl lg:text-4xl font-serif font-bold text-foreground">永年</div>
-            </div>
-          </div>
         </div>
       </div>
 
