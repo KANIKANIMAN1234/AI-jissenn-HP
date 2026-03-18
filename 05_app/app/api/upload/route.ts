@@ -50,7 +50,6 @@ export async function POST(request: NextRequest) {
     console.log('Uploading file:', fileName)
 
     const blob = await put(fileName, file, {
-      access: 'public',
       token: token,
     })
 
