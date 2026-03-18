@@ -79,26 +79,6 @@ export default async function BlogPage() {
           </div>
         </section>
 
-        {/* Category Filter */}
-        <section className="border-b border-border bg-card">
-          <div className="max-w-7xl mx-auto px-6 lg:px-8">
-            <div className="flex gap-2 py-4 overflow-x-auto">
-              {categories.map((category, index) => (
-                <button
-                  key={category}
-                  className={`px-4 py-2 text-sm font-medium rounded-full whitespace-nowrap transition-colors ${
-                    index === 0
-                      ? "bg-primary text-primary-foreground"
-                      : "bg-muted text-muted-foreground hover:bg-accent hover:text-foreground"
-                  }`}
-                >
-                  {category}
-                </button>
-              ))}
-            </div>
-          </div>
-        </section>
-
         {/* Blog Posts */}
         <section className="py-16 lg:py-24 bg-muted">
           <div className="max-w-7xl mx-auto px-6 lg:px-8">
