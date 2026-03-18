@@ -53,7 +53,7 @@ DATABASE_URL=postgresql://user:password@host/database?sslmode=require
 #### NEXTAUTH_URL
 開発環境では`http://localhost:3000`のままでOKです。
 
-### 3. データベースのセットアップ
+### 3. データベースとストレージのセットアップ
 
 #### Neon Postgresの作成
 
@@ -63,6 +63,14 @@ DATABASE_URL=postgresql://user:password@host/database?sslmode=require
 4. **Create Database** → **Neon Postgres** を選択
 5. データベース名を入力して作成
 6. **Connection String** をコピーして`.env.local`の`DATABASE_URL`に設定
+
+#### Vercel Blob Storageの作成
+
+1. Vercelダッシュボードのプロジェクトで **Storage** タブをクリック
+2. **Create Database** → **Blob** を選択
+3. ストレージ名を入力して作成
+4. **Read-Write Token** が自動的に環境変数 `BLOB_READ_WRITE_TOKEN` に追加されます
+5. ローカル開発の場合は、`.env.local` にトークンをコピーしてください
 
 #### データベーススキーマの作成
 
@@ -141,6 +149,7 @@ Vercelダッシュボードで以下の環境変数を確認・設定：
 1. **Settings** → **Environment Variables** に移動
 2. 以下の変数を確認・追加：
    - `DATABASE_URL`: Neon Postgresから自動設定済み
+   - `BLOB_READ_WRITE_TOKEN`: Vercel Blob Storageから自動設定済み
    - `AUTH_SECRET`: ランダムな文字列
    - `ADMIN_USERNAME`: 管理者のユーザー名
    - `ADMIN_PASSWORD`: 管理者のパスワード
@@ -194,6 +203,7 @@ Vercelダッシュボードで以下の環境変数を確認・設定：
 - **UI Components**: shadcn/ui
 - **Authentication**: NextAuth.js v5
 - **Database**: Neon Postgres (Serverless)
+- **Storage**: Vercel Blob Storage
 - **Deployment**: Vercel
 
 ## コンテンツ管理
@@ -228,8 +238,14 @@ Vercelダッシュボードで以下の環境変数を確認・設定：
 ### 実績情報の登録
 
 1. 管理者ダッシュボードから「実績管理」を選択
-2. 塾生名、肩書き、実績内容、画像URLを入力
-3. 複数の実績項目を追加できます
+2. 塾生名、肩書き、実績内容を入力
+3. 「画像をアップロード」ボタンから画像ファイルを選択（自動的にVercel Blob Storageに保存されます）
+4. 複数の実績項目を追加できます
+
+**画像について**:
+- 推奨サイズ: 1200px × 600px（アスペクト比 2:1）
+- 最大ファイルサイズ: 5MB
+- 対応形式: JPG、PNG、WebP
 
 ## ライセンス
 

@@ -1,6 +1,6 @@
 "use client"
 
-import { useState, useEffect } from "react"
+import { useState, useEffect, useRef } from "react"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
@@ -8,8 +8,9 @@ import { Textarea } from "@/components/ui/textarea"
 import { Card, CardContent } from "@/components/ui/card"
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
-import { Plus, Edit, Trash2, GripVertical, ArrowLeft, X } from "lucide-react"
+import { Plus, Edit, Trash2, GripVertical, ArrowLeft, X, Upload, Image as ImageIcon } from "lucide-react"
 import Link from "next/link"
+import Image from "next/image"
 import { DndContext, closestCenter, KeyboardSensor, PointerSensor, useSensor, useSensors, DragEndEvent } from "@dnd-kit/core"
 import { arrayMove, SortableContext, sortableKeyboardCoordinates, verticalListSortingStrategy, useSortable } from "@dnd-kit/sortable"
 import { CSS } from "@dnd-kit/utilities"
@@ -107,6 +108,8 @@ export default function AdminSuccessPage() {
   const [isAddDialogOpen, setIsAddDialogOpen] = useState(false)
   const [isEditDialogOpen, setIsEditDialogOpen] = useState(false)
   const [editingStory, setEditingStory] = useState<SuccessStory | null>(null)
+  const [uploading, setUploading] = useState(false)
+  const fileInputRef = useRef<HTMLInputElement>(null)
   const [formData, setFormData] = useState({
     icon: "Trophy",
     name: "",
@@ -285,6 +288,44 @@ export default function AdminSuccessPage() {
     }))
   }
 
+  const handleImageUpload = async (event: React.ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files?.[0]
+    if (!file) return
+
+    if (!file.type.startsWith('image/')) {
+      alert('画像ファイルを選択してください')
+      return
+    }
+
+    if (file.size > 5 * 1024 * 1024) {
+      alert('ファイルサイズは5MB以下にしてください')
+      return
+    }
+
+    setUploading(true)
+    try {
+      const formData = new FormData()
+      formData.append('file', file)
+
+      const response = await fetch('/api/upload', {
+        method: 'POST',
+        body: formData,
+      })
+
+      if (!response.ok) {
+        throw new Error('アップロードに失敗しました')
+      }
+
+      const data = await response.json()
+      setFormData(prev => ({ ...prev, image_url: data.url }))
+    } catch (error) {
+      console.error('Upload error:', error)
+      alert('画像のアップロードに失敗しました')
+    } finally {
+      setUploading(false)
+    }
+  }
+
   return (
     <div className="min-h-screen bg-muted">
       <header className="bg-card border-b border-border">
@@ -396,14 +437,46 @@ export default function AdminSuccessPage() {
                   </Button>
                 </div>
                 <div className="space-y-2">
-                  <Label htmlFor="add-image-url">画像URL（任意）</Label>
-                  <Input
-                    id="add-image-url"
-                    placeholder="https://example.com/image.jpg"
-                    value={formData.image_url}
-                    onChange={(e) => setFormData(prev => ({ ...prev, image_url: e.target.value }))}
-                  />
-                  <p className="text-xs text-muted-foreground">実績カードに表示する画像のURLを入力してください</p>
+                  <Label htmlFor="add-image">画像（任意）</Label>
+                  <div className="space-y-3">
+                    <input
+                      ref={fileInputRef}
+                      type="file"
+                      accept="image/*"
+                      onChange={handleImageUpload}
+                      className="hidden"
+                    />
+                    <Button
+                      type="button"
+                      variant="outline"
+                      onClick={() => fileInputRef.current?.click()}
+                      disabled={uploading}
+                      className="w-full"
+                    >
+                      <Upload className="h-4 w-4 mr-2" />
+                      {uploading ? 'アップロード中...' : '画像をアップロード'}
+                    </Button>
+                    {formData.image_url && (
+                      <div className="relative w-full h-[200px] rounded-lg overflow-hidden bg-muted border border-border">
+                        <Image
+                          src={formData.image_url}
+                          alt="プレビュー"
+                          fill
+                          className="object-cover"
+                        />
+                        <Button
+                          type="button"
+                          variant="destructive"
+                          size="icon"
+                          className="absolute top-2 right-2"
+                          onClick={() => setFormData(prev => ({ ...prev, image_url: '' }))}
+                        >
+                          <X className="h-4 w-4" />
+                        </Button>
+                      </div>
+                    )}
+                  </div>
+                  <p className="text-xs text-muted-foreground">推奨サイズ: 1200px × 600px（最大5MB）</p>
                 </div>
                 <div className="space-y-2">
                   <Label htmlFor="add-quote">コメント（任意）</Label>
@@ -567,14 +640,46 @@ export default function AdminSuccessPage() {
                 </Button>
               </div>
               <div className="space-y-2">
-                <Label htmlFor="edit-image-url">画像URL（任意）</Label>
-                <Input
-                  id="edit-image-url"
-                  placeholder="https://example.com/image.jpg"
-                  value={formData.image_url}
-                  onChange={(e) => setFormData(prev => ({ ...prev, image_url: e.target.value }))}
-                />
-                <p className="text-xs text-muted-foreground">実績カードに表示する画像のURLを入力してください</p>
+                <Label htmlFor="edit-image">画像（任意）</Label>
+                <div className="space-y-3">
+                  <input
+                    ref={fileInputRef}
+                    type="file"
+                    accept="image/*"
+                    onChange={handleImageUpload}
+                    className="hidden"
+                  />
+                  <Button
+                    type="button"
+                    variant="outline"
+                    onClick={() => fileInputRef.current?.click()}
+                    disabled={uploading}
+                    className="w-full"
+                  >
+                    <Upload className="h-4 w-4 mr-2" />
+                    {uploading ? 'アップロード中...' : '画像をアップロード'}
+                  </Button>
+                  {formData.image_url && (
+                    <div className="relative w-full h-[200px] rounded-lg overflow-hidden bg-muted border border-border">
+                      <Image
+                        src={formData.image_url}
+                        alt="プレビュー"
+                        fill
+                        className="object-cover"
+                      />
+                      <Button
+                        type="button"
+                        variant="destructive"
+                        size="icon"
+                        className="absolute top-2 right-2"
+                        onClick={() => setFormData(prev => ({ ...prev, image_url: '' }))}
+                      >
+                        <X className="h-4 w-4" />
+                      </Button>
+                    </div>
+                  )}
+                </div>
+                <p className="text-xs text-muted-foreground">推奨サイズ: 1200px × 600px（最大5MB）</p>
               </div>
               <div className="space-y-2">
                 <Label htmlFor="edit-quote">コメント（任意）</Label>
