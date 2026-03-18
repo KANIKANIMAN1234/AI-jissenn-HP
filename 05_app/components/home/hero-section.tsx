@@ -4,12 +4,12 @@ export function HeroSection() {
   return (
     <section className="relative min-h-screen flex items-center overflow-hidden bg-background">
       {/* Background Image - Right Side */}
-      <div className="absolute right-0 top-0 bottom-0 w-1/2 hidden lg:block">
+      <div className="absolute right-0 top-0 bottom-0 w-full lg:w-1/2">
         <Image
           src="/hero-background.png"
           alt="AI実践起業塾"
           fill
-          className="object-cover"
+          className="object-cover opacity-20 lg:opacity-100"
           priority
         />
       </div>
