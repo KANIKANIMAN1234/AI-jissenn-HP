@@ -59,7 +59,7 @@ export default function FeaturesPage() {
         <section className="py-10 lg:py-16 bg-background">
           <div className="max-w-7xl mx-auto px-6 lg:px-8">
             <div className="max-w-3xl">
-              <h1 className="text-3xl sm:text-4xl lg:text-5xl font-serif font-bold text-foreground tracking-tight">
+              <h1 className="text-3xl sm:text-4xl lg:text-5xl font-serif font-bold text-foreground tracking-tight whitespace-nowrap">
                 なぜ今「AI実装スキル」が必要なのか
               </h1>
               <p className="mt-4 text-base sm:text-lg text-muted-foreground leading-relaxed">
