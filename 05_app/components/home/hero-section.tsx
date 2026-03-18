@@ -39,15 +39,12 @@ export function HeroSection() {
           <div className="mt-16 grid grid-cols-3 gap-8 max-w-xl">
             <div className="text-center">
               <div className="text-3xl lg:text-4xl font-serif font-bold text-foreground">300+</div>
-              <div className="mt-2 text-sm text-muted-foreground">動画コンテンツ</div>
             </div>
             <div className="text-center">
               <div className="text-3xl lg:text-4xl font-serif font-bold text-foreground">50万円</div>
-              <div className="mt-2 text-sm text-muted-foreground">相当の価値</div>
             </div>
             <div className="text-center">
               <div className="text-3xl lg:text-4xl font-serif font-bold text-foreground">永年</div>
-              <div className="mt-2 text-sm text-muted-foreground">参加権</div>
             </div>
           </div>
         </div>
