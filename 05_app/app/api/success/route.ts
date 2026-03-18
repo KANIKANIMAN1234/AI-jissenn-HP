@@ -42,7 +42,7 @@ export async function POST(request: NextRequest) {
     
     const result = await sql`
       INSERT INTO success_stories (
-        id, icon, name, role, featured, title, description, achievements, quote, image_url, display_order
+        id, icon, name, role, featured, title, title_url, description, achievements, quote, image_url, display_order
       ) VALUES (
         ${newStory.id},
         ${newStory.icon || 'Trophy'},
@@ -50,6 +50,7 @@ export async function POST(request: NextRequest) {
         ${newStory.role},
         ${newStory.featured || false},
         ${newStory.title},
+        ${newStory.title_url || ''},
         ${newStory.description},
         ${JSON.stringify(newStory.achievements || [])}::jsonb,
         ${newStory.quote || ''},
@@ -82,6 +83,7 @@ export async function PUT(request: NextRequest) {
         role = ${updatedStory.role},
         featured = ${updatedStory.featured || false},
         title = ${updatedStory.title},
+        title_url = ${updatedStory.title_url || ''},
         description = ${updatedStory.description},
         achievements = ${JSON.stringify(updatedStory.achievements || [])}::jsonb,
         quote = ${updatedStory.quote || ''},

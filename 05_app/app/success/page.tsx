@@ -1,7 +1,7 @@
 import { Header } from "@/components/header"
 import { Footer } from "@/components/footer"
 import { CTASection } from "@/components/home/cta-section"
-import { Trophy, Briefcase, GraduationCap, Quote } from "lucide-react"
+import { Trophy, Briefcase, GraduationCap, Quote, ExternalLink } from "lucide-react"
 import Image from "next/image"
 import type { Metadata } from "next"
 import { sql } from "@/lib/db"
@@ -87,7 +87,21 @@ export default async function SuccessPage() {
                       <p className="text-sm text-primary font-medium">{story.role}</p>
                     </div>
                   </div>
-                  <h4 className="text-lg font-bold text-foreground mb-4">{story.title}</h4>
+                  <h4 className="text-lg font-bold text-foreground mb-4">
+                    {story.title_url ? (
+                      <a 
+                        href={story.title_url} 
+                        target="_blank" 
+                        rel="noopener noreferrer"
+                        className="hover:text-primary transition-colors inline-flex items-center gap-2"
+                      >
+                        {story.title}
+                        <ExternalLink className="h-4 w-4" />
+                      </a>
+                    ) : (
+                      story.title
+                    )}
+                  </h4>
                   
                   {/* Image */}
                   {story.image_url && (

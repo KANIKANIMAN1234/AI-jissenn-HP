@@ -36,6 +36,7 @@ CREATE TABLE IF NOT EXISTS success_stories (
   role TEXT NOT NULL,
   featured BOOLEAN DEFAULT FALSE,
   title TEXT NOT NULL,
+  title_url TEXT DEFAULT '',
   description TEXT NOT NULL,
   achievements JSONB DEFAULT '[]'::jsonb,
   quote TEXT DEFAULT '',

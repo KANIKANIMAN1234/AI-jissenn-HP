@@ -22,6 +22,7 @@ interface SuccessStory {
   role: string
   featured: boolean
   title: string
+  title_url?: string
   description: string
   achievements: string[]
   quote: string
@@ -116,6 +117,7 @@ export default function AdminSuccessPage() {
     role: "",
     featured: false,
     title: "",
+    title_url: "",
     description: "",
     achievements: [""],
     quote: "",
@@ -247,6 +249,7 @@ export default function AdminSuccessPage() {
       role: story.role,
       featured: story.featured,
       title: story.title,
+      title_url: story.title_url || "",
       description: story.description,
       achievements: story.achievements,
       quote: story.quote,
@@ -262,6 +265,7 @@ export default function AdminSuccessPage() {
       role: "",
       featured: false,
       title: "",
+      title_url: "",
       description: "",
       achievements: [""],
       quote: "",
@@ -399,6 +403,16 @@ export default function AdminSuccessPage() {
                     value={formData.title}
                     onChange={(e) => setFormData(prev => ({ ...prev, title: e.target.value }))}
                   />
+                </div>
+                <div className="space-y-2">
+                  <Label htmlFor="add-title-url">タイトルURL（任意）</Label>
+                  <Input
+                    id="add-title-url"
+                    placeholder="https://example.com/story"
+                    value={formData.title_url}
+                    onChange={(e) => setFormData(prev => ({ ...prev, title_url: e.target.value }))}
+                  />
+                  <p className="text-xs text-muted-foreground">タイトルにリンクを設定する場合はURLを入力してください</p>
                 </div>
                 <div className="space-y-2">
                   <Label htmlFor="add-description">説明 *</Label>
@@ -602,6 +616,16 @@ export default function AdminSuccessPage() {
                   value={formData.title}
                   onChange={(e) => setFormData(prev => ({ ...prev, title: e.target.value }))}
                 />
+              </div>
+              <div className="space-y-2">
+                <Label htmlFor="edit-title-url">タイトルURL（任意）</Label>
+                <Input
+                  id="edit-title-url"
+                  placeholder="https://example.com/story"
+                  value={formData.title_url}
+                  onChange={(e) => setFormData(prev => ({ ...prev, title_url: e.target.value }))}
+                />
+                <p className="text-xs text-muted-foreground">タイトルにリンクを設定する場合はURLを入力してください</p>
               </div>
               <div className="space-y-2">
                 <Label htmlFor="edit-description">説明 *</Label>
