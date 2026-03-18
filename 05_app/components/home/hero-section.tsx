@@ -1,11 +1,17 @@
+import Image from "next/image"
+
 export function HeroSection() {
   return (
     <section className="relative min-h-screen flex items-center overflow-hidden bg-background">
       {/* Background Image - Right Side */}
       <div className="absolute right-0 top-0 bottom-0 w-1/2 hidden lg:block">
-        {/* 画像をここに配置してください */}
-        {/* 推奨サイズ: 1200px × 1080px (横長の画像) */}
-        <div className="w-full h-full bg-gradient-to-l from-muted/30 to-transparent" />
+        <Image
+          src="/hero-background.png"
+          alt="AI実践起業塾"
+          fill
+          className="object-cover"
+          priority
+        />
       </div>
 
       <div className="relative max-w-7xl mx-auto px-6 lg:px-8 pt-16 lg:pt-24 pb-20 lg:pb-32 w-full">
