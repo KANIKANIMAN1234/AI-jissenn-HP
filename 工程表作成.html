@@ -1,0 +1,801 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>工程表 作成 Web アプリ ツール</title>
+
+    <!-- フォント -->
+    <link rel="stylesheet" crossorigin="anonymous" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&family=Noto+Sans+JP:wght@400;500;700;900&display=swap">
+
+    <!-- ライブラリ -->
+    <script src="https://cdn.tailwindcss.com/3.4.16"></script>
+    <script src="https://unpkg.com/lucide@0.344.0"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html-to-image/1.11.11/html-to-image.min.js"></script>
+
+    <style>
+        :root { --page-w: 1123px; --page-h: 794px; }
+        body { font-family: 'Inter', 'Noto Sans JP', sans-serif; overflow: hidden; background-color: #f1f5f9; margin: 0; }
+        .pdf-page { width: var(--page-w); height: var(--page-h); box-sizing: border-box; background-color: white; position: relative; box-shadow: 0 25px 50px -12px rgba(0,0,0,0.15); flex-shrink: 0; transform-origin: top left; overflow: hidden; color: #1e293b; user-select: none; }
+        .preview-wrapper { display: grid; place-items: start center; padding: 20px 0; gap: 20px; width: 100%; min-height: 100%; }
+        .scrollbar-hide::-webkit-scrollbar { display: none; }
+        .scrollbar-hide { -ms-overflow-style: none; scrollbar-width: none; }
+        input:focus, textarea:focus, select:focus { outline: none; border-color: #2563eb; background-color: #fff; }
+        .input-group { display: flex; flex-direction: column; gap: 0.25rem; }
+        .label-text { font-size: 10px; font-weight: 900; color: #94a3b8; text-transform: uppercase; letter-spacing: 0.1em; padding-left: 0.25rem; }
+        .floating-zoom { position: absolute; z-index: 40; bottom: 16px; left: 16px; opacity: 0.4; transition: opacity 0.2s ease; }
+        .floating-zoom:hover { opacity: 1; }
+        .pdf-overlay { position: absolute; inset: 0; z-index: 50; display: none; place-items: center; background: rgba(100, 116, 139, 0.75); backdrop-filter: blur(6px); }
+        .pdf-overlay.active { display: grid; }
+        .pdf-spinner { width: 40px; height: 40px; border: 4px solid rgba(255,255,255,0.3); border-top-color: #fff; border-radius: 50%; animation: spin 0.8s linear infinite; }
+        @keyframes spin { to { transform: rotate(360deg); } }
+
+        /* 工程表専用スタイル */
+        .gantt-table { border-collapse: collapse; width: 100%; table-layout: fixed; border: 1.5px solid #1e293b; }
+        .gantt-table th, .gantt-table td { border: 1px solid #cbd5e1; height: 32px; padding: 0; position: relative; font-size: 11px; }
+        .gantt-header-day { text-align: center; font-weight: bold; background: #f8fafc; font-size: 8px; }
+        
+        .gantt-task-name { text-align: left; padding: 0 10px; font-weight: 500; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+        .gantt-responsible { text-align: left; padding: 0 8px; font-size: 9px; color: #64748b; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+        .gantt-progress-col { text-align: center; font-size: 10px; font-weight: bold; color: #2563eb; }
+        
+        .day-sat { background-color: #eff6ff !important; color: #1d4ed8; }
+        .day-sun { background-color: #fef2f2 !important; color: #b91c1c; }
+        
+        /* インタラクティブ・バー */
+        .bar-container { position: absolute; top: 4px; bottom: 4px; z-index: 10; display: flex; cursor: move; touch-action: none; }
+        .progress-bar-bg { height: 100%; border-radius: 4px; border: 1px solid #cbd5e1; position: relative; overflow: visible; background-color: #e2e8f0; box-shadow: inset 0 1px 2px rgba(0,0,0,0.05); width: 100%; }
+        .progress-bar-fill { height: 100%; position: absolute; top: 0; left: 0; pointer-events: none; border-radius: 3px; }
+        
+        /* リサイズハンドル */
+        .resize-handle-right { position: absolute; top: 0; right: -8px; width: 16px; height: 100%; cursor: col-resize; z-index: 30; background: transparent; }
+        .resize-handle-right::after { content: ''; position: absolute; right: 6px; top: 20%; height: 60%; width: 2px; background: rgba(0,0,0,0.2); border-radius: 1px; }
+        .resize-handle-right:hover::after { background: #3b82f6; width: 4px; border-radius: 2px; right: 5px; }
+        
+        .seal-img { max-width: 90%; max-height: 90%; object-fit: contain; }
+        .tab-btn { transition: all 0.2s ease; border-bottom: 2px solid transparent; color: #94a3b8; padding-bottom: 4px; }
+        .tab-btn.active { border-bottom-color: #2563eb; color: #1e293b; font-weight: 900; }
+        
+        @media (max-width: 767px) {
+            #main-app-shell { flex-direction: column !important; }
+            #left-pane { width: 100% !important; height: auto !important; max-height: 45vh; order: 2; border-right: none !important; border-top: 1px solid #e2e8f0; }
+            #right-pane { order: 1; flex: 1; min-height: 0; }
+        }
+    </style>
+</head>
+<body class="h-screen flex flex-col">
+
+    <header class="h-12 bg-slate-900 text-white flex items-center px-5 shrink-0 z-30 shadow-md">
+        <div class="flex items-center gap-3">
+            <div class="w-7 h-7 bg-blue-600 rounded-lg flex items-center justify-center shadow-lg">
+                <i data-lucide="calendar-days" class="w-4 h-4 text-white"></i>
+            </div>
+            <h1 class="text-sm font-black tracking-widest uppercase">工程表 作成 Web アプリ ツール</h1>
+        </div>
+        <div class="ml-auto flex items-center gap-4 text-[10px] font-bold text-slate-400 uppercase tracking-tighter">
+            <div class="flex items-center gap-1.5 bg-slate-800 px-3 py-1 rounded-full">
+                <div class="w-1.5 h-1.5 bg-green-500 rounded-full shadow-[0_0_8px_#10b981]"></div>
+                SYSTEM READY
+            </div>
+        </div>
+    </header>
+
+    <div id="notification" class="fixed top-16 left-1/2 -translate-x-1/2 z-[2000] flex items-center gap-3 px-6 py-3 rounded-2xl shadow-2xl bg-slate-900 text-white hidden text-sm font-bold tracking-tight border border-slate-700">
+        <i id="notification-icon" data-lucide="check-circle" class="w-5 h-5 text-green-400"></i>
+        <span id="notification-message">メッセージ</span>
+    </div>
+
+    <div id="main-app-shell" class="flex flex-row flex-1 overflow-hidden">
+        <aside id="left-pane" class="w-[380px] h-full bg-white overflow-y-auto p-5 flex-none border-r shadow-2xl z-20 scrollbar-hide text-slate-700">
+            <div class="flex items-center gap-2 mb-4">
+                <input type="file" id="fileInput" accept=".pdf" class="hidden">
+                <input type="file" id="csvInput" accept=".csv" class="hidden">
+                <button id="btn-open-newtab" class="p-1.5 text-slate-300 hover:text-blue-500 transition-all shrink-0" title="別タブで開く"><i data-lucide="external-link" class="w-4 h-4"></i></button>
+                <button id="btn-upload-trigger" class="px-3 py-2 bg-white border border-slate-200 text-slate-600 rounded-lg font-bold text-xs hover:bg-slate-50 transition-all whitespace-nowrap">PDF読込</button>
+                <button id="btn-copy-code" class="px-3 py-2 bg-white border border-slate-200 text-slate-600 rounded-lg font-bold text-xs hover:bg-slate-50 transition-all whitespace-nowrap">コードコピー</button>
+                <button id="btn-download" class="bg-slate-900 text-white px-3 py-2 rounded-lg font-bold text-xs hover:bg-blue-700 shadow-lg transition-all active:scale-95 whitespace-nowrap"><span id="downloadBtnText">PDF保存</span></button>
+            </div>
+
+            <div class="flex border-b border-slate-100 mb-5 px-1 gap-2 overflow-x-auto scrollbar-hide pb-1">
+                <button id="tab-m12" class="tab-btn text-[10px] font-black uppercase tracking-tight whitespace-nowrap">12ヶ月</button>
+                <button id="tab-m6" class="tab-btn text-[10px] font-black uppercase tracking-tight whitespace-nowrap">6ヶ月</button>
+                <button id="tab-m4" class="tab-btn text-[10px] font-black uppercase tracking-tight whitespace-nowrap">4ヶ月</button>
+                <button id="tab-m3" class="tab-btn text-[10px] font-black uppercase tracking-tight whitespace-nowrap">3ヶ月</button>
+                <button id="tab-m2" class="tab-btn text-[10px] font-black uppercase tracking-tight whitespace-nowrap">2ヶ月</button>
+                <button id="tab-monthly" class="tab-btn active text-[10px] font-black uppercase tracking-tight whitespace-nowrap">月間</button>
+                <button id="tab-weekly" class="tab-btn text-[10px] font-black uppercase tracking-tight whitespace-nowrap">週間</button>
+                <button id="tab-daily" class="tab-btn text-[10px] font-black uppercase tracking-tight whitespace-nowrap">タイム</button>
+                <button id="tab-settings" class="tab-btn text-[10px] font-black uppercase tracking-tight whitespace-nowrap">設定</button>
+            </div>
+
+            <section class="space-y-3 mb-6">
+                <h3 class="text-[10px] font-black text-slate-300 uppercase tracking-[0.2em] flex items-center gap-2 border-b pb-1"><i data-lucide="info" class="w-3 h-3"></i> 共通情報</h3>
+                <div class="input-group"><label class="label-text">工事名称</label><input type="text" data-field="projectName" class="field-input w-full p-2 bg-slate-50 border border-slate-100 rounded-lg text-xs"></div>
+                <div class="grid grid-cols-2 gap-3">
+                    <div class="input-group"><label class="label-text">現場担当者</label><input type="text" data-field="manager" class="field-input w-full p-2 bg-slate-50 border border-slate-100 rounded-lg text-xs"></div>
+                    <div class="input-group"><label class="label-text">作成会社名</label><input type="text" data-field="company" class="field-input w-full p-2 bg-slate-50 border border-slate-100 rounded-lg text-xs"></div>
+                </div>
+            </section>
+
+            <div id="panel-dynamic" class="space-y-6">
+                <section id="config-section" class="space-y-3"></section>
+                <section class="space-y-3">
+                    <div class="flex items-center justify-between border-b pb-1">
+                        <h3 class="text-[10px] font-black text-slate-300 uppercase tracking-[0.2em] flex items-center gap-2"><i data-lucide="layers" class="w-3 h-3"></i> 工程項目</h3>
+                        <span id="item-count" class="text-[10px] font-bold text-slate-400">0 / 30</span>
+                    </div>
+                    <div id="items-container" class="space-y-3 scrollbar-hide pb-20"></div>
+                    <div class="flex flex-col gap-2">
+                        <button id="btn-add-item-dynamic" class="text-xs text-blue-600 font-bold hover:text-blue-800 flex items-center gap-1 w-full justify-center p-2 border border-dashed border-blue-200 rounded-lg transition-all hover:bg-blue-50"><i data-lucide="plus-circle" class="w-3.5 h-3.5"></i> 新規項目を追加</button>
+                        <div class="grid grid-cols-2 gap-2">
+                            <button id="btn-export-csv" class="text-xs text-slate-600 font-bold hover:text-slate-800 flex items-center justify-center gap-1 p-2 border border-slate-200 rounded-lg transition-all hover:bg-slate-50"><i data-lucide="download" class="w-3.5 h-3.5"></i> CSV出力</button>
+                            <button id="btn-import-csv" class="text-xs text-slate-600 font-bold hover:text-slate-800 flex items-center justify-center gap-1 p-2 border border-slate-200 rounded-lg transition-all hover:bg-slate-50"><i data-lucide="upload" class="w-3.5 h-3.5"></i> CSV読込</button>
+                        </div>
+                    </div>
+                </section>
+                <section class="space-y-3 pb-10">
+                    <h3 class="text-[10px] font-black text-slate-300 uppercase tracking-[0.2em] flex items-center gap-2 border-b pb-1"><i data-lucide="message-square" class="w-3 h-3"></i> 備考</h3>
+                    <div class="input-group"><textarea id="remarks-input-dynamic" class="w-full p-2.5 bg-slate-50 border border-slate-100 rounded-lg text-xs h-24 resize-none leading-relaxed"></textarea></div>
+                </section>
+            </div>
+
+            <div id="panel-settings" class="hidden space-y-6">
+                <section class="space-y-4">
+                    <h3 class="text-[10px] font-black text-slate-300 uppercase tracking-[0.2em] flex items-center gap-2 border-b pb-1"><i data-lucide="settings-2" class="w-3 h-3"></i> システム設定</h3>
+                    <div class="space-y-2">
+                        <label class="label-text">印影画像の管理</label>
+                        <div class="grid grid-cols-1 gap-2">
+                            <button onclick="document.getElementById('seal-input-1').click()" class="flex items-center justify-between p-3 bg-slate-50 border border-slate-200 rounded-lg hover:bg-slate-100 group text-left">
+                                <div class="flex items-center gap-3"><div class="w-8 h-8 bg-white rounded border flex items-center justify-center overflow-hidden" data-seal-thumb="1"><i data-lucide="image" class="w-4 h-4 text-slate-200"></i></div><span class="text-xs font-bold text-slate-600">承認印をアップロード</span></div><i data-lucide="upload-cloud" class="w-4 h-4 text-slate-300"></i><input type="file" id="seal-input-1" data-seal-idx="1" accept="image/*" class="hidden seal-uploader">
+                            </button>
+                            <button onclick="document.getElementById('seal-input-2').click()" class="flex items-center justify-between p-3 bg-slate-50 border border-slate-200 rounded-lg hover:bg-slate-100 group text-left">
+                                <div class="flex items-center gap-3"><div class="w-8 h-8 bg-white rounded border flex items-center justify-center overflow-hidden" data-seal-thumb="2"><i data-lucide="image" class="w-4 h-4 text-slate-200"></i></div><span class="text-xs font-bold text-slate-600">検印をアップロード</span></div><i data-lucide="upload-cloud" class="w-4 h-4 text-slate-300"></i><input type="file" id="seal-input-2" data-seal-idx="2" accept="image/*" class="hidden seal-uploader">
+                            </button>
+                            <button onclick="document.getElementById('seal-input-3').click()" class="flex items-center justify-between p-3 bg-slate-50 border border-slate-200 rounded-lg hover:bg-slate-100 group text-left">
+                                <div class="flex items-center gap-3"><div class="w-8 h-8 bg-white rounded border flex items-center justify-center overflow-hidden" data-seal-thumb="3"><i data-lucide="image" class="w-4 h-4 text-slate-200"></i></div><span class="text-xs font-bold text-slate-600">作成印をアップロード</span></div><i data-lucide="upload-cloud" class="w-4 h-4 text-slate-300"></i><input type="file" id="seal-input-3" data-seal-idx="3" accept="image/*" class="hidden seal-uploader">
+                            </button>
+                        </div>
+                    </div>
+                </section>
+            </div>
+        </aside>
+
+        <div id="right-pane" class="flex-1 flex flex-col overflow-hidden bg-slate-200 relative">
+            <main id="preview-container" class="flex-1 overflow-auto bg-slate-200 relative">
+                <div id="pdf-overlay" class="pdf-overlay"><div class="flex flex-col items-center gap-4"><div class="pdf-spinner"></div><p class="text-white font-bold text-sm tracking-wide">PDF生成中...</p></div></div>
+                <div class="preview-wrapper">
+                    <div class="capture-area-container" style="position: relative;">
+                        <div class="pdf-page relative" data-page="0">
+                          <div class="page-inner flex flex-col h-full p-[40px]">
+                            <div class="flex items-end justify-between mb-6 border-b-2 border-slate-800 pb-2">
+                              <div><h1 class="text-2xl font-black tracking-tighter text-slate-800 whitespace-nowrap" id="preview-title">月間工程表</h1><p class="text-[12px] text-slate-500 font-bold mt-1" data-view="projectName"></p></div>
+                              <div class="flex items-end gap-5">
+                                <div class="flex border border-slate-300 rounded overflow-hidden h-[64px] w-[210px] mb-0.5 shadow-sm bg-white">
+                                    <div class="flex-1 border-r border-slate-300 flex flex-col items-center"><span class="text-[8px] bg-slate-50 w-full text-center py-0.5 border-b border-slate-300 font-bold">承認</span><div class="flex-grow flex items-center justify-center overflow-hidden w-full h-full p-1" data-seal-view="1"></div></div>
+                                    <div class="flex-1 border-r border-slate-300 flex flex-col items-center"><span class="text-[8px] bg-slate-50 w-full text-center py-0.5 border-b border-slate-300 font-bold">検印</span><div class="flex-grow flex items-center justify-center overflow-hidden w-full h-full p-1" data-seal-view="2"></div></div>
+                                    <div class="flex-1 flex flex-col items-center"><span class="text-[8px] bg-slate-50 w-full text-center py-0.5 border-b border-slate-300 font-bold">作成</span><div class="flex-grow flex items-center justify-center overflow-hidden w-full h-full p-1" data-seal-view="3"></div></div>
+                                </div>
+                                <div class="text-right"><p class="text-[9px] text-slate-400 font-mono tracking-widest uppercase">Issued by</p><p class="text-[13px] font-bold text-slate-800 whitespace-nowrap"><span data-view="company"></span></p><p class="text-[11px] text-slate-600 whitespace-nowrap">担当：<span data-view="manager"></span></p></div>
+                              </div>
+                            </div>
+                            <div data-flow-area class="flex-grow flex flex-col pt-2" style="justify-content: flex-start;"></div>
+                            <div class="signature-block" style="display:none;"><div class="mt-8"><div class="w-full bg-slate-50 border border-slate-200 rounded-lg p-4 density-pad shadow-inner"><h4 class="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-2 flex items-center gap-2"><i data-lucide="info" class="w-3 h-3 text-blue-400"></i> 連絡事項・備考</h4><div id="remarks-view" class="text-[11px] leading-relaxed text-slate-600 whitespace-pre-wrap"></div></div></div></div>
+                            <div class="absolute bottom-[20px] left-0 w-full text-center text-[9px] opacity-30 font-mono" data-page-footer>1 / 1</div>
+                          </div>
+                        </div>
+                    </div>
+                </div>
+            </main>
+            <div class="floating-zoom">
+                <div class="flex items-center bg-white/90 backdrop-blur-md rounded-xl p-1 gap-0.5 border shadow-lg">
+                    <button id="btn-zoom-out" class="p-1.5 hover:bg-slate-100 rounded-lg text-slate-600 transition-all"><i data-lucide="minus" class="w-4 h-4"></i></button>
+                    <button id="btn-zoom-fit" class="p-1.5 hover:bg-slate-100 rounded-lg text-slate-600 transition-all"><i data-lucide="maximize" class="w-4 h-4"></i></button>
+                    <button id="btn-zoom-in" class="p-1.5 hover:bg-slate-100 rounded-lg text-slate-600 transition-all"><i data-lucide="plus" class="w-4 h-4"></i></button>
+                    <div id="zoom-level-text" class="px-2 text-[11px] font-black text-slate-500 min-w-[45px] text-center uppercase tracking-tighter">100%</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script id="main-script">
+        (function () {
+            "use strict";
+
+            const PAGE_SIZES = { A4_LANDSCAPE: { w: 1123, h: 794, pdf: 'a4', orient: 'l', mmW: 297, mmH: 210 } };
+            let currentPageSize = PAGE_SIZES.A4_LANDSCAPE;
+            let currentScale = 1.0;
+            let dragTarget = null;
+
+            const APP_ID = "gantt-web-tool-v20-pdf-fixed";
+            const RECOVERY_KEY = "__GANTT_RECOVERY_PAYLOAD_V37__";
+
+            const PRESET_COLORS = [
+                { hex: "#3b82f6", name: "青" }, { hex: "#ef4444", name: "赤" }, { hex: "#22c55e", name: "緑" },
+                { hex: "#f97316", name: "橙" }, { hex: "#a855f7", name: "紫" }, { hex: "#f59e0b", name: "黄" },
+                { hex: "#06b6d4", name: "水" }, { hex: "#ec4899", name: "桃" }, { hex: "#64748b", name: "墨" }, { hex: "#1e293b", name: "黒" }
+            ];
+
+            const now = new Date();
+            const formatYMD = (d) => d.toISOString().split('T')[0];
+            const getDays = (y, m) => new Date(y, m, 0).getDate();
+
+            const initItemsArray = (num, startVal) => {
+                const arr = [];
+                for(let i=0; i<num; i++) arr.push({ task: "", responsible: "", progress: 0, start: startVal, end: startVal + 0.9, color: PRESET_COLORS[0].hex });
+                return arr;
+            };
+
+            let state = {
+                viewMode: 'monthly', 
+                year: now.getFullYear(), month: now.getMonth() + 1,
+                weeklyStartDate: formatYMD(now),
+                dailyDate: formatYMD(now),
+                dailyChartType: '12h', dailyStartHour: 8,
+                longtermStartMonth: formatYMD(new Date(now.getFullYear(), now.getMonth(), 1)),
+                projectName: "プロジェクト工事名称（例）", manager: "現場管理 太郎", company: "建設会社名（例）",
+                remarks: {
+                    monthly: "・月間工程の特記事項", weekly: "・週間工程の特記事項", daily: "・当日工程の特記事項",
+                    m2: "・2ヶ月工程の特記事項", m3: "・3ヶ月工程の特記事項", m4: "・4ヶ月工程の特記事項", m6: "・6ヶ月工程の特記事項", m12: "・12ヶ月工程の特記事項"
+                },
+                seal1: "", seal2: "", seal3: "",
+                items_monthly: initItemsArray(15, 1),
+                items_weekly: initItemsArray(15, 1),
+                items_daily: initItemsArray(15, 8),
+                items_m2: initItemsArray(15, 1),
+                items_m3: initItemsArray(15, 1),
+                items_m4: initItemsArray(15, 1),
+                items_m6: initItemsArray(15, 1),
+                items_m12: initItemsArray(15, 1)
+            };
+
+            function updatePreviewField(f, val) { 
+                const elements = document.querySelectorAll(`[data-view="${f}"]`);
+                elements.forEach(el => el.innerText = val || ""); 
+            }
+
+            function parseCSVRow(str) {
+                const result = []; let cur = ''; let inQuote = false;
+                for (let i = 0; i < str.length; i++) {
+                    const c = str[i];
+                    if (inQuote) {
+                        if (c === '"') {
+                            if (i + 1 < str.length && str[i + 1] === '"') { cur += '"'; i++; } else { inQuote = false; }
+                        } else { cur += c; }
+                    } else {
+                        if (c === '"') { inQuote = true; } else if (c === ',') { result.push(cur); cur = ''; } else { cur += c; }
+                    }
+                }
+                result.push(cur); return result;
+            }
+
+            // 安全なBase64エンコード・デコード
+            function safeBase64Encode(str) {
+                const bytes = new TextEncoder().encode(str);
+                let binary = '';
+                for (let i = 0; i < bytes.byteLength; i++) binary += String.fromCharCode(bytes[i]);
+                return window.btoa(binary);
+            }
+
+            function safeBase64Decode(b64) {
+                const binary = window.atob(b64);
+                const bytes = new Uint8Array(binary.length);
+                for (let i = 0; i < binary.length; i++) bytes[i] = binary.charCodeAt(i);
+                return new TextDecoder().decode(bytes);
+            }
+
+            function init() {
+                if (typeof lucide !== 'undefined') lucide.createIcons();
+                const pending = sessionStorage.getItem(RECOVERY_KEY);
+                if (pending) { try { const p = JSON.parse(pending); if (p.data) state = { ...state, ...p.data }; sessionStorage.removeItem(RECOVERY_KEY); } catch (e) { } }
+                else if (typeof __EMBEDDED_DATA__ !== 'undefined') { state = { ...state, ...__EMBEDDED_DATA__ }; }
+                
+                attachEventListeners(); syncFormInputs(); switchMode(state.viewMode); setTimeout(fitToScreen, 200);
+            }
+
+            function attachEventListeners() {
+                document.querySelectorAll('.field-input').forEach(input => {
+                    input.addEventListener('input', (e) => { 
+                        const f = e.target.dataset.field; if (!f) return;
+                        let val = e.target.value;
+                        if(['dailyStartHour', 'year', 'month'].includes(f)) val = parseInt(val);
+                        state[f] = val; updatePreview(); 
+                    });
+                });
+                
+                ['m12','m6','m4','m3','m2','monthly','weekly','daily','settings'].forEach(k => {
+                    document.getElementById(`tab-${k}`)?.addEventListener('click', () => switchMode(k));
+                });
+
+                document.querySelectorAll('.seal-uploader').forEach(u => u.addEventListener('change', handleSealUpload));
+                document.getElementById('btn-upload-trigger').addEventListener('click', () => document.getElementById('fileInput').click());
+                document.getElementById('fileInput').addEventListener('change', handleFileUpload);
+                document.getElementById('btn-download').addEventListener('click', handleDownloadPDF);
+                document.getElementById('btn-copy-code').addEventListener('click', handleCopyCode);
+                document.getElementById('btn-zoom-fit')?.addEventListener('click', fitToScreen);
+                document.getElementById('btn-zoom-in')?.addEventListener('click', () => adjustZoom(Math.min(currentScale + 0.1, 2)));
+                document.getElementById('btn-zoom-out')?.addEventListener('click', () => adjustZoom(Math.max(currentScale - 0.1, 0.3)));
+                
+                document.getElementById('btn-add-item-dynamic')?.addEventListener('click', () => {
+                    const key = `items_${state.viewMode}`;
+                    if (state[key] && state[key].length < 30) {
+                        const startVal = state.viewMode === 'daily' ? state.dailyStartHour : 1;
+                        state[key].push({ task: "", responsible: "", progress: 0, start: startVal, end: startVal + 0.9, color: PRESET_COLORS[0].hex });
+                        renderItemsForm(); updatePreview();
+                    }
+                });
+
+                document.getElementById('btn-export-csv')?.addEventListener('click', () => {
+                    const mode = state.viewMode; const items = state[`items_${mode}`];
+                    if (!items || items.length === 0) { showNotification('出力する項目がありません', 'error'); return; }
+                    let csvContent = "項目名,色,担当者,進捗(%),開始,終了\n";
+                    const escapeCsv = (str) => `"${String(str || '').replace(/"/g, '""')}"`;
+                    items.forEach(item => { csvContent += [escapeCsv(item.task), escapeCsv(item.color), escapeCsv(item.responsible), item.progress || 0, item.start || 0, item.end || 0].join(",") + "\n"; });
+                    const blob = new Blob([new Uint8Array([0xEF, 0xBB, 0xBF]), csvContent], { type: "text/csv;charset=utf-8;" });
+                    const link = document.createElement("a"); link.href = URL.createObjectURL(blob); link.download = `工程項目_${mode}.csv`;
+                    document.body.appendChild(link); link.click(); document.body.removeChild(link); showNotification('CSVを出力しました');
+                });
+
+                document.getElementById('btn-import-csv')?.addEventListener('click', () => document.getElementById('csvInput').click());
+
+                document.getElementById('csvInput')?.addEventListener('change', (e) => {
+                    const file = e.target.files[0]; if (!file) return;
+                    const reader = new FileReader();
+                    reader.onload = (event) => {
+                        try {
+                            const lines = event.target.result.split(/\r?\n/).filter(line => line.trim().length > 0);
+                            if (lines.length < 2) throw new Error("データがありません");
+                            const parsedItems = [];
+                            for (let i = 1; i < lines.length; i++) {
+                                if (parsedItems.length >= 30) break;
+                                const row = parseCSVRow(lines[i]);
+                                if (row.length >= 6) parsedItems.push({ task: row[0], color: row[1] || PRESET_COLORS[0].hex, responsible: row[2], progress: parseInt(row[3]) || 0, start: parseFloat(row[4]) || 1, end: parseFloat(row[5]) || 1 });
+                            }
+                            if(parsedItems.length > 0) { state[`items_${state.viewMode}`] = parsedItems; renderItemsForm(); updatePreview(); showNotification('CSVを読み込みました'); } 
+                            else { throw new Error("有効な行がありません"); }
+                        } catch(err) { showNotification('CSVの読込に失敗しました', 'error'); }
+                        e.target.value = '';
+                    };
+                    reader.readAsText(file, "UTF-8");
+                });
+
+                document.getElementById('remarks-input-dynamic')?.addEventListener('input', (e) => { state.remarks[state.viewMode] = e.target.value; updatePreview(); });
+                document.getElementById('btn-open-newtab')?.addEventListener('click', handleOpenNewTab);
+                
+                window.addEventListener('resize', fitToScreen);
+                window.addEventListener('pointermove', onPointerMove);
+                window.addEventListener('pointerup', onPointerUp);
+                document.addEventListener('click', (e) => {
+                    if (!e.target.closest('.custom-color-select')) {
+                        document.querySelectorAll('.color-dropdown').forEach(dd => dd.classList.add('hidden'));
+                    }
+                });
+            }
+
+            function switchMode(mode) {
+                const tabs = ['m12','m6','m4','m3','m2','monthly','weekly', 'daily', 'settings'];
+                tabs.forEach(t => {
+                    const btn = document.getElementById(`tab-${t}`);
+                    if (t === mode) btn?.classList.add('active'); else btn?.classList.remove('active');
+                });
+                const panelDynamic = document.getElementById('panel-dynamic');
+                const panelSettings = document.getElementById('panel-settings');
+                if (mode === 'settings') {
+                    panelDynamic?.classList.add('hidden'); panelSettings?.classList.remove('hidden');
+                } else {
+                    panelDynamic?.classList.remove('hidden'); panelSettings?.classList.add('hidden');
+                    state.viewMode = mode;
+                    const titles = { 'monthly': '月間工程表', 'weekly': '週間工程表', 'daily': 'タイムチャート', 'm2':'2ヶ月工程表','m3':'3ヶ月工程表','m4':'4ヶ月工程表','m6':'6ヶ月工程表','m12':'12ヶ月工程表' };
+                    const previewTitle = document.getElementById('preview-title');
+                    if(previewTitle) previewTitle.innerText = titles[mode];
+                    const conf = document.getElementById('config-section');
+                    if(conf) {
+                        if (mode === 'weekly') conf.innerHTML = `<div class="input-group"><label class="label-text">週の開始日</label><input type="date" data-field="weeklyStartDate" value="${state.weeklyStartDate}" class="field-input w-full p-2 bg-slate-50 border border-slate-100 rounded-lg text-xs"></div>`;
+                        else if (mode === 'daily') conf.innerHTML = `<div class="input-group"><label class="label-text">対象日</label><input type="date" data-field="dailyDate" value="${state.dailyDate}" class="field-input w-full p-2 bg-slate-50 border border-slate-100 rounded-lg text-xs"></div><div class="grid grid-cols-2 gap-3 pt-2"><div class="input-group"><label class="label-text">表示タイプ</label><select data-field="dailyChartType" class="field-input w-full p-2 bg-slate-50 border border-slate-100 rounded-lg text-xs font-bold"><option value="12h" ${state.dailyChartType==='12h'?'selected':''}>12時間</option><option value="24h" ${state.dailyChartType==='24h'?'selected':''}>24時間</option></select></div><div class="input-group"><label class="label-text">開始時間</label><select data-field="dailyStartHour" class="field-input w-full p-2 bg-slate-50 border border-slate-100 rounded-lg text-xs font-bold">${Array.from({length:24},(_,i)=>`<option value="${i}" ${i===state.dailyStartHour?'selected':''}>${i}時</option>`).join('')}</select></div></div>`;
+                        else if (['m2','m3','m4','m6','m12'].includes(mode)) conf.innerHTML = `<div class="input-group"><label class="label-text">開始月</label><input type="month" data-field="longtermStartMonth" value="${state.longtermStartMonth.substring(0,7)}" class="field-input w-full p-2 bg-slate-50 border border-slate-100 rounded-lg text-xs"></div>`;
+                        else conf.innerHTML = `<div class="grid grid-cols-2 gap-3"><div class="input-group"><label class="label-text">対象年</label><input type="number" data-field="year" value="${state.year}" class="field-input w-full p-2 bg-slate-50 border border-slate-100 rounded-lg text-xs"></div><div class="input-group"><label class="label-text">対象月</label><input type="number" data-field="month" value="${state.month}" class="field-input w-full p-2 bg-slate-50 border border-slate-100 rounded-lg text-xs"></div></div>`;
+                        conf.querySelectorAll('.field-input').forEach(i => i.addEventListener('input', e => { 
+                            const f = e.target.dataset.field; state[f] = e.target.value; 
+                            if(f==='dailyStartHour' || f==='dailyChartType') renderItemsForm();
+                            updatePreview(); 
+                        }));
+                    }
+                    const remInput = document.getElementById('remarks-input-dynamic');
+                    if(remInput) remInput.value = state.remarks[mode] || "";
+                    renderItemsForm(); updatePreview();
+                }
+            }
+
+            function onPointerDown(e, idx, modeType) {
+                e.preventDefault(); e.stopPropagation();
+                const items = state[`items_${state.viewMode}`];
+                if (!items) return;
+                const item = items[idx];
+                const table = e.currentTarget.closest('table');
+                dragTarget = {
+                    index: idx, type: modeType, startX: e.clientX,
+                    startValS: item.start, startValE: item.end, itemsRef: items,
+                    tableRect: table.getBoundingClientRect()
+                };
+                e.currentTarget.setPointerCapture(e.pointerId);
+            }
+
+            function getModeDuration(mode) {
+                if (['m2', 'm3', 'm4'].includes(mode)) return parseInt(mode.substring(1)) * 4;
+                if (mode === 'm6') return 6 * 2;
+                if (mode === 'm12') return 12;
+                if (mode === 'daily') return (state.dailyChartType === '12h' ? 12 : 24);
+                if (mode === 'weekly') return 7;
+                return getDays(state.year, state.month);
+            }
+
+            function onPointerMove(e) {
+                if (!dragTarget) return;
+                const { index, type, startX, startValS, startValE, itemsRef, tableRect } = dragTarget;
+                const mode = state.viewMode;
+                const isDaily = mode === 'daily';
+                const duration = getModeDuration(mode);
+                
+                const staticWidth = 240 + 90 + 40;
+                const dataAreaWidth = (tableRect.width / currentScale) - staticWidth;
+                const colWidth = dataAreaWidth / duration;
+                const dx = (e.clientX - startX) / currentScale;
+                const step = 0.1;
+                const dCol = Math.round((dx / colWidth) / step) * step;
+
+                const minLimit = isDaily ? state.dailyStartHour : 1;
+                const maxLimit = minLimit + duration;
+
+                if (type === 'move') {
+                    const diff = startValE - startValS;
+                    let newS = startValS + dCol;
+                    newS = Math.max(minLimit, Math.min(newS, maxLimit - diff));
+                    itemsRef[index].start = parseFloat(newS.toFixed(1));
+                    itemsRef[index].end = parseFloat((newS + diff).toFixed(1));
+                } else if (type === 'resize-right') {
+                    let newE = startValE + dCol;
+                    newE = Math.max(itemsRef[index].start + 0.1, Math.min(newE, maxLimit));
+                    itemsRef[index].end = parseFloat(newE.toFixed(1));
+                }
+                updatePreview();
+            }
+
+            function onPointerUp() { if (!dragTarget) return; dragTarget = null; renderItemsForm(); }
+
+            function handleSealUpload(e) {
+                const file = e.target.files[0]; const idx = e.target.dataset.sealIdx; if (!file) return;
+                const r = new FileReader(); r.onload = (re) => { 
+                    state[`seal${idx}`] = re.target.result; updateSeals(); 
+                    const thumb = document.querySelector(`[data-seal-thumb="${idx}"]`);
+                    if(thumb) thumb.innerHTML = `<img src="${re.target.result}" class="w-full h-full object-contain">`;
+                }; r.readAsDataURL(file);
+            }
+
+            function updateSeals() { [1,2,3].forEach(i => { 
+                const v = document.querySelectorAll(`[data-seal-view="${i}"]`); 
+                v.forEach(el => { el.innerHTML = state[`seal${i}`] ? `<img src="${state[`seal${i}`]}" class="seal-img">` : ''; }); 
+            }); }
+            
+            function renderItemsForm() {
+                const mode = state.viewMode;
+                const items = state[`items_${mode}`];
+                const c = document.getElementById('items-container');
+                const count = document.getElementById('item-count');
+                if(!c || !count || !items) return;
+                count.innerText = `${items.length} / 30`; c.innerHTML = '';
+                
+                items.forEach((item, i) => {
+                    const row = document.createElement('div'); row.className = 'bg-slate-50 p-3 rounded-lg border border-slate-100 space-y-2';
+                    
+                    const colorSelectHtml = `
+                        <div class="relative custom-color-select shrink-0" data-idx="${i}">
+                            <div class="w-7 h-7 rounded border border-slate-300 cursor-pointer color-select-btn shadow-sm transition-all hover:opacity-80 flex items-center justify-center" style="background-color: ${item.color};">
+                                <i data-lucide="chevron-down" class="w-3 h-3 text-white/80 mix-blend-difference"></i>
+                            </div>
+                            <div class="absolute top-full left-1/2 -translate-x-1/2 mt-1 bg-white border border-slate-200 rounded-lg shadow-xl p-1.5 z-[100] hidden color-dropdown w-[116px]">
+                                <div class="grid grid-cols-5 gap-1.5">
+                                    ${PRESET_COLORS.map(pc => `
+                                        <div class="w-4 h-4 rounded cursor-pointer hover:scale-125 transition-transform color-option border border-black/10 shadow-sm ${pc.hex === item.color ? 'ring-2 ring-offset-1 ring-blue-500' : ''}" data-color="${pc.hex}" title="${pc.name}" style="background-color: ${pc.hex};"></div>
+                                    `).join('')}
+                                </div>
+                            </div>
+                        </div>
+                    `;
+
+                    row.innerHTML = `
+                        <div class="flex gap-2">
+                            <span class="text-[9px] font-black text-slate-300 self-center">${i + 1}</span>
+                            <input type="text" value="${item.task}" class="item-field flex-1 p-2 bg-white border border-slate-200 rounded text-xs" data-idx="${i}" data-key="task" placeholder="項目名">
+                            ${colorSelectHtml}
+                            <button class="btn-del-item text-red-300 hover:text-red-500 p-1 shrink-0" data-idx="${i}"><i data-lucide="trash-2" class="w-4 h-4"></i></button>
+                        </div>
+                        <div class="grid grid-cols-2 gap-2 px-4">
+                            <input type="text" value="${item.responsible || ''}" class="item-field w-full p-1.5 bg-white border border-slate-200 rounded text-xs" data-idx="${i}" data-key="responsible" placeholder="担当者">
+                            <div class="flex items-center gap-1"><input type="number" value="${item.progress || 0}" class="item-field w-full p-1 bg-white border border-slate-200 rounded text-[10px] text-center font-bold" data-idx="${i}" data-key="progress"><span class="text-[9px] font-bold text-slate-400">%</span></div>
+                        </div>
+                    `;
+                    c.appendChild(row);
+                });
+
+                c.querySelectorAll('input.item-field').forEach(el => el.addEventListener('input', e => { 
+                    const idx = +e.target.dataset.idx; const key = e.target.dataset.key;
+                    items[idx][key] = (e.target.type === 'number') ? (parseInt(e.target.value) || 0) : e.target.value; updatePreview(); 
+                }));
+
+                c.querySelectorAll('.color-select-btn').forEach(btn => {
+                    btn.addEventListener('click', (e) => {
+                        e.stopPropagation();
+                        document.querySelectorAll('.color-dropdown').forEach(dd => {
+                            if (dd !== btn.nextElementSibling) dd.classList.add('hidden');
+                        });
+                        btn.nextElementSibling.classList.toggle('hidden');
+                    });
+                });
+
+                c.querySelectorAll('.color-option').forEach(opt => {
+                    opt.addEventListener('click', (e) => {
+                        e.stopPropagation();
+                        const container = e.target.closest('.custom-color-select');
+                        const idx = +container.dataset.idx;
+                        const color = e.target.dataset.color;
+                        items[idx].color = color;
+                        e.target.closest('.color-dropdown').classList.add('hidden');
+                        updatePreview(); renderItemsForm(); 
+                    });
+                });
+
+                c.querySelectorAll('.btn-del-item').forEach(el => el.addEventListener('click', e => { items.splice(+e.currentTarget.dataset.idx, 1); renderItemsForm(); updatePreview(); }));
+                if (typeof lucide !== 'undefined') lucide.createIcons();
+            }
+
+            function syncFormInputs() { 
+                Object.keys(state).forEach(k => { if (!k.includes('items') && !k.startsWith('seal') && typeof state[k] !== 'object') { const el = document.querySelector(`[data-field="${k}"]`); if (el) el.value = state[k]; } });
+                updateSeals();
+                [1,2,3].forEach(i => { const thumb = document.querySelector(`[data-seal-thumb="${i}"]`); if(thumb && state[`seal${i}`]) thumb.innerHTML = `<img src="${state[`seal${i}`]}" class="w-full h-full object-contain">`; });
+            }
+
+            function updatePreview() {
+                const mode = state.viewMode;
+                if(mode==='settings') return;
+                const items = state[`items_${mode}`];
+                
+                updatePreviewField("projectName", state.projectName);
+                updatePreviewField("company", state.company);
+                updatePreviewField("manager", state.manager);
+                const rv = document.getElementById('remarks-view'); if(rv) rv.innerText = state.remarks[mode] || "";
+                
+                const flowArea = document.querySelector('[data-flow-area]'); if (!flowArea) return;
+                flowArea.innerHTML = '';
+                const table = document.createElement('table'); table.className = 'gantt-table';
+                const wrapper = document.querySelector('.preview-wrapper');
+                
+                const dur = getModeDuration(mode);
+                const colgroup = document.createElement('colgroup');
+                colgroup.innerHTML = `
+                    <col style="width: 240px; min-width: 240px; max-width: 240px;">
+                    <col style="width: 90px; min-width: 90px; max-width: 90px;">
+                    <col style="width: 40px; min-width: 40px; max-width: 40px;">
+                `;
+                for(let i=0; i<dur; i++) colgroup.innerHTML += `<col>`;
+                table.appendChild(colgroup);
+
+                const headerRow = document.createElement('tr'); 
+                headerRow.innerHTML = `<th class="gantt-task-name bg-slate-100">工程項目</th><th class="gantt-responsible bg-slate-100">担当</th><th class="gantt-progress-col bg-slate-100">進捗</th>`;
+                
+                const minVal = mode === 'daily' ? state.dailyStartHour : 1;
+
+                if (['m2', 'm3', 'm4'].includes(mode)) {
+                    const monthCount = parseInt(mode.substring(1));
+                    const monthH = document.createElement('tr'); monthH.innerHTML = `<th colspan="3" class="bg-slate-50 border-b-2"></th>`;
+                    for(let m=0; m<monthCount; m++) {
+                        const d = new Date(state.longtermStartMonth); d.setMonth(d.getMonth() + m);
+                        monthH.innerHTML += `<th colspan="4" class="bg-slate-100 border border-slate-300 font-black text-[9px]">${d.getFullYear()}/${d.getMonth()+1}</th>`;
+                        for(let w=1; w<=4; w++) headerRow.innerHTML += `<th class="gantt-header-day">${w}週</th>`;
+                    }
+                    table.appendChild(monthH);
+                } 
+                else if (mode === 'm6') {
+                    const monthH = document.createElement('tr'); monthH.innerHTML = `<th colspan="3" class="bg-slate-50 border-b-2"></th>`;
+                    for(let m=0; m<6; m++) {
+                        const d = new Date(state.longtermStartMonth); d.setMonth(d.getMonth() + m);
+                        monthH.innerHTML += `<th colspan="2" class="bg-slate-100 border border-slate-300 font-black text-[9px]">${d.getFullYear()}/${d.getMonth()+1}</th>`;
+                        headerRow.innerHTML += `<th class="gantt-header-day">上旬</th><th class="gantt-header-day">下旬</th>`;
+                    }
+                    table.appendChild(monthH);
+                }
+                else if (mode === 'm12') {
+                    for(let m=0; m<12; m++) {
+                        const d = new Date(state.longtermStartMonth); d.setMonth(d.getMonth() + m);
+                        headerRow.innerHTML += `<th class="gantt-header-day text-[7px] leading-tight">${d.getFullYear()}<br>${d.getMonth()+1}月</th>`;
+                    }
+                }
+                else if (mode === 'daily') {
+                    for(let i=0; i<dur; i++) headerRow.innerHTML += `<th class="gantt-header-day">${(minVal + i) % 24}時</th>`;
+                } 
+                else if (mode === 'weekly') {
+                    const start = new Date(state.weeklyStartDate), days = ['日','月','火','水','木','金','土'];
+                    for(let d=0; d<7; d++) {
+                        const cur = new Date(start); cur.setDate(start.getDate() + d);
+                        const dNum = cur.getDay(); let cls = "gantt-header-day";
+                        if(dNum === 6) cls += " day-sat"; if(dNum === 0) cls += " day-sun";
+                        headerRow.innerHTML += `<th class="${cls}"><div class="text-[7px] opacity-50">${cur.getMonth()+1}/${cur.getDate()}</div>${days[dNum]}</th>`;
+                    }
+                } 
+                else {
+                    for(let d=1; d<=dur; d++) {
+                        const date = new Date(state.year, state.month - 1, d);
+                        const dNum = date.getDay(); let cls = "gantt-header-day";
+                        if(dNum === 6) cls += " day-sat"; if(dNum === 0) cls += " day-sun";
+                        headerRow.innerHTML += `<th class="${cls}">${d}</th>`;
+                    }
+                }
+                table.appendChild(headerRow);
+                
+                items.forEach((item, i) => {
+                    const row = document.createElement('tr'); row.className = 'flow-block';
+                    let cellsHtml = `<td class="gantt-task-name"><span class="text-[8px] text-slate-300 mr-1 font-mono">${String(i+1).padStart(2,'0')}</span>${item.task || ''}</td><td class="gantt-responsible">${item.responsible || ''}</td><td class="gantt-progress-col">${item.progress || 0}%</td>`;
+                    for(let idx=0; idx<dur; idx++) {
+                        let cls = "";
+                        if(mode === 'weekly') { const cur = new Date(state.weeklyStartDate); cur.setDate(cur.getDate() + idx); if(cur.getDay() === 6) cls = "day-sat"; if(cur.getDay() === 0) cls = "day-sun"; }
+                        else if(mode === 'monthly') { const date = new Date(state.year, state.month - 1, minVal + idx); if(date.getDay() === 6) cls = "day-sat"; if(date.getDay() === 0) cls = "day-sun"; }
+                        cellsHtml += `<td class="${cls} overflow-visible"></td>`;
+                    }
+                    row.innerHTML = cellsHtml; 
+                    
+                    const firstDataCell = row.children[3];
+                    if (firstDataCell) {
+                        const offset = item.start - minVal; const span = item.end - item.start;
+                        if(offset >= 0 && offset < dur) {
+                            const left = (offset * 100) + '%', width = (span * 100) + '%';
+                            firstDataCell.innerHTML = `<div class="bar-container" style="width: calc(${width} - 4px); left: calc(${left} + 2px);" onpointerdown="window._onBarDown(event, ${i}, 'move')"><div class="progress-bar-bg"><div class="progress-bar-fill shadow-sm" style="width:${item.progress}%; background-color:${item.color}"></div><div class="resize-handle-right" onpointerdown="window._onBarDown(event, ${i}, 'resize-right')"></div></div></div>`;
+                        }
+                    }
+                    table.appendChild(row);
+                });
+                flowArea.appendChild(table); autoPaginate(); autoAdjustDensity();
+            }
+
+            window._onBarDown = onPointerDown;
+
+            function autoPaginate() {
+                const wrapper = document.querySelector('.preview-wrapper');
+                const sigBlock = document.querySelector('.signature-block');
+                const savedSig = sigBlock ? sigBlock.parentElement.removeChild(sigBlock) : null;
+                document.querySelectorAll('.pdf-page[data-dynamic]').forEach(p => p.closest('.capture-area-container')?.remove());
+                const firstFlowArea = document.querySelector('[data-flow-area]'); if (!firstFlowArea) return;
+                const table = firstFlowArea.querySelector('table'); if(!table) return;
+                const rows = Array.from(table.querySelectorAll('tr.flow-block')); rows.forEach(r => r.remove());
+                const pageH = currentPageSize.h, PADDING_V = 80, FOOTER_H = 30;
+                let headerH = 0, _el = firstFlowArea.previousElementSibling;
+                while (_el) { headerH += _el.offsetHeight + parseFloat(getComputedStyle(_el).marginBottom || 0); _el = _el.previousElementSibling; }
+                let currentTable = table, currentH = 0, limit = pageH - PADDING_V - FOOTER_H - headerH - 50, pageCount = 1;
+                rows.forEach(row => {
+                    currentTable.appendChild(row);
+                    if (currentH + 32 > limit && currentH > 0) {
+                        row.remove(); pageCount++;
+                        const newC = document.createElement('div'); newC.className = 'capture-area-container';
+                        const newP = document.createElement('div'); newP.className = 'pdf-page relative'; newP.setAttribute('data-dynamic', 'true');
+                        const newI = document.createElement('div'); newI.className = 'page-inner flex flex-col h-full p-[40px]';
+                        const newF = document.createElement('div'); newF.className = 'flex-grow flex flex-col pt-2'; newF.setAttribute('data-flow-area', '');
+                        const newT = table.cloneNode(true); newT.querySelectorAll('tr.flow-block').forEach(r => r.remove());
+                        newF.appendChild(newT);
+                        const foot = document.createElement('div'); foot.className = 'absolute bottom-[20px] left-0 w-full text-center text-[9px] opacity-30 font-mono'; foot.setAttribute('data-page-footer', '');
+                        newI.appendChild(newF); newI.appendChild(foot); newP.appendChild(newI); newC.appendChild(newP); wrapper.appendChild(newC);
+                        currentTable = newT; currentTable.appendChild(row); currentH = 32; limit = pageH - PADDING_V - FOOTER_H - 50;
+                    } else { currentH += 32; }
+                });
+                document.querySelectorAll('[data-page-footer]').forEach((f, i) => { if (pageCount === 1) f.style.display = 'none'; else { f.style.display = ''; f.textContent = `${i + 1} / ${pageCount}`; } });
+                if (savedSig) { const containers = wrapper.querySelectorAll('.capture-area-container'); const lastInner = containers[containers.length - 1].querySelector('.page-inner'); lastInner.insertBefore(savedSig, lastInner.querySelector('[data-page-footer]')); savedSig.style.display = ''; }
+                updateZoomUI();
+            }
+
+            function autoAdjustDensity() {
+                document.querySelectorAll('.pdf-page').forEach(page => {
+                    const inner = page.querySelector('.page-inner'); if (!inner) return;
+                    const safeH = page.clientHeight - 60; inner.style.height = 'auto'; inner.style.transform = ''; inner.style.width = ''; inner.style.marginLeft = ''; inner.style.fontSize = ''; 
+                    let scale = 1.0; while (inner.scrollHeight > safeH && scale > 0.8) { scale -= 0.01; inner.style.fontSize = `${scale}em`; }
+                    if (inner.scrollHeight > safeH) {
+                        const fs = safeH / inner.scrollHeight; inner.style.transform = `scale(${fs})`; inner.style.transformOrigin = 'top center'; inner.style.width = `${100 / fs}%`; inner.style.marginLeft = `${(100 - 100 / fs) / 2}%`;
+                    }
+                    inner.style.height = '';
+                });
+            }
+
+            function updateZoomUI() {
+                const pages = document.querySelectorAll('.pdf-page'), containers = document.querySelectorAll('.capture-area-container');
+                pages.forEach(el => el.style.transform = `scale(${currentScale})`);
+                containers.forEach(c => { c.style.width = `${currentPageSize.w * currentScale}px`; c.style.height = `${currentPageSize.h * currentScale}px`; });
+                document.getElementById('zoom-level-text').innerText = `${Math.round(currentScale * 100)}%`;
+            }
+            function adjustZoom(ns) { currentScale = ns; updateZoomUI(); }
+            function fitToScreen() { 
+                const c = document.getElementById('preview-container'); 
+                if (!c) return; 
+                currentScale = Math.max(0.1, Math.min((c.clientWidth - 40) / currentPageSize.w, (c.clientHeight - 40) / currentPageSize.h, 1.0)); 
+                updateZoomUI(); 
+            }
+
+            function generateCleanSource() {
+                const dc = document.documentElement.cloneNode(true);
+                dc.querySelectorAll('script').forEach(s => { const src = s.getAttribute('src') || '', id = s.getAttribute('id'); if (!(src.includes('tailwindcss.com') || src.includes('lucide') || src.includes('jspdf') || src.includes('html-to-image')) && id !== 'main-script') s.remove(); });
+                dc.querySelectorAll('style').forEach(s => { const t = s.textContent || ''; if (t.includes('.pdf-page') || t.includes('.preview-wrapper') || t.includes('--page-w')) return; if (t.includes('--tw-') || t.includes('interaction')) s.remove(); });
+                dc.querySelectorAll('.pdf-page[data-dynamic]').forEach(p => p.closest('.capture-area-container')?.remove());
+                const db = dc.querySelector('#downloadBtnText'); if (db) db.innerText = 'PDF保存';
+                const bd = dc.querySelector('#btn-download'); if (bd) bd.disabled = false;
+                const ov = dc.querySelector('#pdf-overlay'); if (ov) ov.classList.remove('active');
+                dc.querySelectorAll('svg[data-lucide]').forEach(svg => {
+                    const i = document.createElement('i'); i.setAttribute('data-lucide', svg.getAttribute('data-lucide'));
+                    const cls = svg.getAttribute('class'); if (cls) i.setAttribute('class', cls.replace(/lucide\s*lucide-[\w-]+\s*/g, '').trim());
+                    svg.replaceWith(i);
+                });
+                dc.querySelectorAll('.pdf-page, .page-inner, .capture-area-container, [data-flow-area], .signature-block, [data-page-footer], [data-seal-view]').forEach(el => { if(!el.hasAttribute('data-seal-view')) el.removeAttribute('style'); });
+                dc.querySelectorAll('[id$="-items-container"]').forEach(ic => ic.innerHTML = '');
+                const tm = dc.querySelector('#tab-monthly'); if(tm) tm.classList.add('active');
+                let src = "<!DOCTYPE html>\n" + dc.outerHTML;
+                src = src.replace(/\/\* __INJECTED_DATA_START__ \*\/[\s\S]*?\/\* __INJECTED_DATA_END__ \*\//, `/* __INJECTED_DATA_START__ */ const __EMBEDDED_DATA__ = ${JSON.stringify(state)}; /* __INJECTED_DATA_END__ */`);
+                return src;
+            }
+
+            function handleOpenNewTab() { const src = generateCleanSource(); const b = new Blob([src], { type: 'text/html' }); const u = URL.createObjectURL(b); window.open(u, '_blank'); }
+            async function handleCopyCode() { const s = generateCleanSource(); try { await navigator.clipboard.writeText(s); showNotification('コードをコピーしました'); } catch (e) { showNotification('失敗', 'error'); } }
+            
+            // 安全にPDF化・バイナリ保持する関数
+            async function handleDownloadPDF() {
+                const btn = document.getElementById('btn-download'), txt = document.getElementById('downloadBtnText'), ov = document.getElementById('pdf-overlay');
+                if (btn.disabled) return; btn.disabled = true; txt.innerText = '生成中...'; ov.classList.add('active');
+                try {
+                    await document.fonts.ready; 
+                    const pages = document.querySelectorAll('.pdf-page'); 
+                    const pdf = new jspdf.jsPDF({ orientation: 'l', unit: 'mm', format: 'a4' });
+                    for (let i = 0; i < pages.length; i++) {
+                        if (i > 0) pdf.addPage();
+                        // 解像度やCORSを考慮した設定
+                        const canvas = await htmlToImage.toCanvas(pages[i], { 
+                            pixelRatio: 2, 
+                            quality: 0.95, 
+                            backgroundColor: '#ffffff', 
+                            width: 1123, 
+                            height: 794, 
+                            style: { transform: 'none', boxShadow: 'none' },
+                            useCORS: true
+                        });
+                        pdf.addImage(canvas.toDataURL('image/jpeg', 0.8), 'JPEG', 0, 0, 297, 210, undefined, 'FAST');
+                    }
+                    const cs = generateCleanSource(); 
+                    const enc = safeBase64Encode(JSON.stringify({ data: state, sourceCode: cs, appId: APP_ID }));
+                    const blob = new Blob([pdf.output('arraybuffer'), new TextEncoder().encode(`\n[START_FULL_DATA]${enc}[END_FULL_DATA]\n`)], { type: 'application/pdf' });
+                    const link = document.createElement('a'); link.href = URL.createObjectURL(blob); 
+                    link.download = `工程表_${state.viewMode}.pdf`; link.click(); 
+                    showNotification('PDF保存完了');
+                } catch (err) { 
+                    console.error("PDF Error:", err);
+                    showNotification('エラー: ' + (err.message || 'PDF生成失敗'), 'error'); 
+                } finally { 
+                    ov.classList.remove('active'); btn.disabled = false; txt.innerText = 'PDF保存'; 
+                }
+            }
+
+            async function handleFileUpload(e) {
+                const f = e.target.files[0]; if (!f) return; const r = new FileReader(); r.onload = function () {
+                    try {
+                        const t = new TextDecoder().decode(new Uint8Array(r.result)); const si = t.lastIndexOf('[START_FULL_DATA]'), ei = t.lastIndexOf('[END_FULL_DATA]');
+                        if (si !== -1 && ei !== -1) {
+                            const p = JSON.parse(safeBase64Decode(t.substring(si + 17, ei)));
+                            if (p.sourceCode) { sessionStorage.setItem(RECOVERY_KEY, JSON.stringify({ data: p.data })); const u = URL.createObjectURL(new Blob([p.sourceCode], { type: 'text/html' })); window.open(u, '_blank'); }
+                        }
+                    } catch (err) { showNotification('読込失敗', 'error'); }
+                }; r.readAsArrayBuffer(f); e.target.value = '';
+            }
+
+            function showNotification(m, t = 'success') {
+                const el = document.getElementById('notification'), ic = document.getElementById('notification-icon');
+                document.getElementById('notification-message').innerText = m; el.classList.remove('hidden', 'bg-red-600', 'bg-slate-900');
+                el.classList.add(t === 'error' ? 'bg-red-600' : 'bg-slate-900');
+                if (ic) { const it = t === 'error' ? 'alert-triangle' : 'check-circle'; const cur = el.querySelector('[data-lucide]'); if(cur) cur.setAttribute('data-lucide', it); if (typeof lucide !== 'undefined') lucide.createIcons(); }
+                el.classList.remove('hidden'); setTimeout(() => el.classList.add('hidden'), 4000);
+            }
+            init();
+        })();
+    </script>
+</body>
+</html>

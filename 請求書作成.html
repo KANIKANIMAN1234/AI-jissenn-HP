@@ -1,0 +1,693 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>請求書</title>
+
+    <!-- フォント（必ず link タグ + crossorigin="anonymous"） -->
+    <link rel="stylesheet" crossorigin="anonymous" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&family=Noto+Sans+JP:wght@400;500;700;900&family=Noto+Serif+JP:wght@400;700;900&display=swap">
+
+    <!-- ライブラリ（バージョン固定） -->
+    <script src="https://cdn.tailwindcss.com/3.4.16"></script>
+    <script src="https://unpkg.com/lucide@0.344.0"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html-to-image/1.11.11/html-to-image.min.js"></script>
+
+    <style>
+        :root { --page-w: 794px; --page-h: 1123px; }
+        body { font-family: 'Inter', 'Noto Sans JP', sans-serif; overflow: hidden; background-color: #f1f5f9; margin: 0; }
+        .serif { font-family: 'Noto Serif JP', serif; }
+        .pdf-page { width: var(--page-w); height: var(--page-h); box-sizing: border-box; background-color: white; position: relative; box-shadow: 0 25px 50px -12px rgba(0,0,0,0.15); flex-shrink: 0; transform-origin: top left; overflow: hidden; color: #1e293b; }
+        .preview-wrapper { display: grid; place-items: start center; padding: 20px 0; gap: 20px; width: 100%; min-height: 100%; }
+        .scrollbar-hide::-webkit-scrollbar { display: none; }
+        .scrollbar-hide { -ms-overflow-style: none; scrollbar-width: none; }
+        input:focus, textarea:focus { outline: none; border-color: #2563eb; background-color: #fff; }
+        .input-group { display: flex; flex-direction: column; gap: 0.25rem; }
+        .label-text { font-size: 10px; font-weight: 900; color: #94a3b8; text-transform: uppercase; letter-spacing: 0.1em; padding-left: 0.25rem; }
+        .floating-zoom { position: absolute; z-index: 40; bottom: 16px; left: 16px; opacity: 0.4; transition: opacity 0.2s ease; }
+        .floating-zoom:hover { opacity: 1; }
+        .pdf-overlay { position: absolute; inset: 0; z-index: 50; display: none; place-items: center; background: rgba(100, 116, 139, 0.75); backdrop-filter: blur(6px); }
+        .pdf-overlay.active { display: grid; }
+        .pdf-spinner { width: 40px; height: 40px; border: 4px solid rgba(255,255,255,0.3); border-top-color: #fff; border-radius: 50%; animation: spin 0.8s linear infinite; }
+        @keyframes spin { to { transform: rotate(360deg); } }
+        #resize-handle { width: 6px; cursor: col-resize; background: transparent; position: relative; z-index: 30; flex-shrink: 0; transition: background 0.15s; }
+        #resize-handle:hover, #resize-handle.dragging { background: #3b82f6; }
+        #resize-handle::after { content: ''; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 2px; height: 40px; background: #cbd5e1; border-radius: 2px; }
+        @media (max-width: 767px) {
+            #main-app-shell { flex-direction: column !important; }
+            #left-pane { width: 100% !important; height: auto !important; max-height: 45vh; order: 2; border-right: none !important; border-top: 1px solid #e2e8f0; }
+            #right-pane { order: 1; flex: 1; min-height: 0; }
+            #resize-handle { display: none; }
+        }
+    </style>
+</head>
+<body class="h-screen flex flex-col">
+
+    <div id="notification" class="fixed top-6 left-1/2 -translate-x-1/2 z-[2000] flex items-center gap-3 px-6 py-3 rounded-2xl shadow-2xl bg-slate-900 text-white hidden text-sm font-bold tracking-tight">
+        <i id="notification-icon" data-lucide="check-circle" class="w-5 h-5 text-green-400"></i>
+        <span id="notification-message">メッセージ</span>
+    </div>
+
+    <div id="main-app-shell" class="flex flex-row flex-1 overflow-hidden">
+
+        <!-- 左ペイン: 入力フォーム -->
+        <aside id="left-pane" class="w-[380px] h-full bg-white overflow-y-auto p-5 flex-none border-r shadow-2xl z-20 scrollbar-hide text-slate-700">
+            <div class="flex items-center gap-2 mb-5">
+                <input type="file" id="fileInput" accept=".pdf" class="hidden">
+                <button id="btn-open-newtab" class="p-1.5 text-slate-300 hover:text-blue-500 transition-all shrink-0" title="別タブで開く">
+                    <i data-lucide="external-link" class="w-4 h-4"></i>
+                </button>
+                <button id="btn-upload-trigger" class="px-3 py-2 bg-white border border-slate-200 text-slate-600 rounded-lg font-bold text-xs hover:bg-slate-50 transition-all whitespace-nowrap">PDF読込</button>
+                <button id="btn-copy-code" class="px-3 py-2 bg-white border border-slate-200 text-slate-600 rounded-lg font-bold text-xs hover:bg-slate-50 transition-all whitespace-nowrap">コードコピー</button>
+                <button id="btn-download" class="bg-slate-900 text-white px-3 py-2 rounded-lg font-bold text-xs hover:bg-blue-700 shadow-lg transition-all active:scale-95 whitespace-nowrap">
+                    <span id="downloadBtnText">PDF保存</span>
+                </button>
+            </div>
+
+            <div id="form-container" class="space-y-5">
+                <!-- 基本情報 -->
+                <section class="space-y-3">
+                    <h3 class="text-xs font-black text-slate-300 uppercase tracking-widest flex items-center gap-2 border-b pb-1"><i data-lucide="file-text" class="w-3 h-3"></i> 基本情報</h3>
+                    <div class="input-group"><label class="label-text">請求番号</label><input type="text" data-field="invoiceNo" class="field-input w-full p-2 bg-slate-50 border border-slate-100 rounded-lg text-xs font-mono"></div>
+                    <div class="grid grid-cols-2 gap-3">
+                        <div class="input-group"><label class="label-text">発行日</label><input type="text" data-field="issueDate" class="field-input w-full p-2 bg-slate-50 border border-slate-100 rounded-lg text-xs"></div>
+                        <div class="input-group"><label class="label-text">お支払期限</label><input type="text" data-field="dueDate" class="field-input w-full p-2 bg-slate-50 border border-slate-100 rounded-lg text-xs"></div>
+                    </div>
+                </section>
+
+                <!-- 宛先・差出人 -->
+                <section class="space-y-3">
+                    <h3 class="text-xs font-black text-slate-300 uppercase tracking-widest flex items-center gap-2 border-b pb-1"><i data-lucide="users" class="w-3 h-3"></i> 宛先・差出人</h3>
+                    <div class="input-group"><label class="label-text">請求先（宛名）</label><input type="text" data-field="clientName" class="field-input w-full p-2 bg-blue-50 border border-blue-100 rounded-lg text-sm font-bold text-blue-700"></div>
+                    <div class="input-group"><label class="label-text">発行者（自社名）</label><input type="text" data-field="senderName" class="field-input w-full p-2 bg-slate-50 border border-slate-100 rounded-lg text-xs"></div>
+                    <div class="input-group"><label class="label-text">発行者住所・連絡先</label><textarea data-field="senderInfo" class="field-input w-full p-2 bg-slate-50 border border-slate-100 rounded-lg text-xs h-20 resize-none"></textarea></div>
+                </section>
+
+                <!-- 明細行 -->
+                <section class="space-y-3">
+                    <h3 class="text-xs font-black text-slate-300 uppercase tracking-widest flex items-center gap-2 border-b pb-1"><i data-lucide="list" class="w-3 h-3"></i> 請求明細</h3>
+                    <div id="items-container" class="space-y-2"></div>
+                    <button id="btn-add-item" class="text-xs text-blue-600 font-bold hover:text-blue-800 flex items-center gap-1"><i data-lucide="plus-circle" class="w-3.5 h-3.5"></i> 明細を追加</button>
+                </section>
+
+                <!-- 振込先・備考 -->
+                <section class="space-y-3 pb-8">
+                    <h3 class="text-xs font-black text-slate-300 uppercase tracking-widest flex items-center gap-2 border-b pb-1"><i data-lucide="info" class="w-3 h-3"></i> その他情報</h3>
+                    <div class="input-group"><label class="label-text">振込先情報</label><textarea data-field="bankInfo" class="field-input w-full p-2 bg-slate-50 border border-slate-100 rounded-lg text-xs h-20 resize-none"></textarea></div>
+                    <div class="input-group"><label class="label-text">備考</label><textarea data-field="notes" class="field-input w-full p-2 bg-slate-50 border border-slate-100 rounded-lg text-xs h-20 resize-none"></textarea></div>
+                </section>
+            </div>
+        </aside>
+
+        <div id="resize-handle"></div>
+
+        <!-- 右ペイン: プレビュー -->
+        <div id="right-pane" class="flex-1 flex flex-col overflow-hidden bg-slate-200 relative">
+            <main id="preview-container" class="flex-1 overflow-auto bg-slate-200 relative">
+                <div id="pdf-overlay" class="pdf-overlay">
+                    <div class="flex flex-col items-center gap-4">
+                        <div class="pdf-spinner"></div>
+                        <p class="text-white font-bold text-sm tracking-wide">PDF生成中...</p>
+                    </div>
+                </div>
+                <div class="preview-wrapper">
+                    <div class="capture-area-container" style="position: relative;">
+                        <div class="pdf-page relative" data-page="0">
+                            <div class="page-inner flex flex-col h-full p-[50px]">
+                                <!-- ヘッダー -->
+                                <div class="flex justify-between items-start mb-10">
+                                    <div>
+                                        <h1 class="text-3xl font-black tracking-tighter mb-2 text-slate-800">INVOICE</h1>
+                                        <div class="text-sm font-bold text-blue-700 border-b-2 border-blue-600 pb-1 self-start inline-block min-w-[200px]"><span data-view="clientName"></span> 御中</div>
+                                    </div>
+                                    <div class="text-right">
+                                        <div class="text-[10px] text-slate-400 font-mono mb-1">No. <span data-view="invoiceNo"></span></div>
+                                        <div class="text-xs text-slate-600">発行日: <span data-view="issueDate"></span></div>
+                                    </div>
+                                </div>
+
+                                <div class="flex justify-between items-end mb-8">
+                                    <div class="space-y-1">
+                                        <div class="text-xs text-slate-500 uppercase font-black tracking-widest">お振込期限</div>
+                                        <div class="text-lg font-black text-slate-800" data-view="dueDate"></div>
+                                    </div>
+                                    <div class="text-right">
+                                        <div class="text-sm font-bold text-slate-800" data-view="senderName"></div>
+                                        <div class="text-[10px] text-slate-500 whitespace-pre-wrap leading-tight mt-1" data-view="senderInfo"></div>
+                                    </div>
+                                </div>
+
+                                <!-- 合計金額 -->
+                                <div class="border-y-4 border-slate-800 py-3 mb-8 flex justify-between items-center px-4 bg-slate-50">
+                                    <span class="text-sm font-black text-slate-500 uppercase tracking-widest">御請求金額合計 (税込)</span>
+                                    <span class="text-3xl font-black text-slate-800">¥ <span id="view-total-amount">0</span></span>
+                                </div>
+
+                                <!-- 明細テーブルヘッダー -->
+                                <div class="grid grid-cols-12 gap-2 border-b-2 border-slate-800 pb-2 mb-2 px-2">
+                                    <div class="col-span-6 text-xs font-black text-slate-500">品名 / 内容</div>
+                                    <div class="col-span-2 text-xs font-black text-slate-500 text-center">数量</div>
+                                    <div class="col-span-2 text-xs font-black text-slate-500 text-right">単価</div>
+                                    <div class="col-span-2 text-xs font-black text-slate-500 text-right">金額</div>
+                                </div>
+
+                                <!-- 流し込みエリア -->
+                                <div data-flow-area class="flex-grow flex flex-col gap-0 density-gap" style="justify-content: flex-start;">
+                                    <!-- JSで生成される明細行 -->
+                                </div>
+
+                                <!-- 固定フッター（計算領域） -->
+                                <div class="signature-block">
+                                    <div class="flex justify-end mt-4">
+                                        <div class="w-1/2 space-y-1 pt-4 border-t border-slate-200">
+                                            <div class="flex justify-between text-xs text-slate-600">
+                                                <span>小計</span>
+                                                <span>¥ <span id="view-subtotal">0</span></span>
+                                            </div>
+                                            <div class="flex justify-between text-xs text-slate-600">
+                                                <span>消費税 (10%)</span>
+                                                <span>¥ <span id="view-tax">0</span></span>
+                                            </div>
+                                            <div class="flex justify-between text-sm font-black text-slate-800 pt-2 border-t border-slate-800">
+                                                <span>合計</span>
+                                                <span>¥ <span id="view-total-footer">0</span></span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="grid grid-cols-2 gap-8 mt-10">
+                                        <div class="bg-slate-50 p-4 rounded-lg border border-slate-100 density-pad">
+                                            <div class="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-2">お振込先</div>
+                                            <div class="text-[11px] text-slate-600 whitespace-pre-wrap leading-relaxed" data-view="bankInfo"></div>
+                                        </div>
+                                        <div class="p-4">
+                                            <div class="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-2">備考</div>
+                                            <div class="text-[11px] text-slate-600 whitespace-pre-wrap leading-relaxed" data-view="notes"></div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="absolute bottom-[25px] left-0 w-full text-center text-[9px] opacity-30 font-mono" data-page-footer>1 / 1</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </main>
+
+            <div class="floating-zoom">
+                <div class="flex items-center bg-white/90 backdrop-blur-md rounded-xl p-1 gap-0.5 border shadow-lg">
+                    <button id="btn-zoom-out" class="p-1.5 hover:bg-slate-100 rounded-lg text-slate-600 transition-all"><i data-lucide="minus" class="w-4 h-4"></i></button>
+                    <button id="btn-zoom-fit" class="p-1.5 hover:bg-slate-100 rounded-lg text-slate-600 transition-all"><i data-lucide="maximize" class="w-4 h-4"></i></button>
+                    <button id="btn-zoom-in" class="p-1.5 hover:bg-slate-100 rounded-lg text-slate-600 transition-all"><i data-lucide="plus" class="w-4 h-4"></i></button>
+                    <div id="zoom-level-text" class="px-2 text-[11px] font-black text-slate-500 min-w-[45px] text-center uppercase tracking-tighter">100%</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script id="main-script">
+        (function () {
+            "use strict";
+            const APP_ID = "invoice-app-v1";
+            const RECOVERY_KEY = "__INVOICE_RECOVERY_PAYLOAD__";
+
+            function safeBase64Encode(str) {
+                return btoa(encodeURIComponent(str).replace(/%([0-9A-F]{2})/g, (_, p1) => String.fromCharCode('0x' + p1)));
+            }
+            function safeBase64Decode(str) {
+                return decodeURIComponent(atob(str).split('').map(c => '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2)).join(''));
+            }
+
+            let state = {
+                invoiceNo: "INV-202412-001",
+                issueDate: new Date().toLocaleDateString('ja-JP', { year: 'numeric', month: 'long', day: 'numeric' }),
+                dueDate: new Date(new Date().setMonth(new Date().getMonth() + 1)).toLocaleDateString('ja-JP', { year: 'numeric', month: 'long', day: 'numeric' }),
+                clientName: "株式会社サンプル商事",
+                senderName: "まじんデジタルソリューションズ",
+                senderInfo: "〒100-0001 東京都千代田区千代田1-1-1\nTEL: 03-1234-5678 / MAIL: contact@example.com",
+                bankInfo: "サンプル銀行 本店営業部\n普通 1234567\nまじんデジタルソリューションズ",
+                notes: "振込手数料は貴社にてご負担願います。",
+                items: [
+                    { name: "Webシステム開発費 (11月分)", quantity: "1", unit: "式", price: "550000" },
+                    { name: "サーバー保守運用費", quantity: "1", unit: "月", price: "30000" },
+                    { name: "テクニカルコンサルティング", quantity: "4", unit: "時間", price: "15000" },
+                    { name: "ライセンス利用料 (年間)", quantity: "1", unit: "式", price: "120000" }
+                ]
+            };
+
+            /* __INJECTED_DATA_START__ */ /* __INJECTED_DATA_END__ */
+
+            const PAGE_SIZES = { A4: { w: 794, h: 1123, pdf: 'a4', orient: 'p', mmW: 210, mmH: 297 } };
+            let currentPageSize = PAGE_SIZES.A4;
+            let currentScale = 1.0;
+
+            function init() {
+                if (typeof lucide !== 'undefined') lucide.createIcons();
+                const pending = sessionStorage.getItem(RECOVERY_KEY);
+                if (pending) {
+                    try { const p = JSON.parse(pending); if (p.data) state = { ...state, ...p.data }; sessionStorage.removeItem(RECOVERY_KEY); } catch (e) {}
+                } else if (typeof __EMBEDDED_DATA__ !== 'undefined') {
+                    state = { ...state, ...__EMBEDDED_DATA__ };
+                }
+                attachEventListeners();
+                syncFormInputs();
+                renderItemsForm();
+                updatePreview();
+                setTimeout(fitToScreen, 200);
+                setupResizer();
+            }
+
+            function attachEventListeners() {
+                document.querySelectorAll('.field-input').forEach(input => {
+                    input.addEventListener('input', (e) => { 
+                        const f = e.target.dataset.field; 
+                        if (f) { 
+                            state[f] = e.target.value; 
+                            updatePreviewField(f); 
+                            if (['clientName', 'senderInfo', 'bankInfo', 'notes'].includes(f)) updatePreview();
+                        }
+                    });
+                });
+                document.getElementById('btn-upload-trigger').addEventListener('click', () => document.getElementById('fileInput').click());
+                document.getElementById('fileInput').addEventListener('change', handleFileUpload);
+                document.getElementById('btn-download').addEventListener('click', handleDownloadPDF);
+                document.getElementById('btn-copy-code').addEventListener('click', handleCopyCode);
+                document.getElementById('btn-zoom-in').addEventListener('click', () => adjustZoom(Math.min(currentScale + 0.1, 2)));
+                document.getElementById('btn-zoom-out').addEventListener('click', () => adjustZoom(Math.max(currentScale - 0.1, 0.3)));
+                document.getElementById('btn-zoom-fit').addEventListener('click', fitToScreen);
+                document.getElementById('btn-add-item').addEventListener('click', () => { 
+                    state.items.push({ name: "", quantity: "1", unit: "個", price: "0" }); 
+                    renderItemsForm(); 
+                    updatePreview(); 
+                });
+                document.getElementById('btn-open-newtab').addEventListener('click', handleOpenNewTab);
+                window.addEventListener('resize', fitToScreen);
+            }
+
+            function setupResizer() {
+                const handle = document.getElementById('resize-handle');
+                const left = document.getElementById('left-pane');
+                let startX, startW;
+                const onMouseMove = (e) => {
+                    const newW = startW + (e.clientX - startX);
+                    if (newW > 250 && newW < window.innerWidth * 0.7) {
+                        left.style.width = `${newW}px`;
+                        fitToScreen();
+                    }
+                };
+                const onMouseUp = () => {
+                    handle.classList.remove('dragging');
+                    document.removeEventListener('mousemove', onMouseMove);
+                    document.removeEventListener('mouseup', onMouseUp);
+                };
+                handle.addEventListener('mousedown', (e) => {
+                    startX = e.clientX;
+                    startW = left.offsetWidth;
+                    handle.classList.add('dragging');
+                    document.addEventListener('mousemove', onMouseMove);
+                    document.addEventListener('mouseup', onMouseUp);
+                });
+            }
+
+            function renderItemsForm() {
+                const c = document.getElementById('items-container');
+                c.innerHTML = '';
+                state.items.forEach((item, i) => {
+                    const row = document.createElement('div');
+                    row.className = 'flex flex-col gap-1 p-3 bg-slate-50 border border-slate-100 rounded-lg relative group';
+                    row.innerHTML = `
+                        <input type="text" placeholder="品名 / 内容" value="${item.name}" class="item-field w-full p-1.5 bg-white border border-slate-200 rounded text-xs" data-idx="${i}" data-key="name">
+                        <div class="flex gap-1 mt-1">
+                            <input type="text" placeholder="単価" value="${item.price}" class="item-field flex-1 p-1.5 bg-white border border-slate-200 rounded text-xs font-mono" data-idx="${i}" data-key="price">
+                            <input type="text" placeholder="数量" value="${item.quantity}" class="item-field w-12 p-1.5 bg-white border border-slate-200 rounded text-xs text-center" data-idx="${i}" data-key="quantity">
+                            <input type="text" placeholder="単位" value="${item.unit}" class="item-field w-12 p-1.5 bg-white border border-slate-200 rounded text-xs text-center" data-idx="${i}" data-key="unit">
+                        </div>
+                        <button class="btn-del-item absolute -right-2 -top-2 bg-white border border-red-100 text-red-300 hover:text-red-500 rounded-full p-1 opacity-0 group-hover:opacity-100 transition-opacity shadow-sm" data-idx="${i}"><i data-lucide="x" class="w-3 h-3"></i></button>`;
+                    c.appendChild(row);
+                });
+                c.querySelectorAll('.item-field').forEach(el => {
+                    el.addEventListener('input', e => { 
+                        state.items[+e.target.dataset.idx][e.target.dataset.key] = e.target.value; 
+                        updatePreview(); 
+                    });
+                });
+                c.querySelectorAll('.btn-del-item').forEach(el => {
+                    el.addEventListener('click', e => { 
+                        state.items.splice(+e.currentTarget.dataset.idx, 1); 
+                        renderItemsForm(); 
+                        updatePreview(); 
+                    });
+                });
+                if (typeof lucide !== 'undefined') lucide.createIcons();
+            }
+
+            function syncFormInputs() { 
+                Object.keys(state).forEach(k => { 
+                    if (k === 'items') return; 
+                    const el = document.querySelector(`[data-field="${k}"]`); 
+                    if (el) el.value = state[k]; 
+                }); 
+                document.querySelectorAll('textarea.field-input').forEach(ta => {
+                    ta.style.height = 'auto';
+                    ta.style.height = ta.scrollHeight + 'px';
+                });
+            }
+            
+            function updatePreviewField(field) { 
+                document.querySelectorAll(`[data-view="${field}"]`).forEach(el => {
+                    el.innerText = state[field];
+                });
+            }
+
+            function updatePreview() {
+                let subtotal = 0;
+                const flowArea = document.querySelector('[data-flow-area]');
+                if (flowArea) {
+                    flowArea.innerHTML = '';
+                    state.items.forEach((item, i) => {
+                        const price = parseFloat(item.price) || 0;
+                        const qty = parseFloat(item.quantity) || 0;
+                        const amount = price * qty;
+                        subtotal += amount;
+
+                        const block = document.createElement('div');
+                        block.className = 'flow-block';
+                        block.innerHTML = `
+                            <div class="grid grid-cols-12 gap-2 py-2 px-2 border-b border-slate-100 items-center">
+                                <div class="col-span-6 text-xs text-slate-700 leading-tight break-words">${item.name || '（未入力）'}</div>
+                                <div class="col-span-2 text-xs text-slate-600 text-center whitespace-nowrap shrink-0">${item.quantity} ${item.unit}</div>
+                                <div class="col-span-2 text-xs text-slate-600 text-right whitespace-nowrap shrink-0 font-mono">¥${price.toLocaleString()}</div>
+                                <div class="col-span-2 text-sm font-bold text-slate-800 text-right whitespace-nowrap shrink-0 font-mono">¥${amount.toLocaleString()}</div>
+                            </div>`;
+                        flowArea.appendChild(block);
+                    });
+                }
+
+                const tax = Math.floor(subtotal * 0.1);
+                const total = subtotal + tax;
+
+                document.getElementById('view-subtotal').innerText = subtotal.toLocaleString();
+                document.getElementById('view-tax').innerText = tax.toLocaleString();
+                document.getElementById('view-total-footer').innerText = total.toLocaleString();
+                document.getElementById('view-total-amount').innerText = total.toLocaleString();
+
+                Object.keys(state).forEach(k => { if (k !== 'items') updatePreviewField(k); });
+                autoPaginate();
+                autoAdjustDensity();
+            }
+
+            function autoPaginate() {
+                const wrapper = document.querySelector('.preview-wrapper');
+                if (!wrapper) return;
+                const sigBlock = document.querySelector('.signature-block');
+                const savedSig = sigBlock ? sigBlock.parentElement.removeChild(sigBlock) : null;
+                document.querySelectorAll('.pdf-page[data-dynamic]').forEach(p => p.closest('.capture-area-container')?.remove());
+
+                const firstFlowArea = document.querySelector('[data-flow-area]');
+                if (!firstFlowArea) return;
+                const blocks = Array.from(firstFlowArea.querySelectorAll('.flow-block'));
+                if (!blocks.length) {
+                    if (savedSig) wrapper.querySelector('.pdf-page .page-inner').appendChild(savedSig);
+                    return;
+                }
+                blocks.forEach(b => b.remove());
+
+                const pageH = currentPageSize.h;
+                const PADDING_V = 100, FOOTER_H = 40, SAFETY = 20;
+                let headerH = 0;
+                let _el = firstFlowArea.previousElementSibling;
+                while (_el) {
+                    headerH += _el.offsetHeight + parseFloat(getComputedStyle(_el).marginBottom || 0);
+                    _el = _el.previousElementSibling;
+                }
+
+                const LIMIT_FIRST = pageH - PADDING_V - FOOTER_H - SAFETY - headerH - 100; // 100px余裕（合計金額表示等のため）
+                const LIMIT_NORMAL = pageH - PADDING_V - FOOTER_H - SAFETY;
+
+                let currentFlowArea = firstFlowArea;
+                let currentH = 0;
+                let limit = LIMIT_FIRST;
+                let pageCount = 1;
+
+                blocks.forEach(block => {
+                    currentFlowArea.appendChild(block);
+                    const blockH = block.offsetHeight;
+                    if (currentH + blockH > limit && currentH > 0) {
+                        block.remove();
+                        pageCount++;
+                        const newContainer = document.createElement('div');
+                        newContainer.className = 'capture-area-container';
+                        newContainer.style.position = 'relative';
+                        const newPage = document.createElement('div');
+                        newPage.className = 'pdf-page relative';
+                        newPage.setAttribute('data-page', String(pageCount - 1));
+                        newPage.setAttribute('data-dynamic', 'true');
+                        const newInner = document.createElement('div');
+                        newInner.className = 'page-inner flex flex-col h-full p-[50px]';
+                        const newFlowArea = document.createElement('div');
+                        newFlowArea.className = 'flex-grow flex flex-col gap-0 pt-4 density-gap';
+                        newFlowArea.style.justifyContent = 'flex-start';
+                        newFlowArea.setAttribute('data-flow-area', '');
+                        const footer = document.createElement('div');
+                        footer.className = 'absolute bottom-[25px] left-0 w-full text-center text-[9px] opacity-30 font-mono';
+                        footer.setAttribute('data-page-footer', '');
+
+                        newInner.appendChild(newFlowArea);
+                        newPage.appendChild(newInner);
+                        newPage.appendChild(footer);
+                        newContainer.appendChild(newPage);
+                        wrapper.appendChild(newContainer);
+
+                        currentFlowArea = newFlowArea;
+                        currentFlowArea.appendChild(block);
+                        currentH = blockH;
+                        limit = LIMIT_NORMAL - 250; // 署名欄等の余裕
+                    } else {
+                        currentH += blockH;
+                    }
+                });
+
+                // ページ統合チェック
+                const allFlowAreas = document.querySelectorAll('[data-flow-area]');
+                if (allFlowAreas.length >= 2) {
+                    const lastArea = allFlowAreas[allFlowAreas.length - 1];
+                    const prevArea = allFlowAreas[allFlowAreas.length - 2];
+                    const prevPage = prevArea.closest('.pdf-page');
+                    const prevInner = prevPage.querySelector('.page-inner');
+                    prevInner.style.height = 'auto';
+                    const remainingH = (prevPage.clientHeight - 180) - prevInner.scrollHeight - (savedSig ? 250 : 0);
+                    prevInner.style.height = '';
+                    lastArea.style.height = 'auto';
+                    const lastH = lastArea.scrollHeight;
+                    lastArea.style.height = '';
+                    if (lastH <= remainingH) {
+                        Array.from(lastArea.querySelectorAll('.flow-block')).forEach(b => prevArea.appendChild(b));
+                        lastArea.closest('.pdf-page').closest('.capture-area-container')?.remove();
+                        pageCount--;
+                    }
+                }
+
+                if (savedSig) {
+                    const containers = wrapper.querySelectorAll('.capture-area-container');
+                    const lastInner = containers[containers.length - 1].querySelector('.page-inner');
+                    lastInner.appendChild(savedSig);
+                }
+
+                document.querySelectorAll('[data-page-footer]').forEach((f, i) => {
+                    if (pageCount === 1) { f.style.display = 'none'; }
+                    else { f.style.display = ''; f.textContent = `${i + 1} / ${pageCount}`; }
+                });
+                updateZoomUI();
+            }
+
+            function autoAdjustDensity() {
+                document.querySelectorAll('.pdf-page').forEach(page => {
+                    const inner = page.querySelector('.page-inner');
+                    if (!inner) return;
+                    const safeH = page.clientHeight - 80;
+                    inner.style.height = 'auto';
+                    inner.style.transform = ''; inner.style.width = ''; inner.style.marginLeft = '';
+                    inner.style.fontSize = ''; inner.style.lineHeight = '';
+                    inner.querySelectorAll('.density-gap').forEach(el => el.style.gap = '');
+                    inner.querySelectorAll('.density-pad').forEach(el => el.style.padding = '');
+                    inner.querySelectorAll(':scope > *').forEach(el => el.style.marginBottom = '');
+
+                    let scale = 1.0;
+                    while (inner.scrollHeight > safeH && scale > 0.7) {
+                        scale -= 0.02;
+                        inner.style.fontSize = `${scale}em`;
+                        inner.style.lineHeight = `${Math.max(1.2, 1.6 * scale)}`;
+                    }
+                    if (inner.scrollHeight > safeH) {
+                        const finalScale = safeH / inner.scrollHeight;
+                        inner.style.transform = `scale(${finalScale})`;
+                        inner.style.transformOrigin = 'top center';
+                        inner.style.width = `${100 / finalScale}%`;
+                        inner.style.marginLeft = `${(100 - 100 / finalScale) / 2}%`;
+                    }
+                    if (inner.scrollHeight < safeH * 0.85) {
+                        const sections = Array.from(inner.querySelectorAll(':scope > *')).filter(el => !el.hasAttribute('data-page-footer') && !el.hasAttribute('data-flow-area') && el.style.position !== 'absolute' && !el.classList.contains('flex-grow'));
+                        if (sections.length > 1) {
+                            const extra = (safeH - inner.scrollHeight) / sections.length;
+                            const addMb = Math.min(30, Math.max(0, extra));
+                            sections.forEach(s => s.style.marginBottom = `${parseFloat(getComputedStyle(s).marginBottom) + addMb}px`);
+                        }
+                    }
+                    inner.style.height = '';
+                });
+            }
+
+            function updateZoomUI() {
+                const pages = document.querySelectorAll('.pdf-page');
+                const containers = document.querySelectorAll('.capture-area-container');
+                const pw = currentPageSize.w, ph = currentPageSize.h;
+                pages.forEach(el => el.style.transform = `scale(${currentScale})`);
+                containers.forEach(c => {
+                    c.style.width = `${pw * currentScale}px`;
+                    c.style.height = `${ph * currentScale}px`;
+                });
+                document.getElementById('zoom-level-text').innerText = `${Math.round(currentScale * 100)}%`;
+            }
+
+            function adjustZoom(newScale) {
+                const pc = document.getElementById('preview-container');
+                const pw = currentPageSize.w, ph = currentPageSize.h;
+                const totalH = ph * document.querySelectorAll('.pdf-page').length;
+                const cx = (pc.scrollLeft + pc.clientWidth / 2) / (pw * currentScale);
+                const cy = (pc.scrollTop + pc.clientHeight / 2) / (totalH * currentScale);
+                currentScale = newScale;
+                updateZoomUI();
+                pc.scrollLeft = cx * pw * currentScale - pc.clientWidth / 2;
+                pc.scrollTop = cy * totalH * currentScale - pc.clientHeight / 2;
+            }
+
+            function fitToScreen() {
+                const c = document.getElementById('preview-container');
+                if (!c) return;
+                const pw = currentPageSize.w, ph = currentPageSize.h;
+                currentScale = Math.max(0.1, Math.min((c.clientWidth - 20) / pw, (c.clientHeight - 40) / ph, 1.0));
+                updateZoomUI();
+            }
+
+            function generateCleanSource() {
+                const dc = document.documentElement.cloneNode(true);
+                dc.querySelectorAll('script').forEach(s => { 
+                    const src = s.getAttribute('src') || '', id = s.getAttribute('id'); 
+                    if (!(src.includes('tailwindcss.com') || src.includes('lucide') || src.includes('jspdf') || src.includes('html-to-image')) && id !== 'main-script') s.remove(); 
+                });
+                dc.querySelectorAll('style').forEach(s => { 
+                    const t = s.textContent || ''; 
+                    if (t.includes('.pdf-page') || t.includes('.preview-wrapper') || t.includes('.floating-zoom') || t.includes('--page-w')) return; 
+                    s.remove(); 
+                });
+                dc.querySelectorAll('.pdf-page[data-dynamic]').forEach(p => p.closest('.capture-area-container')?.remove());
+                dc.querySelectorAll('svg[data-lucide]').forEach(svg => {
+                    const i = document.createElement('i');
+                    i.setAttribute('data-lucide', svg.getAttribute('data-lucide'));
+                    const cls = svg.getAttribute('class'); if (cls) i.setAttribute('class', cls.replace(/lucide\s*lucide-[\w-]+\s*/g, '').trim());
+                    svg.replaceWith(i);
+                });
+                dc.querySelectorAll('.pdf-page, .page-inner, .capture-area-container, [data-flow-area], .signature-block, [data-page-footer], .density-pad, .density-gap').forEach(el => el.removeAttribute('style'));
+                const ic = dc.querySelector('#items-container'); if (ic) ic.innerHTML = '';
+                dc.querySelectorAll('[data-flow-area]').forEach(fa => fa.innerHTML = '');
+                const sig = dc.querySelector('.signature-block');
+                if (sig) { sig.removeAttribute('style'); dc.querySelector('.page-inner').appendChild(sig); }
+                
+                const db = dc.querySelector('#downloadBtnText'); if (db) db.innerText = 'PDF保存';
+                const bd = dc.querySelector('#btn-download'); if (bd) bd.disabled = false;
+                const ov = dc.querySelector('#pdf-overlay'); if (ov) ov.classList.remove('active');
+                
+                let src = "<!DOCTYPE html>\n" + dc.outerHTML;
+                src = src.replace(/\/\* __INJECT_DATA_START__ \*\/[\s\S]*?\/\* __INJECT_DATA_END__ \*\//, `/* __INJECT_DATA_START__ */ const __EMBEDDED_DATA__ = ${JSON.stringify(state)}; /* __INJECT_DATA_END__ */`);
+                return src;
+            }
+
+            function handleOpenNewTab() {
+                const src = generateCleanSource();
+                const blobUrl = URL.createObjectURL(new Blob([src], { type: 'text/html' }));
+                window.open(blobUrl, '_blank');
+                setTimeout(() => URL.revokeObjectURL(blobUrl), 3000);
+            }
+
+            async function handleCopyCode() {
+                const s = generateCleanSource();
+                try { await navigator.clipboard.writeText(s); showNotification('コードをコピーしました'); }
+                catch (e) { showNotification('コピーに失敗しました', 'error'); }
+            }
+
+            async function handleDownloadPDF() {
+                const btn = document.getElementById('btn-download'), txt = document.getElementById('downloadBtnText');
+                const overlay = document.getElementById('pdf-overlay');
+                if (btn.disabled) return; btn.disabled = true; txt.innerText = '生成中...';
+                overlay.classList.add('active');
+                document.getElementById('preview-container').style.overflow = 'hidden';
+                try {
+                    await document.fonts.ready;
+                    const pages = document.querySelectorAll('.pdf-page');
+                    const pdf = new jspdf.jsPDF({ orientation: 'p', unit: 'mm', format: 'a4' });
+                    for (let i = 0; i < pages.length; i++) {
+                        if (i > 0) pdf.addPage();
+                        const canvas = await htmlToImage.toCanvas(pages[i], { pixelRatio: 3, quality: 0.95, backgroundColor: '#ffffff', width: 794, height: 1123, style: { transform: 'none', boxShadow: 'none' } });
+                        pdf.addImage(canvas.toDataURL('image/jpeg', 0.9), 'JPEG', 0, 0, 210, 297, undefined, 'FAST');
+                    }
+                    const cs = generateCleanSource();
+                    const enc = safeBase64Encode(JSON.stringify({ data: state, sourceCode: cs, appId: APP_ID }));
+                    const blob = new Blob([pdf.output('arraybuffer'), new TextEncoder().encode(`\n[START_FULL_DATA]${enc}[END_FULL_DATA]\n`)], { type: 'application/pdf' });
+                    const link = document.createElement('a'); link.href = URL.createObjectURL(blob);
+                    link.download = `請求書_${state.clientName.replace(/\s+/g, '')}.pdf`;
+                    link.click();
+                    showNotification('PDFを保存しました');
+                } catch (err) {
+                    showNotification('エラーが発生しました', 'error');
+                } finally {
+                    overlay.classList.remove('active');
+                    btn.disabled = false; txt.innerText = 'PDF保存';
+                    document.getElementById('preview-container').style.overflow = '';
+                }
+            }
+
+            async function handleFileUpload(e) {
+                const file = e.target.files[0]; if (!file) return;
+                const reader = new FileReader();
+                reader.onload = function () {
+                    try {
+                        const text = new TextDecoder().decode(new Uint8Array(reader.result));
+                        const sM = '[START_FULL_DATA]', eM = '[END_FULL_DATA]';
+                        const si = text.lastIndexOf(sM), ei = text.lastIndexOf(eM);
+                        if (si !== -1 && ei !== -1) {
+                            const payload = JSON.parse(safeBase64Decode(text.substring(si + sM.length, ei)));
+                            if (payload.sourceCode) {
+                                sessionStorage.setItem(RECOVERY_KEY, JSON.stringify({ data: payload.data }));
+                                const blobUrl = URL.createObjectURL(new Blob([payload.sourceCode], { type: 'text/html' }));
+                                window.open(blobUrl, '_blank');
+                                showNotification('別タブで復元しました');
+                            } else {
+                                state = { ...state, ...payload.data }; syncFormInputs(); renderItemsForm(); updatePreview();
+                                showNotification('データを読み込みました');
+                            }
+                        } else { showNotification('データが見つかりません', 'error'); }
+                    } catch (err) { showNotification('読み込み失敗', 'error'); }
+                };
+                reader.readAsArrayBuffer(file); e.target.value = '';
+            }
+
+            function showNotification(msg, type = 'success') {
+                const el = document.getElementById('notification'), icon = document.getElementById('notification-icon');
+                document.getElementById('notification-message').innerText = msg;
+                el.classList.remove('hidden', 'bg-red-600', 'bg-slate-900');
+                el.classList.add(type === 'error' ? 'bg-red-600' : 'bg-slate-900');
+                if (icon) {
+                    icon.setAttribute('data-lucide', type === 'error' ? 'alert-triangle' : 'check-circle');
+                    icon.setAttribute('class', `w-5 h-5 ${type === 'error' ? 'text-red-300' : 'text-green-400'}`);
+                    if (typeof lucide !== 'undefined') lucide.createIcons();
+                }
+                el.classList.remove('hidden');
+                setTimeout(() => el.classList.add('hidden'), 4000);
+            }
+
+            init();
+        })();
+    </script>
+</body>
+</html>

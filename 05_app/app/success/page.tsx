@@ -2,6 +2,7 @@ import { Header } from "@/components/header"
 import { Footer } from "@/components/footer"
 import { CTASection } from "@/components/home/cta-section"
 import { Trophy, Briefcase, GraduationCap, Quote } from "lucide-react"
+import Image from "next/image"
 import type { Metadata } from "next"
 import { sql } from "@/lib/db"
 
@@ -87,6 +88,20 @@ export default async function SuccessPage() {
                     </div>
                   </div>
                   <h4 className="text-lg font-bold text-foreground mb-4">{story.title}</h4>
+                  
+                  {/* Image */}
+                  {story.image_url && (
+                    <div className="relative w-full h-[300px] mb-6 rounded-lg overflow-hidden bg-muted">
+                      <Image
+                        src={story.image_url}
+                        alt={story.title}
+                        fill
+                        className="object-cover"
+                        sizes="(max-width: 768px) 100vw, (max-width: 1024px) 80vw, 1200px"
+                      />
+                    </div>
+                  )}
+                  
                   <div className="text-muted-foreground leading-relaxed mb-6 space-y-4 whitespace-pre-wrap">
                     {story.description}
                   </div>

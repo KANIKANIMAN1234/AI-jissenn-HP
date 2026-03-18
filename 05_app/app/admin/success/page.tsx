@@ -24,6 +24,7 @@ interface SuccessStory {
   description: string
   achievements: string[]
   quote: string
+  image_url?: string
 }
 
 interface SuccessData {
@@ -115,6 +116,7 @@ export default function AdminSuccessPage() {
     description: "",
     achievements: [""],
     quote: "",
+    image_url: "",
   })
 
   const sensors = useSensors(
@@ -245,6 +247,7 @@ export default function AdminSuccessPage() {
       description: story.description,
       achievements: story.achievements,
       quote: story.quote,
+      image_url: story.image_url || "",
     })
     setIsEditDialogOpen(true)
   }
@@ -259,6 +262,7 @@ export default function AdminSuccessPage() {
       description: "",
       achievements: [""],
       quote: "",
+      image_url: "",
     })
   }
 
@@ -390,6 +394,16 @@ export default function AdminSuccessPage() {
                     <Plus className="h-4 w-4 mr-1" />
                     成果を追加
                   </Button>
+                </div>
+                <div className="space-y-2">
+                  <Label htmlFor="add-image-url">画像URL（任意）</Label>
+                  <Input
+                    id="add-image-url"
+                    placeholder="https://example.com/image.jpg"
+                    value={formData.image_url}
+                    onChange={(e) => setFormData(prev => ({ ...prev, image_url: e.target.value }))}
+                  />
+                  <p className="text-xs text-muted-foreground">実績カードに表示する画像のURLを入力してください</p>
                 </div>
                 <div className="space-y-2">
                   <Label htmlFor="add-quote">コメント（任意）</Label>
@@ -551,6 +565,16 @@ export default function AdminSuccessPage() {
                   <Plus className="h-4 w-4 mr-1" />
                   成果を追加
                 </Button>
+              </div>
+              <div className="space-y-2">
+                <Label htmlFor="edit-image-url">画像URL（任意）</Label>
+                <Input
+                  id="edit-image-url"
+                  placeholder="https://example.com/image.jpg"
+                  value={formData.image_url}
+                  onChange={(e) => setFormData(prev => ({ ...prev, image_url: e.target.value }))}
+                />
+                <p className="text-xs text-muted-foreground">実績カードに表示する画像のURLを入力してください</p>
               </div>
               <div className="space-y-2">
                 <Label htmlFor="edit-quote">コメント（任意）</Label>
