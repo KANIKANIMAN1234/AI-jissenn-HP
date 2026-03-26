@@ -623,7 +623,7 @@ export default function CurriculumPage() {
                     </div>
                   ) : (
                     /* 通常のアイテムリスト */
-                    <ul className="space-y-3 ml-16">
+                    <ul className="space-y-3 ml-[5.5rem]">
                       {'items' in section && section.items && section.items.map((item, itemIndex) => {
                         const toggleKey = `${section.category}-${itemIndex}`
                         const isExpanded = expandedItems[toggleKey] || false
