@@ -305,6 +305,15 @@ const detailedCurriculum: CurriculumSection[] = [
     ],
     toggleItems: [
       {
+        index: 0,
+        details: [
+          "サムネイル作成の流れ",
+          "YAML出力GPTs配布",
+          "サムネイル作成（サンプル集）",
+          "チラシ作成（サンプル集）",
+        ],
+      },
+      {
         index: 2,
         details: [
           "LINE 予定管理 秘書bot（LINE×GAS連携）",
