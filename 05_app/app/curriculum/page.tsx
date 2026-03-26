@@ -23,6 +23,7 @@ type CurriculumSection = {
   category: string
   items?: string[]
   subcategories?: SubCategory[]
+  toggleItems?: ToggleItem[]
 }
 
 const detailedCurriculum: CurriculumSection[] = [
@@ -32,6 +33,18 @@ const detailedCurriculum: CurriculumSection[] = [
       "受講前に(5)",
       "ビジネスを始めるうえでの心構えについて(1)",
       "コミュニティ（Discord）への参加(1)",
+    ],
+    toggleItems: [
+      {
+        index: 0,
+        details: [
+          "AI実践塾で目指したい姿",
+          "仕事循環モデルについて",
+          "仕事循環モデルについてルールについて",
+          "Zoomの使い方",
+          "エキスパのヘルプについて",
+        ],
+      },
     ],
   },
   {
@@ -471,12 +484,55 @@ export default function CurriculumPage() {
                   ) : (
                     /* 通常のアイテムリスト */
                     <ul className="space-y-3 ml-16">
-                      {'items' in section && section.items.map((item, itemIndex) => (
-                        <li key={itemIndex} className="flex items-start gap-3">
-                          <span className="w-1.5 h-1.5 rounded-full bg-primary mt-2 flex-shrink-0" />
-                          <span className="text-muted-foreground leading-relaxed">{item}</span>
-                        </li>
-                      ))}
+                      {'items' in section && section.items && section.items.map((item, itemIndex) => {
+                        const toggleKey = `${section.category}-${itemIndex}`
+                        const isExpanded = expandedItems[toggleKey] || false
+                        let hasDetails = false
+                        let detailsList: string[] = []
+                        
+                        if (section.toggleItems && section.toggleItems.length > 0) {
+                          const toggleConfig = section.toggleItems.find(t => t.index === itemIndex)
+                          if (toggleConfig) {
+                            hasDetails = true
+                            detailsList = toggleConfig.details
+                          }
+                        }
+                        
+                        if (hasDetails) {
+                          return (
+                            <li key={itemIndex}>
+                              <button
+                                onClick={() => toggleItem(toggleKey)}
+                                className="flex items-start gap-3 w-full text-left hover:opacity-80 transition-opacity"
+                              >
+                                {isExpanded ? (
+                                  <ChevronUp className="w-4 h-4 text-primary mt-1.5 flex-shrink-0" />
+                                ) : (
+                                  <ChevronDown className="w-4 h-4 text-primary mt-1.5 flex-shrink-0" />
+                                )}
+                                <span className="text-muted-foreground leading-relaxed flex-1">{item}</span>
+                              </button>
+                              {isExpanded && (
+                                <ul className="mt-3 ml-8 space-y-2">
+                                  {detailsList.map((detail, detailIndex) => (
+                                    <li key={detailIndex} className="flex items-start gap-3">
+                                      <span className="text-muted-foreground/50 mt-0.5 flex-shrink-0">-</span>
+                                      <span className="text-muted-foreground/80 text-sm leading-relaxed">{detail}</span>
+                                    </li>
+                                  ))}
+                                </ul>
+                              )}
+                            </li>
+                          )
+                        }
+                        
+                        return (
+                          <li key={itemIndex} className="flex items-start gap-3">
+                            <span className="w-1.5 h-1.5 rounded-full bg-primary mt-2 flex-shrink-0" />
+                            <span className="text-muted-foreground leading-relaxed">{item}</span>
+                          </li>
+                        )
+                      })}
                     </ul>
                   )}
                 </div>
