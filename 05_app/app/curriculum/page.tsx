@@ -10,6 +10,7 @@ type SubCategory = {
   name: string
   items: string[]
   detailItems?: string[]
+  toggleItemIndex?: number
 }
 
 type CurriculumSection = {
@@ -130,6 +131,17 @@ const detailedCurriculum: CurriculumSection[] = [
         items: [
           "様々なWEBサイト作成ツール紹介(1)",
           "Cursor＋github＋V0＋VercelでHPを作成する方法(8)",
+        ],
+        toggleItemIndex: 1,
+        detailItems: [
+          "作りたいホームページのイメージを固めよう",
+          "Cursorでホームページのモックアップを作ろう",
+          "V0で見た目をプロ級にブラッシュアップしよう！",
+          "さぁ、デプロイ（公開）してみよう！",
+          "Cursorでどんどん修正壁打ちをしよう！",
+          "[参考]Cursorのインストール、アカウント作成方法",
+          "[参考]Githubのアカウント作成方法",
+          "[参考]Vercelのアカウント作成方法",
         ],
       },
       {
@@ -299,8 +311,9 @@ export default function CurriculumPage() {
                             </h4>
                             <ul className="space-y-3 ml-6">
                               {sub.items.map((item, itemIndex) => {
-                                const isFirstItem = itemIndex === 0
-                                const hasDetails = isFirstItem && sub.detailItems && sub.detailItems.length > 0
+                                const targetIndex = sub.toggleItemIndex !== undefined ? sub.toggleItemIndex : 0
+                                const isToggleItem = itemIndex === targetIndex
+                                const hasDetails = isToggleItem && sub.detailItems && sub.detailItems.length > 0
                                 
                                 if (hasDetails) {
                                   return (
