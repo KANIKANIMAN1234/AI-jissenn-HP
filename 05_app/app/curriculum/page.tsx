@@ -160,6 +160,13 @@ const detailedCurriculum: CurriculumSection[] = [
           "仕様書について理解を深めよう(1)",
           "AI活用・仕様駆動型アプリ開発の実践Tips(1)",
         ],
+        toggleItemIndex: 1,
+        detailItems: [
+          "Obsidianのインストール",
+          "外観の設定",
+          "フォントの設定",
+          "便利なPluginのインストール",
+        ],
       },
       {
         name: "Antigravity",
