@@ -33,7 +33,7 @@ export default function NewReleasePage() {
             <div className="prose prose-lg max-w-none">
               {/* Title */}
               <div className="mb-12">
-                <h2 className="text-3xl lg:text-4xl font-bold text-foreground mb-4">
+                <h2 className="text-3xl lg:text-4xl font-bold text-foreground mb-4 whitespace-nowrap">
                   【5日間集中】AI×データベース実装ブートキャンプ
                 </h2>
                 <p className="text-xl text-muted-foreground italic">
