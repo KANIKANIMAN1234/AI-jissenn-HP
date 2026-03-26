@@ -2,6 +2,7 @@ import { Header } from "@/components/header"
 import { Footer } from "@/components/footer"
 import { Button } from "@/components/ui/button"
 import Link from "next/link"
+import Image from "next/image"
 import type { Metadata } from "next"
 
 export const metadata: Metadata = {
@@ -46,6 +47,18 @@ export default function NewReleasePage() {
                 <p className="text-lg leading-relaxed" style={{ color: '#001B3A' }}>
                   AI実践企業塾の皆様、お待たせいたしました！4月、あなたのスキルを一段上のステージへ引き上げる、超実践型ブートキャンプを開催します。
                 </p>
+              </div>
+
+              {/* Banner Image */}
+              <div className="mb-12">
+                <Image
+                  src="/bootcamp-banner.png"
+                  alt="AI×データベース実装ブートキャンプ"
+                  width={1920}
+                  height={1080}
+                  className="w-full h-auto rounded-2xl"
+                  priority
+                />
               </div>
 
               <div className="space-y-6 mb-12">
