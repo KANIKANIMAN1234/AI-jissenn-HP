@@ -37,9 +37,21 @@ export default function NewReleasePage() {
                 <h2 className="text-3xl lg:text-4xl font-bold text-foreground mb-4 whitespace-nowrap">
                   【5日間集中】AI×データベース実装ブートキャンプ
                 </h2>
-                <p className="text-xl text-muted-foreground italic">
+                <p className="text-xl text-muted-foreground italic mb-8">
                   〜「ツール屋」で終わるか、高単価な「システム構築のプロ」になるか。〜
                 </p>
+
+                {/* Banner Image */}
+                <div className="mt-8">
+                  <Image
+                    src="/bootcamp-banner.png"
+                    alt="AI×データベース実装ブートキャンプ"
+                    width={1920}
+                    height={1080}
+                    className="w-full h-auto rounded-2xl"
+                    priority
+                  />
+                </div>
               </div>
 
               {/* Introduction */}
@@ -47,18 +59,6 @@ export default function NewReleasePage() {
                 <p className="text-lg leading-relaxed" style={{ color: '#001B3A' }}>
                   AI実践企業塾の皆様、お待たせいたしました！4月、あなたのスキルを一段上のステージへ引き上げる、超実践型ブートキャンプを開催します。
                 </p>
-              </div>
-
-              {/* Banner Image */}
-              <div className="mb-12">
-                <Image
-                  src="/bootcamp-banner.png"
-                  alt="AI×データベース実装ブートキャンプ"
-                  width={1920}
-                  height={1080}
-                  className="w-full h-auto rounded-2xl"
-                  priority
-                />
               </div>
 
               <div className="space-y-6 mb-12">
