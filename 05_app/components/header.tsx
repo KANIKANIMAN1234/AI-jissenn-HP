@@ -9,6 +9,7 @@ import { cn } from "@/lib/utils"
 
 const mainNavItems = [
   { href: "/about", label: "はじめに" },
+  { href: "/new-release", label: "NEWリリース" },
   { href: "/features", label: "特徴" },
   { href: "/curriculum", label: "カリキュラム" },
   { href: "/seminar", label: "セミナー" },
