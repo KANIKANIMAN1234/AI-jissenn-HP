@@ -43,7 +43,7 @@ export default function NewReleasePage() {
 
               {/* Introduction */}
               <div className="bg-card p-8 rounded-2xl border border-border mb-12">
-                <p className="text-lg text-foreground leading-relaxed">
+                <p className="text-lg leading-relaxed" style={{ color: '#001B3A' }}>
                   AI実践企業塾の皆様、お待たせいたしました！4月、あなたのスキルを一段上のステージへ引き上げる、超実践型ブートキャンプを開催します。
                 </p>
               </div>
@@ -70,7 +70,7 @@ export default function NewReleasePage() {
                     <p className="text-foreground font-semibold">組織の基盤となり、高単価で発注される「システムエンジニア」</p>
                   </div>
                   <p>
-                    この差はどこにあるのか？ それが<strong className="text-primary">「データベース設計力」</strong>です。
+                    この差はどこにあるのか？ それが<strong className="font-bold text-[#001B3A]">「データベース設計力」</strong>です。
                   </p>
                   <p>
                     複数のユーザーが使い、権限が守られ、データが積み重なっても壊れない。そんな「本物のシステム」を作るには、データベースの理解が欠かせません。
@@ -191,12 +191,12 @@ export default function NewReleasePage() {
                     <div className="space-y-3">
                       <div className="flex items-center justify-between">
                         <span className="text-foreground/80">銀行振り込み：</span>
-                        <span className="text-2xl font-bold" style={{ color: '#001B3A' }}>29,800円</span>
+                        <span className="text-2xl font-bold text-[#001B3A]">29,800円</span>
                       </div>
                       <p className="text-sm text-muted-foreground">（手数料なし）</p>
                       <div className="flex items-center justify-between border-t border-border pt-3">
                         <span className="text-foreground/80">スクエア決済：</span>
-                        <span className="text-2xl font-bold" style={{ color: '#001B3A' }}>32,900円</span>
+                        <span className="text-2xl font-bold text-[#001B3A]">32,900円</span>
                       </div>
                       <p className="text-sm text-muted-foreground">（手数料10%込み、分割可能）</p>
                     </div>
@@ -212,12 +212,12 @@ export default function NewReleasePage() {
                       </div>
                       <div className="flex items-center justify-between">
                         <span className="text-lg font-bold text-primary">銀行振り込み：</span>
-                        <span className="text-3xl font-bold" style={{ color: '#001B3A' }}>59,800円</span>
+                        <span className="text-3xl font-bold text-[#001B3A]">59,800円</span>
                       </div>
                       <p className="text-sm text-muted-foreground">（手数料なし）</p>
                       <div className="flex items-center justify-between border-t border-primary/20 pt-3">
                         <span className="text-foreground/80">スクエア決済：</span>
-                        <span className="text-2xl font-bold" style={{ color: '#001B3A' }}>65,900円</span>
+                        <span className="text-2xl font-bold text-[#001B3A]">65,900円</span>
                       </div>
                       <p className="text-sm text-muted-foreground">（手数料10%込み、分割可能）</p>
                     </div>
