@@ -246,7 +246,7 @@ export default function NewReleasePage() {
               </div>
 
               {/* Application Button */}
-              <div className="text-center py-12">
+              <div className="text-center py-12 mb-12">
                 <Button
                   asChild
                   size="lg"
@@ -257,22 +257,6 @@ export default function NewReleasePage() {
                   </Link>
                 </Button>
               </div>
-
-              {/* Schedule Info */}
-              <div className="bg-background p-6 rounded-xl space-y-3 mb-12">
-                <div className="flex items-start gap-3">
-                  <span className="font-bold text-primary min-w-[80px]">時間：</span>
-                  <span className="text-foreground/80">各日 9:00 〜 11:30（予定）</span>
-                </div>
-                <div className="flex items-start gap-3">
-                  <span className="font-bold text-primary min-w-[80px]">形式：</span>
-                  <span className="text-foreground/80">Zoomによるオンライン集中講義（アーカイブ・チャットサポートあり）</span>
-                </div>
-              </div>
-
-              <p className="text-center text-lg text-foreground font-medium mb-12">
-                皆様の挑戦を、心よりお待ちしております！
-              </p>
             </div>
           </div>
         </section>
