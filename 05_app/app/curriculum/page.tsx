@@ -6,7 +6,19 @@ import { CTASection } from "@/components/home/cta-section"
 import { useState } from "react"
 import { ChevronDown, ChevronUp } from "lucide-react"
 
-const detailedCurriculum = [
+type SubCategory = {
+  name: string
+  items: string[]
+  detailItems?: string[]
+}
+
+type CurriculumSection = {
+  category: string
+  items?: string[]
+  subcategories?: SubCategory[]
+}
+
+const detailedCurriculum: CurriculumSection[] = [
   {
     category: "はじめに",
     items: [
