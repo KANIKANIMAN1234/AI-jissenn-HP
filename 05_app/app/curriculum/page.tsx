@@ -586,11 +586,13 @@ export default function CurriculumPage() {
                                         onClick={() => toggleItem(itemToggleKey)}
                                         className="flex items-start gap-3 w-full text-left hover:opacity-80 transition-opacity"
                                       >
-                                        {isItemExpanded ? (
-                                          <ChevronUp className="w-4 h-4 text-primary mt-1.5 flex-shrink-0" />
-                                        ) : (
-                                          <ChevronDown className="w-4 h-4 text-primary mt-1.5 flex-shrink-0" />
-                                        )}
+                                        <span className="w-4 flex-shrink-0 flex items-start mt-1.5">
+                                          {isItemExpanded ? (
+                                            <ChevronUp className="w-4 h-4 text-primary" />
+                                          ) : (
+                                            <ChevronDown className="w-4 h-4 text-primary" />
+                                          )}
+                                        </span>
                                         <span className="text-muted-foreground leading-relaxed flex-1">{item}</span>
                                       </button>
                                       {isItemExpanded && (
@@ -608,7 +610,8 @@ export default function CurriculumPage() {
                                 }
                                 
                                 return (
-                                  <li key={itemIndex}>
+                                  <li key={itemIndex} className="flex items-start gap-3">
+                                    <span className="w-4 flex-shrink-0"></span>
                                     <span className="text-muted-foreground leading-relaxed">{item}</span>
                                   </li>
                                 )
@@ -642,11 +645,13 @@ export default function CurriculumPage() {
                                 onClick={() => toggleItem(toggleKey)}
                                 className="flex items-start gap-3 w-full text-left hover:opacity-80 transition-opacity"
                               >
-                                {isExpanded ? (
-                                  <ChevronUp className="w-4 h-4 text-primary mt-1.5 flex-shrink-0" />
-                                ) : (
-                                  <ChevronDown className="w-4 h-4 text-primary mt-1.5 flex-shrink-0" />
-                                )}
+                                <span className="w-4 flex-shrink-0 flex items-start mt-1.5">
+                                  {isExpanded ? (
+                                    <ChevronUp className="w-4 h-4 text-primary" />
+                                  ) : (
+                                    <ChevronDown className="w-4 h-4 text-primary" />
+                                  )}
+                                </span>
                                 <span className="text-muted-foreground leading-relaxed flex-1">{item}</span>
                               </button>
                               {isExpanded && (
@@ -664,7 +669,8 @@ export default function CurriculumPage() {
                         }
                         
                         return (
-                          <li key={itemIndex}>
+                          <li key={itemIndex} className="flex items-start gap-3">
+                            <span className="w-4 flex-shrink-0"></span>
                             <span className="text-muted-foreground leading-relaxed">{item}</span>
                           </li>
                         )
