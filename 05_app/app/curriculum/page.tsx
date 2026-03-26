@@ -108,7 +108,6 @@ const detailedCurriculum: CurriculumSection[] = [
           "Dify概要(3)",
           "APIの基本(1)",
           "5つのアプリケーションタイプ(1)",
-          "Difyアプリを作成しよう(5)",
         ],
         detailItems: [
           "［チャットボット］簡単なチャットボットを作成しよう(1)",
