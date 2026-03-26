@@ -1,12 +1,10 @@
+"use client"
+
 import { Header } from "@/components/header"
 import { Footer } from "@/components/footer"
 import { CTASection } from "@/components/home/cta-section"
-import type { Metadata } from "next"
-
-export const metadata: Metadata = {
-  title: "カリキュラム | AI実践起業塾",
-  description: "AI実践起業塾のカリキュラム - 300超の動画コンテンツで実務スキルを習得",
-}
+import { useState } from "react"
+import { ChevronDown, ChevronUp } from "lucide-react"
 
 const detailedCurriculum = [
   {
@@ -55,16 +53,18 @@ const detailedCurriculum = [
         name: "GoogleAppsScript（GAS）",
         items: [
           "GAS色々なアプリを作ってみよう(10)",
-          "　・WEBビンゴゲームを作ろう！",
-          "　・席次自動割り当てアプリを作ろう！",
-          "　・シフト管理WEBアプリ作成ガイド",
-          "　・学習塾向け暗記カードWEBアプリ作成ガイド",
-          "　・AIC暴露書を自動作成！Googleサービスだけで作る時短ツール",
-          "　・（まじん式）GASでGoogleスライドで資料を自動生成する方法",
-          "　・X投稿の『〇〇8選or10選』の画像をサクッと作る！",
-          "　・RSSフィードを活用し、最新NEWS情報のリンクを収集して自動投稿",
-          "　・ファイル名をルールに沿ってリネーム修正する",
-          "　・GASで作るWEBアプリ！見積もり作成ツール！",
+        ],
+        detailItems: [
+          "・WEBビンゴゲームを作ろう！",
+          "・席次自動割り当てアプリを作ろう！",
+          "・シフト管理WEBアプリ作成ガイド",
+          "・学習塾向け暗記カードWEBアプリ作成ガイド",
+          "・AIC暴露書を自動作成！Googleサービスだけで作る時短ツール",
+          "・（まじん式）GASでGoogleスライドで資料を自動生成する方法",
+          "・X投稿の『〇〇8選or10選』の画像をサクッと作る！",
+          "・RSSフィードを活用し、最新NEWS情報のリンクを収集して自動投稿",
+          "・ファイル名をルールに沿ってリネーム修正する",
+          "・GASで作るWEBアプリ！見積もり作成ツール！",
         ],
       },
       {
@@ -207,6 +207,15 @@ const detailedCurriculum = [
 ]
 
 export default function CurriculumPage() {
+  const [expandedItems, setExpandedItems] = useState<Record<string, boolean>>({})
+
+  const toggleItem = (key: string) => {
+    setExpandedItems(prev => ({
+      ...prev,
+      [key]: !prev[key]
+    }))
+  }
+
   return (
     <>
       <Header />
@@ -248,6 +257,10 @@ export default function CurriculumPage() {
                     <div className="ml-16 space-y-6">
                       {section.subcategories.map((sub, subIndex) => {
                         const circleNumbers = ['①', '②', '③', '④', '⑤', '⑥', '⑦', '⑧', '⑨', '⑩']
+                        const toggleKey = `${section.category}-${sub.name}`
+                        const isExpanded = expandedItems[toggleKey]
+                        const hasDetailItems = 'detailItems' in sub && sub.detailItems && sub.detailItems.length > 0
+                        
                         return (
                           <div key={sub.name}>
                             <h4 className="text-lg font-bold text-foreground mb-3 flex items-center gap-2">
@@ -256,9 +269,38 @@ export default function CurriculumPage() {
                             </h4>
                             <ul className="space-y-3 ml-6">
                               {sub.items.map((item, itemIndex) => (
-                                <li key={itemIndex} className="flex items-start gap-3">
-                                  <span className="w-1.5 h-1.5 rounded-full bg-primary mt-2 flex-shrink-0" />
-                                  <span className="text-muted-foreground leading-relaxed">{item}</span>
+                                <li key={itemIndex}>
+                                  {hasDetailItems && itemIndex === 0 ? (
+                                    <div>
+                                      <button
+                                        onClick={() => toggleItem(toggleKey)}
+                                        className="flex items-center gap-3 w-full text-left hover:text-primary transition-colors"
+                                      >
+                                        <span className="w-1.5 h-1.5 rounded-full bg-primary mt-2 flex-shrink-0" />
+                                        <span className="text-muted-foreground leading-relaxed flex-1">{item}</span>
+                                        {isExpanded ? (
+                                          <ChevronUp className="w-5 h-5 text-primary flex-shrink-0" />
+                                        ) : (
+                                          <ChevronDown className="w-5 h-5 text-primary flex-shrink-0" />
+                                        )}
+                                      </button>
+                                      {isExpanded && (
+                                        <ul className="mt-3 ml-8 space-y-2">
+                                          {sub.detailItems.map((detail, detailIndex) => (
+                                            <li key={detailIndex} className="flex items-start gap-3">
+                                              <span className="w-1 h-1 rounded-full bg-muted-foreground/50 mt-2.5 flex-shrink-0" />
+                                              <span className="text-muted-foreground/80 text-sm leading-relaxed">{detail}</span>
+                                            </li>
+                                          ))}
+                                        </ul>
+                                      )}
+                                    </div>
+                                  ) : (
+                                    <div className="flex items-start gap-3">
+                                      <span className="w-1.5 h-1.5 rounded-full bg-primary mt-2 flex-shrink-0" />
+                                      <span className="text-muted-foreground leading-relaxed">{item}</span>
+                                    </div>
+                                  )}
                                 </li>
                               ))}
                             </ul>
