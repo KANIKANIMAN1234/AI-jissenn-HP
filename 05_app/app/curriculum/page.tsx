@@ -270,8 +270,7 @@ export default function CurriculumPage() {
                       {section.subcategories.map((sub, subIndex) => {
                         const circleNumbers = ['①', '②', '③', '④', '⑤', '⑥', '⑦', '⑧', '⑨', '⑩']
                         const toggleKey = `${section.category}-${sub.name}`
-                        const isExpanded = expandedItems[toggleKey]
-                        const hasDetailItems = 'detailItems' in sub && sub.detailItems && sub.detailItems.length > 0
+                        const isExpanded = expandedItems[toggleKey] || false
                         
                         return (
                           <div key={sub.name}>
@@ -280,25 +279,26 @@ export default function CurriculumPage() {
                               {sub.name}
                             </h4>
                             <ul className="space-y-3 ml-6">
-                              {sub.items.map((item, itemIndex) => (
-                                <li key={itemIndex}>
-                                  {hasDetailItems && itemIndex === 0 ? (
-                                    <div>
+                              {sub.items.map((item, itemIndex) => {
+                                const isFirstItem = itemIndex === 0
+                                const hasDetails = isFirstItem && sub.detailItems && sub.detailItems.length > 0
+                                
+                                if (hasDetails) {
+                                  return (
+                                    <li key={itemIndex}>
                                       <button
                                         onClick={() => toggleItem(toggleKey)}
-                                        className="flex items-start gap-3 w-full text-left hover:opacity-80 transition-opacity group"
+                                        className="flex items-start gap-3 w-full text-left hover:opacity-80 transition-opacity"
                                       >
                                         <span className="w-1.5 h-1.5 rounded-full bg-primary mt-2 flex-shrink-0" />
                                         <span className="text-muted-foreground leading-relaxed flex-1">{item}</span>
-                                        <span className="mt-1 flex-shrink-0">
-                                          {isExpanded ? (
-                                            <ChevronUp className="w-5 h-5 text-primary" />
-                                          ) : (
-                                            <ChevronDown className="w-5 h-5 text-primary" />
-                                          )}
-                                        </span>
+                                        {isExpanded ? (
+                                          <ChevronUp className="w-5 h-5 text-primary mt-1 flex-shrink-0" />
+                                        ) : (
+                                          <ChevronDown className="w-5 h-5 text-primary mt-1 flex-shrink-0" />
+                                        )}
                                       </button>
-                                      {isExpanded && (
+                                      {isExpanded && sub.detailItems && (
                                         <ul className="mt-3 ml-8 space-y-2">
                                           {sub.detailItems.map((detail, detailIndex) => (
                                             <li key={detailIndex} className="flex items-start gap-3">
@@ -308,15 +308,17 @@ export default function CurriculumPage() {
                                           ))}
                                         </ul>
                                       )}
-                                    </div>
-                                  ) : (
-                                    <div className="flex items-start gap-3">
-                                      <span className="w-1.5 h-1.5 rounded-full bg-primary mt-2 flex-shrink-0" />
-                                      <span className="text-muted-foreground leading-relaxed">{item}</span>
-                                    </div>
-                                  )}
-                                </li>
-                              ))}
+                                    </li>
+                                  )
+                                }
+                                
+                                return (
+                                  <li key={itemIndex} className="flex items-start gap-3">
+                                    <span className="w-1.5 h-1.5 rounded-full bg-primary mt-2 flex-shrink-0" />
+                                    <span className="text-muted-foreground leading-relaxed">{item}</span>
+                                  </li>
+                                )
+                              })}
                             </ul>
                           </div>
                         )
