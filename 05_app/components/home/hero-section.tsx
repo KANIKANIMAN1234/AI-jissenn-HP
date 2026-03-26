@@ -45,7 +45,7 @@ export function HeroSection() {
               className="bg-primary hover:bg-primary/90 text-primary-foreground font-bold"
             >
               <Link href="/new-release">
-                NEWリリース
+                NEW！BootCamp販売のお知らせ
               </Link>
             </Button>
           </div>
