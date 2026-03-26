@@ -43,11 +43,8 @@ export default function NewReleasePage() {
 
               {/* Introduction */}
               <div className="bg-card p-8 rounded-2xl border border-border mb-12">
-                <p className="text-lg text-foreground leading-relaxed mb-4">
-                  AI実践企業塾の皆様、お待たせいたしました！
-                </p>
                 <p className="text-lg text-foreground leading-relaxed">
-                  4月、あなたのスキルを一段上のステージへ引き上げる、超実践型ブートキャンプを開催します。
+                  AI実践企業塾の皆様、お待たせいたしました！4月、あなたのスキルを一段上のステージへ引き上げる、超実践型ブートキャンプを開催します。
                 </p>
               </div>
 
