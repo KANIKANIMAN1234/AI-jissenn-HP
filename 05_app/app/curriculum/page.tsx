@@ -546,8 +546,7 @@ export default function CurriculumPage() {
                                 }
                                 
                                 return (
-                                  <li key={itemIndex} className="flex items-start gap-3">
-                                    <span className="w-1.5 h-1.5 rounded-full bg-primary mt-2 flex-shrink-0" />
+                                  <li key={itemIndex}>
                                     <span className="text-muted-foreground leading-relaxed">{item}</span>
                                   </li>
                                 )
@@ -603,8 +602,7 @@ export default function CurriculumPage() {
                         }
                         
                         return (
-                          <li key={itemIndex} className="flex items-start gap-3">
-                            <span className="w-1.5 h-1.5 rounded-full bg-primary mt-2 flex-shrink-0" />
+                          <li key={itemIndex}>
                             <span className="text-muted-foreground leading-relaxed">{item}</span>
                           </li>
                         )
