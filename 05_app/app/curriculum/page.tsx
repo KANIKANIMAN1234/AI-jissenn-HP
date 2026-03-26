@@ -67,16 +67,16 @@ const detailedCurriculum: CurriculumSection[] = [
           "GAS色々なアプリを作ってみよう(10)",
         ],
         detailItems: [
-          "・WEBビンゴゲームを作ろう！",
-          "・席次自動割り当てアプリを作ろう！",
-          "・シフト管理WEBアプリ作成ガイド",
-          "・学習塾向け暗記カードWEBアプリ作成ガイド",
-          "・AIC暴露書を自動作成！Googleサービスだけで作る時短ツール",
-          "・（まじん式）GASでGoogleスライドで資料を自動生成する方法",
-          "・X投稿の『〇〇8選or10選』の画像をサクッと作る！",
-          "・RSSフィードを活用し、最新NEWS情報のリンクを収集して自動投稿",
-          "・ファイル名をルールに沿ってリネーム修正する",
-          "・GASで作るWEBアプリ！見積もり作成ツール！",
+          "WEBビンゴゲームを作ろう！",
+          "席次自動割り当てアプリを作ろう！",
+          "シフト管理WEBアプリ作成ガイド",
+          "学習塾向け暗記カードWEBアプリ作成ガイド",
+          "AIC暴露書を自動作成！Googleサービスだけで作る時短ツール",
+          "（まじん式）GASでGoogleスライドで資料を自動生成する方法",
+          "X投稿の『〇〇8選or10選』の画像をサクッと作る！",
+          "RSSフィードを活用し、最新NEWS情報のリンクを収集して自動投稿",
+          "ファイル名をルールに沿ってリネーム修正する",
+          "GASで作るWEBアプリ！見積もり作成ツール！",
         ],
       },
       {
@@ -301,7 +301,7 @@ export default function CurriculumPage() {
                                         <ul className="mt-3 ml-8 space-y-2">
                                           {sub.detailItems.map((detail, detailIndex) => (
                                             <li key={detailIndex} className="flex items-start gap-3">
-                                              <span className="w-1 h-1 rounded-full bg-muted-foreground/50 mt-2.5 flex-shrink-0" />
+                                              <span className="text-muted-foreground/50 mt-0.5 flex-shrink-0">-</span>
                                               <span className="text-muted-foreground/80 text-sm leading-relaxed">{detail}</span>
                                             </li>
                                           ))}
