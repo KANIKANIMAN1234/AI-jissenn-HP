@@ -100,6 +100,8 @@ const detailedCurriculum: CurriculumSection[] = [
           "第41回 『ManusAIを触ってみよう！』",
           "第42回 『Cursor超入門セミナー！　2026年必須ツールCursorを学ぶ』",
           "第43回 『Cursor超入門セミナー！　2026年必須ツールCursorを学ぶ』",
+          "第44回 NotebookLMでAI漫画を大量生産する方法",
+          "番外編-[塾生のみ]アニメの画風にする方法",
         ],
       },
       {
