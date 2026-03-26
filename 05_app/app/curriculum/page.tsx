@@ -31,8 +31,8 @@ const detailedCurriculum: CurriculumSection[] = [
     category: "はじめに",
     items: [
       "受講前に(5)",
-      "ビジネスを始めるうえでの心構えについて(1)",
-      "コミュニティ（Discord）への参加(1)",
+      "ビジネスを始めるうえでの心構えについて",
+      "コミュニティ（Discord）への参加",
     ],
     toggleItems: [
       {
@@ -145,7 +145,7 @@ const detailedCurriculum: CurriculumSection[] = [
     items: [
       "AI基礎講座（現在作成中）",
       "AIセキュリティー講座（現在作成中）",
-      "用語なんでも質問：AIチャットボット(1)",
+      "用語なんでも質問：AIチャットボット",
     ],
   },
   {
@@ -195,15 +195,15 @@ const detailedCurriculum: CurriculumSection[] = [
         name: "バックエンド Dify基礎",
         items: [
           "Dify概要(3)",
-          "APIの基本(1)",
-          "5つのアプリケーションタイプ(1)",
+          "APIの基本",
+          "5つのアプリケーションタイプ",
         ],
         detailItems: [
-          "［チャットボット］簡単なチャットボットを作成しよう(1)",
+          "［チャットボット］簡単なチャットボットを作成しよう",
           "［チャットボット］RAGチャットボットを作成しよう(3)",
-          "［テキストジェネレーター］SNS投稿テキストを作成しよう(1)",
+          "［テキストジェネレーター］SNS投稿テキストを作成しよう",
           "［チャットフロー］問合せチャットフローを作成しよう(2)",
-          "［ワークフロー］PDFファイルからQA集を自動生成するアプリ(1)",
+          "［ワークフロー］PDFファイルからQA集を自動生成するアプリ",
         ],
       },
       {
@@ -211,19 +211,19 @@ const detailedCurriculum: CurriculumSection[] = [
         items: [
           "ReactとNext.jsの違い(3)",
           "WEBアプリで知っておくべきこと(8)",
-          "Typescriptって何？(1)",
+          "Typescriptって何？",
         ],
       },
       {
         name: "Vercel関連",
         items: [
-          "Vercelアカウント作成(1)",
+          "Vercelアカウント作成",
         ],
       },
       {
         name: "HP、LP作成",
         items: [
-          "様々なWEBサイト作成ツール紹介(1)",
+          "様々なWEBサイト作成ツール紹介",
           "Cursor＋github＋V0＋VercelでHPを作成する方法(8)",
         ],
         toggleItemIndex: 1,
@@ -251,8 +251,8 @@ const detailedCurriculum: CurriculumSection[] = [
           "Obsidianのインストールと初期設定(4)",
           "Cursorのインストールと初期設定(3)",
           "Web開発プロジェクトの立ち上げStart(7)",
-          "仕様書について理解を深めよう(1)",
-          "AI活用・仕様駆動型アプリ開発の実践Tips(1)",
+          "仕様書について理解を深めよう",
+          "AI活用・仕様駆動型アプリ開発の実践Tips",
         ],
         toggleItems: [
           {
@@ -298,7 +298,7 @@ const detailedCurriculum: CurriculumSection[] = [
     category: "チャレンジ企画編",
     items: [
       "魅力的なサムネイル画像作成(4)",
-      "Difyアプリ中級チャレンジ(1)",
+      "Difyアプリ中級チャレンジ",
       "LINE公式＋αチャレンジ(6)",
       "　・LINE 予定管理 秘書bot（LINE×GAS連携）",
       "　・LINE メール管理 AI秘書bot（LINE×GAS連携）",
@@ -349,10 +349,10 @@ const detailedCurriculum: CurriculumSection[] = [
       {
         name: "AI活用のSNS発信",
         items: [
-          "マーケティングの基礎(1)",
+          "マーケティングの基礎",
           "AI活用+note活用講座(19)",
           "AI活用＋X運用講座(17)",
-          "自己紹介ポートフォリオサイト作成講座(1)",
+          "自己紹介ポートフォリオサイト作成講座",
           "LINE公式アカウントの始め方(32)",
           "便利なchrome拡張(8)",
         ],
@@ -410,28 +410,28 @@ const detailedCurriculum: CurriculumSection[] = [
   {
     category: "企画",
     items: [
-      "共同noteマガジン - 趣旨の説明(2025.4)(1)",
-      "共同noteマガジン参加者向け説明会(1)",
-      "伴走型アプリ開発＆販売プログラム概要説明(1)",
+      "共同noteマガジン - 趣旨の説明(2025.4)",
+      "共同noteマガジン参加者向け説明会",
+      "伴走型アプリ開発＆販売プログラム概要説明",
     ],
   },
   {
     category: "座学",
     items: [
       "契約関連の知識(6)",
-      "特定商品取引法(1)",
+      "特定商品取引法",
       "産業財産権＋著作権法(5)",
       "契約書関係ひな形集＋サポート弁護士紹介(2)",
-      "印紙税について(1)",
+      "印紙税について",
     ],
   },
   {
     category: "プチ講座編",
     items: [
-      "AI漫画（講師：樋口先生）(1)",
-      "ビックリマン風シール作成講座（講師：kuru96先生）非公開済(1)",
-      "Dify基礎講座（講師：ハッチ先生）(1)",
-      "LINEスタンプ作成講座（講師：mai先生）(1)",
+      "AI漫画（講師：樋口先生）",
+      "ビックリマン風シール作成講座（講師：kuru96先生）非公開済",
+      "Dify基礎講座（講師：ハッチ先生）",
+      "LINEスタンプ作成講座（講師：mai先生）",
     ],
   },
 ]
