@@ -209,6 +209,24 @@ const detailedCurriculum: CurriculumSection[] = [
         ],
       },
       {
+        name: "バックエンド n8n基礎",
+        items: [
+          "n8nの概要（2026年4月リリース予定）",
+          "アプリを作ってみよう",
+        ],
+        toggleItems: [
+          {
+            index: 0,
+            details: [
+              "n8nの概要",
+              "n8nの便利な使い方",
+              "n8nのトリガー設定の種類",
+              "n8nのノードの解説",
+            ],
+          },
+        ],
+      },
+      {
         name: "WEBアプリについて知識補充",
         items: [
           "ReactとNext.jsの違い(3)",
