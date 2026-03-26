@@ -138,6 +138,7 @@ const detailedCurriculum: CurriculumSection[] = [
           "第25回 会員限定『座談会』",
           "第26回 Cursor超実践セミナー",
           "第27回 Cursor×Obsidianで第二の脳を構築する（塾内セミナー）",
+          "第28回 『ホームページを作ろう！』 ～AI実践起業塾のHPを作成した方法～（塾内セミナー）",
         ],
       },
     ],
