@@ -6,11 +6,17 @@ import { CTASection } from "@/components/home/cta-section"
 import { useState } from "react"
 import { ChevronDown, ChevronUp } from "lucide-react"
 
+type ToggleItem = {
+  index: number
+  details: string[]
+}
+
 type SubCategory = {
   name: string
   items: string[]
   detailItems?: string[]
   toggleItemIndex?: number
+  toggleItems?: ToggleItem[]
 }
 
 type CurriculumSection = {
@@ -160,12 +166,28 @@ const detailedCurriculum: CurriculumSection[] = [
           "仕様書について理解を深めよう(1)",
           "AI活用・仕様駆動型アプリ開発の実践Tips(1)",
         ],
-        toggleItemIndex: 1,
-        detailItems: [
-          "Obsidianのインストール",
-          "外観の設定",
-          "フォントの設定",
-          "便利なPluginのインストール",
+        toggleItems: [
+          {
+            index: 1,
+            details: [
+              "Obsidianのインストール",
+              "外観の設定",
+              "フォントの設定",
+              "便利なPluginのインストール",
+            ],
+          },
+          {
+            index: 3,
+            details: [
+              "Webアプリ開発プロジェクトの「立ち上げ」から「計画」まで",
+              "プロジェクトのお金の管理「コスト管理」",
+              "仕様書を作成する手順",
+              "Webアプリのモックアップ作成",
+              "アプリケーションの品質を確認する「テスト」の工程",
+              "マニュアル作成（その１：ドキュメントタイプ、動画タイプ比較）",
+              "マニュアル作成（その２）",
+            ],
+          },
         ],
       },
       {
@@ -318,27 +340,42 @@ export default function CurriculumPage() {
                             </h4>
                             <ul className="space-y-3 ml-6">
                               {sub.items.map((item, itemIndex) => {
-                                const targetIndex = sub.toggleItemIndex !== undefined ? sub.toggleItemIndex : 0
-                                const isToggleItem = itemIndex === targetIndex
-                                const hasDetails = isToggleItem && sub.detailItems && sub.detailItems.length > 0
+                                let hasDetails = false
+                                let detailsList: string[] = []
+                                const itemToggleKey = `${toggleKey}-${itemIndex}`
+                                const isItemExpanded = expandedItems[itemToggleKey] || false
+                                
+                                if (sub.toggleItems && sub.toggleItems.length > 0) {
+                                  const toggleConfig = sub.toggleItems.find(t => t.index === itemIndex)
+                                  if (toggleConfig) {
+                                    hasDetails = true
+                                    detailsList = toggleConfig.details
+                                  }
+                                } else if (sub.detailItems && sub.detailItems.length > 0) {
+                                  const targetIndex = sub.toggleItemIndex !== undefined ? sub.toggleItemIndex : 0
+                                  if (itemIndex === targetIndex) {
+                                    hasDetails = true
+                                    detailsList = sub.detailItems
+                                  }
+                                }
                                 
                                 if (hasDetails) {
                                   return (
                                     <li key={itemIndex}>
                                       <button
-                                        onClick={() => toggleItem(toggleKey)}
+                                        onClick={() => toggleItem(itemToggleKey)}
                                         className="flex items-start gap-3 w-full text-left hover:opacity-80 transition-opacity"
                                       >
-                                        {isExpanded ? (
+                                        {isItemExpanded ? (
                                           <ChevronUp className="w-4 h-4 text-primary mt-1.5 flex-shrink-0" />
                                         ) : (
                                           <ChevronDown className="w-4 h-4 text-primary mt-1.5 flex-shrink-0" />
                                         )}
                                         <span className="text-muted-foreground leading-relaxed flex-1">{item}</span>
                                       </button>
-                                      {isExpanded && sub.detailItems && (
+                                      {isItemExpanded && (
                                         <ul className="mt-3 ml-8 space-y-2">
-                                          {sub.detailItems.map((detail, detailIndex) => (
+                                          {detailsList.map((detail, detailIndex) => (
                                             <li key={detailIndex} className="flex items-start gap-3">
                                               <span className="text-muted-foreground/50 mt-0.5 flex-shrink-0">-</span>
                                               <span className="text-muted-foreground/80 text-sm leading-relaxed">{detail}</span>
