@@ -53,8 +53,7 @@ export default function NewReleasePage() {
 
               <div className="space-y-6 mb-12">
                 <p className="text-lg text-foreground leading-relaxed">
-                  今回のテーマは<strong className="text-primary">「データベース（Supabase）」</strong>。
-                  前回のGASブートキャンプで「動くツール」を作れるようになった次の一歩として、<strong className="text-primary">「数百万〜一千万円規模の案件」</strong>を支えるプロの設計・開発手法を5日間でマスターしていただきます。
+                  今回のテーマは<strong className="text-primary">「データベース（Supabase）」</strong>。前回のGASブートキャンプで「動くツール」を作れるようになった次の一歩として、<strong className="text-primary">「数百万〜一千万円規模の案件」</strong>を支えるプロの設計・開発手法を5日間でマスターしていただきます。
                 </p>
               </div>
 
@@ -195,12 +194,12 @@ export default function NewReleasePage() {
                     <div className="space-y-3">
                       <div className="flex items-center justify-between">
                         <span className="text-foreground/80">銀行振り込み：</span>
-                        <span className="text-2xl font-bold text-primary">29,800円</span>
+                        <span className="text-2xl font-bold" style={{ color: '#001B3A' }}>29,800円</span>
                       </div>
                       <p className="text-sm text-muted-foreground">（手数料なし）</p>
                       <div className="flex items-center justify-between border-t border-border pt-3">
                         <span className="text-foreground/80">スクエア決済：</span>
-                        <span className="text-2xl font-bold text-foreground">32,900円</span>
+                        <span className="text-2xl font-bold" style={{ color: '#001B3A' }}>32,900円</span>
                       </div>
                       <p className="text-sm text-muted-foreground">（手数料10%込み、分割可能）</p>
                     </div>
@@ -216,12 +215,12 @@ export default function NewReleasePage() {
                       </div>
                       <div className="flex items-center justify-between">
                         <span className="text-lg font-bold text-primary">銀行振り込み：</span>
-                        <span className="text-3xl font-bold text-primary">59,800円</span>
+                        <span className="text-3xl font-bold" style={{ color: '#001B3A' }}>59,800円</span>
                       </div>
                       <p className="text-sm text-muted-foreground">（手数料なし）</p>
                       <div className="flex items-center justify-between border-t border-primary/20 pt-3">
                         <span className="text-foreground/80">スクエア決済：</span>
-                        <span className="text-2xl font-bold text-foreground">65,900円</span>
+                        <span className="text-2xl font-bold" style={{ color: '#001B3A' }}>65,900円</span>
                       </div>
                       <p className="text-sm text-muted-foreground">（手数料10%込み、分割可能）</p>
                     </div>
@@ -231,10 +230,8 @@ export default function NewReleasePage() {
 
               {/* Call to Action */}
               <div className="bg-gradient-to-r from-primary/10 to-primary/5 p-8 rounded-2xl mb-12 text-center">
-                <p className="text-lg text-foreground leading-relaxed mb-6">
-                  「AIエンジニア元年」と言われる2026年。<br />
-                  ただAIを使うだけの人で終わるか、AIを使いこなして価値あるシステムを創る側になるか。<br />
-                  この5日間で、あなたの未来を大きく変えていきましょう！
+                <p className="text-lg text-foreground leading-relaxed">
+                  「AIエンジニア元年」と言われる2026年。ただAIを使うだけの人で終わるか、AIを使いこなして価値あるシステムを創る側になるか。この5日間で、あなたの未来を大きく変えていきましょう！
                 </p>
               </div>
 
