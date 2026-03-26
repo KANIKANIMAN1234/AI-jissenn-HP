@@ -186,25 +186,46 @@ export default function NewReleasePage() {
               <div className="bg-card p-8 rounded-2xl border-2 border-primary/20 mb-12">
                 <h3 className="text-2xl font-bold text-foreground mb-6 flex items-center gap-2">
                   <span className="text-3xl">💰</span>
-                  塾生限定：驚きの「奇跡の価格」
+                  受講料金
                 </h3>
-                <div className="space-y-4 mb-6">
-                  <p className="text-foreground/80 leading-relaxed">
-                    本講座は、本来であればプロを目指すための内容として、89,000円以上の価値がある内容です。しかし、今回は<strong className="text-primary">「塾生の皆さんの成長を全力で応援したい」</strong>という想いから、今回限りの特別価格をご用意しました。
-                  </p>
-                </div>
-                <div className="bg-background p-6 rounded-xl space-y-4">
-                  <div className="flex items-center justify-between">
-                    <span className="text-lg text-muted-foreground">一般募集価格：</span>
-                    <span className="text-2xl font-bold text-foreground line-through">50,000円</span>
+                <div className="space-y-6">
+                  {/* Supabaseブートキャンプ単体 */}
+                  <div className="bg-background p-6 rounded-xl">
+                    <h4 className="text-xl font-bold text-foreground mb-4">Supabaseブートキャンプ単体</h4>
+                    <div className="space-y-3">
+                      <div className="flex items-center justify-between">
+                        <span className="text-foreground/80">銀行振り込み：</span>
+                        <span className="text-2xl font-bold text-primary">29,800円</span>
+                      </div>
+                      <p className="text-sm text-muted-foreground">（手数料なし）</p>
+                      <div className="flex items-center justify-between border-t border-border pt-3">
+                        <span className="text-foreground/80">スクエア決済：</span>
+                        <span className="text-2xl font-bold text-foreground">32,900円</span>
+                      </div>
+                      <p className="text-sm text-muted-foreground">（手数料10%込み、分割可能）</p>
+                    </div>
                   </div>
-                  <div className="flex items-center justify-between border-t-2 border-primary/20 pt-4">
-                    <span className="text-xl font-bold text-primary">塾生特別価格：</span>
-                    <span className="text-4xl font-bold text-primary">9,800円</span>
+
+                  {/* AI実践起業塾追加 */}
+                  <div className="bg-primary/5 p-6 rounded-xl border-2 border-primary/20">
+                    <h4 className="text-xl font-bold text-primary mb-4">AI実践起業塾追加（セット価格）</h4>
+                    <div className="space-y-3">
+                      <div className="flex items-center justify-between">
+                        <span className="text-foreground/80">通常価格：</span>
+                        <span className="text-xl font-bold text-foreground line-through">79,800円</span>
+                      </div>
+                      <div className="flex items-center justify-between">
+                        <span className="text-lg font-bold text-primary">銀行振り込み：</span>
+                        <span className="text-3xl font-bold text-primary">59,800円</span>
+                      </div>
+                      <p className="text-sm text-muted-foreground">（手数料なし）</p>
+                      <div className="flex items-center justify-between border-t border-primary/20 pt-3">
+                        <span className="text-foreground/80">スクエア決済：</span>
+                        <span className="text-2xl font-bold text-foreground">65,900円</span>
+                      </div>
+                      <p className="text-sm text-muted-foreground">（手数料10%込み、分割可能）</p>
+                    </div>
                   </div>
-                  <p className="text-sm text-muted-foreground">
-                    ※銀行振込の場合。決済手数料の関係でSquare決済は11,000円となります。
-                  </p>
                 </div>
               </div>
 
@@ -234,7 +255,7 @@ export default function NewReleasePage() {
                       size="lg"
                       className="bg-primary hover:bg-primary/90 text-primary-foreground font-bold text-lg px-12 py-6"
                     >
-                      <Link href="#" target="_blank" rel="noopener noreferrer">
+                      <Link href="https://docs.google.com/forms/d/e/1FAIpQLSf0Go-4ov0rBM0ZZNPQvtBquQEDaP3YvMpb1YeanYGHy8f6Kw/viewform" target="_blank" rel="noopener noreferrer">
                         お申し込みフォームはこちら
                       </Link>
                     </Button>
