@@ -1,4 +1,6 @@
 import Image from "next/image"
+import Link from "next/link"
+import { Button } from "@/components/ui/button"
 
 export function HeroSection() {
   return (
@@ -34,6 +36,19 @@ export function HeroSection() {
             <br className="hidden sm:block" />
             市場価値を爆発させる最大のチャンスは、今この瞬間。
           </p>
+
+          {/* NEW Release Button */}
+          <div className="mt-8">
+            <Button
+              asChild
+              size="lg"
+              className="bg-primary hover:bg-primary/90 text-primary-foreground font-bold"
+            >
+              <Link href="/new-release">
+                NEWリリース
+              </Link>
+            </Button>
+          </div>
         </div>
       </div>
 
