@@ -194,10 +194,12 @@ const detailedCurriculum: CurriculumSection[] = [
       {
         name: "バックエンド Dify基礎",
         items: [
-          "Dify概要(3)",
+          "Difyの概要",
           "APIの基本",
           "5つのアプリケーションタイプ",
+          "アプリを作ってみよう",
         ],
+        toggleItemIndex: 3,
         detailItems: [
           "［チャットボット］簡単なチャットボットを作成しよう",
           "［チャットボット］RAGチャットボットを作成しよう(3)",
