@@ -245,45 +245,34 @@ export default function NewReleasePage() {
                 </p>
               </div>
 
-              {/* Application Info */}
-              <div className="bg-card p-8 rounded-2xl border border-border mb-12">
-                <h3 className="text-2xl font-bold text-foreground mb-6 flex items-center gap-2">
-                  <span className="text-3xl">📩</span>
-                  お申し込み方法
-                </h3>
-                <div className="space-y-6">
-                  <p className="text-foreground/80 leading-relaxed">
-                    以下の専用フォームより、必要事項をご入力の上お申し込みください。
-                  </p>
-                  
-                  <div className="text-center py-6">
-                    <Button
-                      asChild
-                      size="lg"
-                      className="bg-primary hover:bg-primary/90 text-primary-foreground font-bold text-lg px-12 py-6"
-                    >
-                      <Link href="https://docs.google.com/forms/d/e/1FAIpQLSf0Go-4ov0rBM0ZZNPQvtBquQEDaP3YvMpb1YeanYGHy8f6Kw/viewform" target="_blank" rel="noopener noreferrer">
-                        お申し込みフォームはこちら
-                      </Link>
-                    </Button>
-                  </div>
+              {/* Application Button */}
+              <div className="text-center py-12">
+                <Button
+                  asChild
+                  size="lg"
+                  className="bg-primary hover:bg-primary/90 text-primary-foreground font-bold text-lg px-12 py-6"
+                >
+                  <Link href="https://docs.google.com/forms/d/e/1FAIpQLSf0Go-4ov0rBM0ZZNPQvtBquQEDaP3YvMpb1YeanYGHy8f6Kw/viewform" target="_blank" rel="noopener noreferrer">
+                    お申し込みフォームはこちら
+                  </Link>
+                </Button>
+              </div>
 
-                  <div className="bg-background p-6 rounded-xl space-y-3">
-                    <div className="flex items-start gap-3">
-                      <span className="font-bold text-primary min-w-[80px]">時間：</span>
-                      <span className="text-foreground/80">各日 9:00 〜 11:30（予定）</span>
-                    </div>
-                    <div className="flex items-start gap-3">
-                      <span className="font-bold text-primary min-w-[80px]">形式：</span>
-                      <span className="text-foreground/80">Zoomによるオンライン集中講義（アーカイブ・チャットサポートあり）</span>
-                    </div>
-                  </div>
-
-                  <p className="text-center text-lg text-foreground font-medium mt-8">
-                    皆様の挑戦を、心よりお待ちしております！
-                  </p>
+              {/* Schedule Info */}
+              <div className="bg-background p-6 rounded-xl space-y-3 mb-12">
+                <div className="flex items-start gap-3">
+                  <span className="font-bold text-primary min-w-[80px]">時間：</span>
+                  <span className="text-foreground/80">各日 9:00 〜 11:30（予定）</span>
+                </div>
+                <div className="flex items-start gap-3">
+                  <span className="font-bold text-primary min-w-[80px]">形式：</span>
+                  <span className="text-foreground/80">Zoomによるオンライン集中講義（アーカイブ・チャットサポートあり）</span>
                 </div>
               </div>
+
+              <p className="text-center text-lg text-foreground font-medium mb-12">
+                皆様の挑戦を、心よりお待ちしております！
+              </p>
             </div>
           </div>
         </section>
