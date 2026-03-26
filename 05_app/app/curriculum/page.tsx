@@ -300,12 +300,19 @@ const detailedCurriculum: CurriculumSection[] = [
       "魅力的なサムネイル画像作成(4)",
       "Difyアプリ中級チャレンジ",
       "LINE公式＋αチャレンジ(6)",
-      "　・LINE 予定管理 秘書bot（LINE×GAS連携）",
-      "　・LINE メール管理 AI秘書bot（LINE×GAS連携）",
-      "　・cafe飲食店向け LINE公式＋順番待ちBot",
-      "　・宅配弁当LINEbot(chatGPT連携)",
-      "　・LINEとGASで作る歯科医院予約システムの構築ガイド",
-      "　・LINE公式アカウント家計簿アプリ（GAS・Googleスプレッドシート連携）",
+    ],
+    toggleItems: [
+      {
+        index: 2,
+        details: [
+          "LINE 予定管理 秘書bot（LINE×GAS連携）",
+          "LINE メール管理 AI秘書bot（LINE×GAS連携）",
+          "cafe飲食店向け LINE公式＋順番待ちBot",
+          "宅配弁当LINEbot(chatGPT連携)",
+          "LINEとGASで作る歯科医院予約システムの構築ガイド",
+          "LINE公式アカウント家計簿アプリ（GAS・Googleスプレッドシート連携）",
+        ],
+      },
     ],
   },
   {
