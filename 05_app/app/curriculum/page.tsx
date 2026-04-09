@@ -53,7 +53,7 @@ const detailedCurriculum: CurriculumSection[] = [
       {
         name: "無料セミナーアーカイブ",
         items: [
-          "無料セミナーアーカイブ(44)",
+          "無料セミナーアーカイブ(45)",
         ],
         detailItems: [
           "第1回『商品開発の第一歩』⇒第17回を視聴してください",
@@ -102,6 +102,7 @@ const detailedCurriculum: CurriculumSection[] = [
           "第43回 『Cursor超入門セミナー！　2026年必須ツールCursorを学ぶ』",
           "第44回 NotebookLMでAI漫画を大量生産する方法",
           "番外編-[塾生のみ]アニメの画風にする方法",
+          "第45回『はじめてのClaude Code・・・ってなに？』〜ふわっとしててわからない。AIエージェントを体感する〜",
         ],
       },
       {
