@@ -107,7 +107,7 @@ const detailedCurriculum: CurriculumSection[] = [
       {
         name: "会員向けセミナーアーカイブ",
         items: [
-          "会員向けセミナーアーカイブ(28)",
+          "会員向けセミナーアーカイブ(29)",
         ],
         detailItems: [
           "第1回 2025.07.17　グループコンサル",
@@ -139,6 +139,7 @@ const detailedCurriculum: CurriculumSection[] = [
           "第26回 Cursor超実践セミナー",
           "第27回 Cursor×Obsidianで第二の脳を構築する（塾内セミナー）",
           "第28回 『ホームページを作ろう！』 ～AI実践起業塾のHPを作成した方法～（塾内セミナー）",
+          "第29回 3週間集中チャレンジ企画！LINE公式アカウントで作る 「自分専用・AI家計簿アプリ」完全マスターセミナー！（第1回）",
         ],
       },
     ],
