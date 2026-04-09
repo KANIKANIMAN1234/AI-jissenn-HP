@@ -57,7 +57,7 @@ export default function NewReleasePage() {
               {/* Introduction */}
               <div className="bg-card p-8 rounded-2xl border border-border mb-12">
                 <p className="text-lg leading-relaxed" style={{ color: '#001B3A' }}>
-                  AI実践企業塾の皆様、お待たせいたしました！4月、あなたのスキルを一段上のステージへ引き上げる、超実践型ブートキャンプを開催します。
+                  AI実践企業塾の皆様、お待たせいたしました！5月・6月、あなたのスキルを一段上のステージへ引き上げる、超実践型ブートキャンプを開催します。
                 </p>
               </div>
 
@@ -101,14 +101,14 @@ export default function NewReleasePage() {
                   5日間のカリキュラム（完全ハンズオン形式）
                 </h3>
                 <p className="text-lg text-muted-foreground mb-8">
-                  土曜の朝、少し早起きして「一生物の資産」を手に入れませんか？
+                  土曜の夜、「一生物の資産」を手に入れませんか？
                 </p>
 
                 <div className="space-y-6">
                   {/* Day 1 */}
                   <div className="bg-card p-6 rounded-xl border border-border">
                     <h4 className="text-xl font-bold text-primary mb-3">
-                      Day 1：4/4(土) 基礎固め「Excel地獄からの脱出」
+                      Day 1：5/9(土) 21:00〜 基礎固め「Excel地獄からの脱出」
                     </h4>
                     <p className="text-foreground/80 leading-relaxed">
                       スプレッドシートの限界を知り、リレーショナルデータベース（RDB）の思考をインストール。
@@ -118,7 +118,7 @@ export default function NewReleasePage() {
                   {/* Day 2 */}
                   <div className="bg-card p-6 rounded-xl border border-border">
                     <h4 className="text-xl font-bold text-primary mb-3">
-                      Day 2：4/11(土) 設計の真髄「プロの設計図・ER図」
+                      Day 2：5/16(土) 21:00〜 設計の真髄「プロの設計図・ER図」
                     </h4>
                     <p className="text-foreground/80 leading-relaxed">
                       データの重複を許さない「正規化」とテーブル同士のリレーションを学びます。
@@ -128,7 +128,7 @@ export default function NewReleasePage() {
                   {/* Day 3 */}
                   <div className="bg-card p-6 rounded-xl border border-border">
                     <h4 className="text-xl font-bold text-primary mb-3">
-                      Day 3：4/18(土) 実装フェーズ「SupabaseとSQL」
+                      Day 3：5/23(土) 21:00〜 実装フェーズ「SupabaseとSQL」
                     </h4>
                     <p className="text-foreground/80 leading-relaxed">
                       実際にSupabaseを構築。データのやり取りに欠かせないSQLと言語を習得。
@@ -138,7 +138,7 @@ export default function NewReleasePage() {
                   {/* Day 4 */}
                   <div className="bg-card p-6 rounded-xl border border-border">
                     <h4 className="text-xl font-bold text-primary mb-3">
-                      Day 4：4/25(土) 堅牢性を生む「セキュリティとアクセス制御」
+                      Day 4：5/30(土) 21:00〜 堅牢性を生む「セキュリティとアクセス制御」
                     </h4>
                     <p className="text-foreground/80 leading-relaxed">
                       プロの現場で必須となる、安全なデータ管理の仕組みを構築します。
@@ -148,7 +148,7 @@ export default function NewReleasePage() {
                   {/* Day 5 */}
                   <div className="bg-card p-6 rounded-xl border border-border">
                     <h4 className="text-xl font-bold text-primary mb-3">
-                      Day 5：4/29(祝) 完結「アプリ公開・世界へデプロイ」
+                      Day 5：6/6(土) 21:00〜 完結「アプリ公開・世界へデプロイ」
                     </h4>
                     <p className="text-foreground/80 leading-relaxed">
                       CursorでUIを作成し、Vercelへデプロイ。自分の作ったシステムが世界中で動く感動を！
