@@ -170,9 +170,17 @@ export default function NewReleasePage() {
                 <h2 className="text-3xl lg:text-4xl font-bold text-foreground mb-3">
                   AI開発者向け環境構築ブートキャンプ
                 </h2>
-                <p className="text-lg text-muted-foreground">
+                <p className="text-lg text-muted-foreground mb-6">
                   アプリ開発志望者向け ／ 2h × 3日間
                 </p>
+                <Image
+                  src="/devenv-bootcamp-banner.png"
+                  alt="AIアプリ開発者向け環境構築ブートキャンプ"
+                  width={1200}
+                  height={630}
+                  className="w-full h-auto rounded-2xl"
+                  priority
+                />
               </div>
 
               {/* 導入文 */}
