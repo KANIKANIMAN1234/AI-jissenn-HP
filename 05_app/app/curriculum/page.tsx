@@ -163,6 +163,51 @@ const detailedCurriculum: CurriculumSection[] = [
       "AIセキュリティー講座（現在作成中）",
       "用語なんでも質問：AIチャットボット",
     ],
+    subcategories: [
+      {
+        name: "第1章：AIを知る",
+        items: ["第1章：AIを知る（10講座）"],
+        detailItems: [
+          "1-1 生成ＡＩとは？",
+          "1-2 AIの歴史",
+          "1-3 AIでできること（副業・収益化事例）",
+          "1-4 なぜ今AIなのか？（チャンスとリスク）",
+          "1-5 生成AIの代表モデル",
+          "1-6 ハルシネーションについて",
+          "1-7 著作権について",
+          "1-8 プライバシーと情報漏洩について",
+          "1-9 AIが生み出す偏見とその対策",
+          "1-10 AI倫理と企業の社会的責任",
+        ],
+      },
+      {
+        name: "第2章：AIを使いこなすための\"最低限の理解\"",
+        items: ["第2章：AIを使いこなすための\"最低限の理解\"（4講座）"],
+        detailItems: [
+          "2-1 AIはなぜ高品質な回答ができるのか",
+          "2-2 プレトレーニングとファインチューニング",
+          "2-3 AIを「事実」に繋ぎとめる技術：RAG",
+          "2-4 最新AIの可能性（マルチモーダル）",
+        ],
+      },
+      {
+        name: "第3章：すぐ使える環境構築",
+        items: ["第3章：すぐ使える環境構築（11講座）"],
+        detailItems: [
+          "3-1 作業効率を上げるPC環境と準備",
+          "3-2 AIツールの導入と基本操作",
+          "3-3 作業スピードを上げる最新機能",
+          "3-4 ChatGPTの基本的な使い方",
+          "3-5 ChatGPT：自分専用のAIを作る『GPTs』",
+          "3-6 ChatGPT：文脈を共有する『プロジェクト機能』",
+          "3-7 Geminiの基本的な使い方",
+          "3-8 Claudeの基本的な使い方",
+          "3-9 Claude：自動化の極意『スキルクリエイター』",
+          "3-10 NotebookLMの基本的な使い方",
+          "3-11 GoogleAIStudio の基本的な使い方",
+        ],
+      },
+    ],
   },
   {
     category: "プロンプト編",
@@ -587,8 +632,65 @@ export default function CurriculumPage() {
                     </div>
                   </div>
                   
+                  {/* 通常のアイテムリスト（subcategoriesがある場合も表示） */}
+                  {section.items && (
+                    <ul className={`space-y-3 ml-[5.5rem]${section.subcategories ? ' mb-8' : ''}`}>
+                      {section.items.map((item, itemIndex) => {
+                        const toggleKey = `${section.category}-${itemIndex}`
+                        const isExpanded = expandedItems[toggleKey] || false
+                        let hasDetails = false
+                        let detailsList: string[] = []
+                        
+                        if (section.toggleItems && section.toggleItems.length > 0) {
+                          const toggleConfig = section.toggleItems.find(t => t.index === itemIndex)
+                          if (toggleConfig) {
+                            hasDetails = true
+                            detailsList = toggleConfig.details
+                          }
+                        }
+                        
+                        if (hasDetails) {
+                          return (
+                            <li key={itemIndex}>
+                              <button
+                                onClick={() => toggleItem(toggleKey)}
+                                className="flex items-start gap-3 w-full text-left hover:opacity-80 transition-opacity"
+                              >
+                                <span className="w-4 flex-shrink-0 flex items-start mt-1.5">
+                                  {isExpanded ? (
+                                    <ChevronUp className="w-4 h-4 text-primary" />
+                                  ) : (
+                                    <ChevronDown className="w-4 h-4 text-primary" />
+                                  )}
+                                </span>
+                                <span className="text-muted-foreground leading-relaxed flex-1">{item}</span>
+                              </button>
+                              {isExpanded && (
+                                <ul className="mt-3 ml-8 space-y-2">
+                                  {detailsList.map((detail, detailIndex) => (
+                                    <li key={detailIndex} className="flex items-start gap-3">
+                                      <span className="text-muted-foreground/50 mt-0.5 flex-shrink-0">-</span>
+                                      <span className="text-muted-foreground/80 text-sm leading-relaxed">{detail}</span>
+                                    </li>
+                                  ))}
+                                </ul>
+                              )}
+                            </li>
+                          )
+                        }
+                        
+                        return (
+                          <li key={itemIndex} className="flex items-start gap-3">
+                            <span className="w-4 flex-shrink-0"></span>
+                            <span className="text-muted-foreground leading-relaxed">{item}</span>
+                          </li>
+                        )
+                      })}
+                    </ul>
+                  )}
+
                   {/* サブカテゴリーがある場合 */}
-                  {'subcategories' in section && section.subcategories ? (
+                  {section.subcategories && (
                     <div className="ml-16 space-y-6">
                       {section.subcategories.map((sub, subIndex) => {
                         const circleNumbers = ['①', '②', '③', '④', '⑤', '⑥', '⑦', '⑧', '⑨', '⑩']
@@ -664,61 +766,6 @@ export default function CurriculumPage() {
                         )
                       })}
                     </div>
-                  ) : (
-                    /* 通常のアイテムリスト */
-                    <ul className="space-y-3 ml-[5.5rem]">
-                      {'items' in section && section.items && section.items.map((item, itemIndex) => {
-                        const toggleKey = `${section.category}-${itemIndex}`
-                        const isExpanded = expandedItems[toggleKey] || false
-                        let hasDetails = false
-                        let detailsList: string[] = []
-                        
-                        if (section.toggleItems && section.toggleItems.length > 0) {
-                          const toggleConfig = section.toggleItems.find(t => t.index === itemIndex)
-                          if (toggleConfig) {
-                            hasDetails = true
-                            detailsList = toggleConfig.details
-                          }
-                        }
-                        
-                        if (hasDetails) {
-                          return (
-                            <li key={itemIndex}>
-                              <button
-                                onClick={() => toggleItem(toggleKey)}
-                                className="flex items-start gap-3 w-full text-left hover:opacity-80 transition-opacity"
-                              >
-                                <span className="w-4 flex-shrink-0 flex items-start mt-1.5">
-                                  {isExpanded ? (
-                                    <ChevronUp className="w-4 h-4 text-primary" />
-                                  ) : (
-                                    <ChevronDown className="w-4 h-4 text-primary" />
-                                  )}
-                                </span>
-                                <span className="text-muted-foreground leading-relaxed flex-1">{item}</span>
-                              </button>
-                              {isExpanded && (
-                                <ul className="mt-3 ml-8 space-y-2">
-                                  {detailsList.map((detail, detailIndex) => (
-                                    <li key={detailIndex} className="flex items-start gap-3">
-                                      <span className="text-muted-foreground/50 mt-0.5 flex-shrink-0">-</span>
-                                      <span className="text-muted-foreground/80 text-sm leading-relaxed">{detail}</span>
-                                    </li>
-                                  ))}
-                                </ul>
-                              )}
-                            </li>
-                          )
-                        }
-                        
-                        return (
-                          <li key={itemIndex} className="flex items-start gap-3">
-                            <span className="w-4 flex-shrink-0"></span>
-                            <span className="text-muted-foreground leading-relaxed">{item}</span>
-                          </li>
-                        )
-                      })}
-                    </ul>
                   )}
                 </div>
               ))}
