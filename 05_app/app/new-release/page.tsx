@@ -237,7 +237,7 @@ export default function NewReleasePage() {
                   {/* Day 3 */}
                   <div className="bg-card p-6 rounded-xl border border-border">
                     <h4 className="text-xl font-bold text-primary mb-4">
-                      Day 3：8/1（土）
+                      Day 3：7/31（金）
                     </h4>
                     <ul className="space-y-2">
                       <li className="flex items-start gap-2 text-foreground/80 leading-relaxed">
