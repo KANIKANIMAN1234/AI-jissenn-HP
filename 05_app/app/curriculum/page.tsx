@@ -158,11 +158,6 @@ const detailedCurriculum: CurriculumSection[] = [
   },
   {
     category: "AI基礎",
-    items: [
-      "AI基礎講座（現在作成中）",
-      "AIセキュリティー講座（現在作成中）",
-      "用語なんでも質問：AIチャットボット",
-    ],
     subcategories: [
       {
         name: "第1章：AIを知る",
