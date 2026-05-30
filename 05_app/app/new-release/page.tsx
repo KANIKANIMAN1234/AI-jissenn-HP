@@ -7,7 +7,7 @@ import type { Metadata } from "next"
 
 export const metadata: Metadata = {
   title: "NEWリリース | AI実践起業塾",
-  description: "AI実践起業塾の最新情報 - BootCamp販売のお知らせ",
+  description: "AI実践起業塾の最新情報・新ブートキャンプのお知らせ",
 }
 
 export default function NewReleasePage() {
@@ -23,239 +23,341 @@ export default function NewReleasePage() {
               NEW RELEASE
             </div>
             <h1 className="text-4xl lg:text-5xl font-serif font-bold text-foreground tracking-tight">
-              NEW！BootCamp販売のお知らせ
+              最新リリース情報
             </h1>
+            <p className="mt-4 text-lg text-muted-foreground">
+              AI実践起業塾の最新ブートキャンプ・イベント情報をお届けします
+            </p>
           </div>
         </section>
 
-        {/* Main Content */}
-        <section className="py-16 lg:py-24 bg-background">
+        {/* ===== NEW RELEASE 1: AI秘書ブートキャンプ ===== */}
+        <section className="py-16 lg:py-24 bg-background border-b border-border">
           <div className="max-w-4xl mx-auto px-6 lg:px-8">
-            <div className="prose prose-lg max-w-none">
-              {/* Title */}
-              <div className="mb-12">
-                <h2 className="text-3xl lg:text-4xl font-bold text-foreground mb-4 whitespace-nowrap">
-                  【5日間集中】AI×データベース実装ブートキャンプ
-                </h2>
-                <p className="text-xl text-muted-foreground italic mb-8">
-                  〜「ツール屋」で終わるか、高単価な「システム構築のプロ」になるか。〜
-                </p>
+            {/* 新着バッジ */}
+            <div className="flex items-center gap-3 mb-8">
+              <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-primary text-primary-foreground text-xs font-bold tracking-wide">
+                <span className="w-1.5 h-1.5 rounded-full bg-primary-foreground animate-pulse" />
+                NEW
+              </span>
+              <span className="text-sm text-muted-foreground">2026年7月開催</span>
+            </div>
 
-                {/* Banner Image */}
-                <div className="mt-8">
-                  <Image
-                    src="/bootcamp-banner.png"
-                    alt="AI×データベース実装ブートキャンプ"
-                    width={1920}
-                    height={1080}
-                    className="w-full h-auto rounded-2xl"
-                    priority
-                  />
-                </div>
+            <div className="prose prose-lg max-w-none">
+              {/* タイトル */}
+              <div className="mb-10">
+                <h2 className="text-3xl lg:text-4xl font-bold text-foreground mb-3">
+                  AI秘書ブートキャンプ
+                </h2>
+                <p className="text-lg text-muted-foreground">
+                  非エンジニア向け ／ 2h × 3日間
+                </p>
               </div>
 
-              {/* Introduction */}
+              {/* 導入文 */}
               <div className="bg-card p-8 rounded-2xl border border-border mb-12">
                 <p className="text-lg leading-relaxed" style={{ color: '#001B3A' }}>
-                  AI実践企業塾の皆様、お待たせいたしました！5月・6月、あなたのスキルを一段上のステージへ引き上げる、超実践型ブートキャンプを開催します。
+                  AIを「使う道具」から「働く仲間」へ。ClaudeCodeを使った自分だけのAI秘書を3日間で構築します。
+                  日々の業務を自動化し、あなたの時間をより価値ある仕事へ解放しましょう。
                 </p>
               </div>
 
-              <div className="space-y-6 mb-12">
-                <p className="text-lg text-foreground leading-relaxed">
-                  今回のテーマは<strong className="text-primary">「データベース（Supabase）」</strong>。前回のGASブートキャンプで「動くツール」を作れるようになった次の一歩として、<strong className="text-primary">「数百万〜一千万円規模の案件」</strong>を支えるプロの設計・開発手法を5日間でマスターしていただきます。
-                </p>
-              </div>
-
-              {/* Why Database */}
-              <div className="bg-primary/5 p-8 rounded-2xl mb-12">
-                <h3 className="text-2xl font-bold text-foreground mb-6 flex items-center gap-2">
-                  <span className="text-3xl">🌟</span>
-                  なぜ、今「データベース」が必要なのか？
-                </h3>
-                <div className="space-y-4 text-foreground/90 leading-relaxed">
-                  <p>
-                    最近ではAI（ClaudeやCursorなど）を使えば、誰でも簡単にツールが作れるようになりました。しかし、そこには明確な壁が存在します。
-                  </p>
-                  <div className="pl-6 border-l-4 border-primary/30 space-y-2">
-                    <p className="text-muted-foreground">単発の個人利用で終わる「ツール屋」</p>
-                    <p className="text-lg font-semibold text-primary">↓</p>
-                    <p className="text-foreground font-semibold">組織の基盤となり、高単価で発注される「システムエンジニア」</p>
-                  </div>
-                  <p>
-                    この差はどこにあるのか？ それが<strong className="font-bold text-[#001B3A]">「データベース設計力」</strong>です。
-                  </p>
-                  <p>
-                    複数のユーザーが使い、権限が守られ、データが積み重なっても壊れない。そんな「本物のシステム」を作るには、データベースの理解が欠かせません。
-                  </p>
-                  <p>
-                    本講座では、モダンな開発基盤として注目される<strong className="text-primary">「Supabase（スーパーベース）」</strong>を使い、AIを最高の相棒にしながら、一生モノの設計スキルを身につけていただきます。
-                  </p>
-                </div>
-              </div>
-
-              {/* Curriculum */}
+              {/* カリキュラム */}
               <div className="mb-12">
                 <h3 className="text-2xl font-bold text-foreground mb-6 flex items-center gap-2">
                   <span className="text-3xl">🗓</span>
-                  5日間のカリキュラム（完全ハンズオン形式）
+                  3日間のカリキュラム
                 </h3>
-                <p className="text-lg text-muted-foreground mb-8">
-                  土曜の夜、「一生物の資産」を手に入れませんか？
-                </p>
 
-                <div className="space-y-6">
+                <div className="space-y-4">
                   {/* Day 1 */}
                   <div className="bg-card p-6 rounded-xl border border-border">
-                    <h4 className="text-xl font-bold text-primary mb-3">
-                      Day 1：5/9(土) 21:00〜 基礎固め「Excel地獄からの脱出」
+                    <h4 className="text-xl font-bold text-primary mb-4">
+                      Day 1：7/4（土）
                     </h4>
-                    <p className="text-foreground/80 leading-relaxed">
-                      スプレッドシートの限界を知り、リレーショナルデータベース（RDB）の思考をインストール。
-                    </p>
+                    <ul className="space-y-2">
+                      <li className="flex items-start gap-2 text-foreground/80 leading-relaxed">
+                        <span className="mt-1 w-1.5 h-1.5 rounded-full bg-primary shrink-0" />
+                        ClaudeCode 入門・インストール・初期設定
+                      </li>
+                      <li className="flex items-start gap-2 text-foreground/80 leading-relaxed">
+                        <span className="mt-1 w-1.5 h-1.5 rounded-full bg-primary shrink-0" />
+                        秘書エージェント作成（バーチャル会社構築）
+                      </li>
+                    </ul>
                   </div>
 
                   {/* Day 2 */}
                   <div className="bg-card p-6 rounded-xl border border-border">
-                    <h4 className="text-xl font-bold text-primary mb-3">
-                      Day 2：5/16(土) 21:00〜 設計の真髄「プロの設計図・ER図」
+                    <h4 className="text-xl font-bold text-primary mb-4">
+                      Day 2：7/5（日）
                     </h4>
-                    <p className="text-foreground/80 leading-relaxed">
-                      データの重複を許さない「正規化」とテーブル同士のリレーションを学びます。
-                    </p>
+                    <ul className="space-y-2">
+                      <li className="flex items-start gap-2 text-foreground/80 leading-relaxed">
+                        <span className="mt-1 w-1.5 h-1.5 rounded-full bg-primary shrink-0" />
+                        TODOシステム構築・日次ブリーフィング自動化
+                      </li>
+                      <li className="flex items-start gap-2 text-foreground/80 leading-relaxed">
+                        <span className="mt-1 w-1.5 h-1.5 rounded-full bg-primary shrink-0" />
+                        カレンダー連携・スケジュール管理
+                      </li>
+                    </ul>
                   </div>
 
                   {/* Day 3 */}
                   <div className="bg-card p-6 rounded-xl border border-border">
-                    <h4 className="text-xl font-bold text-primary mb-3">
-                      Day 3：5/23(土) 21:00〜 実装フェーズ「SupabaseとSQL」
+                    <h4 className="text-xl font-bold text-primary mb-4">
+                      Day 3：7/11（土）
                     </h4>
-                    <p className="text-foreground/80 leading-relaxed">
-                      実際にSupabaseを構築。データのやり取りに欠かせないSQLと言語を習得。
-                    </p>
-                  </div>
-
-                  {/* Day 4 */}
-                  <div className="bg-card p-6 rounded-xl border border-border">
-                    <h4 className="text-xl font-bold text-primary mb-3">
-                      Day 4：5/30(土) 21:00〜 堅牢性を生む「セキュリティとアクセス制御」
-                    </h4>
-                    <p className="text-foreground/80 leading-relaxed">
-                      プロの現場で必須となる、安全なデータ管理の仕組みを構築します。
-                    </p>
-                  </div>
-
-                  {/* Day 5 */}
-                  <div className="bg-card p-6 rounded-xl border border-border">
-                    <h4 className="text-xl font-bold text-primary mb-3">
-                      Day 5：6/6(土) 21:00〜 完結「アプリ公開・世界へデプロイ」
-                    </h4>
-                    <p className="text-foreground/80 leading-relaxed">
-                      CursorでUIを作成し、Vercelへデプロイ。自分の作ったシステムが世界中で動く感動を！
-                    </p>
+                    <ul className="space-y-2">
+                      <li className="flex items-start gap-2 text-foreground/80 leading-relaxed">
+                        <span className="mt-1 w-1.5 h-1.5 rounded-full bg-primary shrink-0" />
+                        Inbox 整理・メール下書き自動化
+                      </li>
+                      <li className="flex items-start gap-2 text-foreground/80 leading-relaxed">
+                        <span className="mt-1 w-1.5 h-1.5 rounded-full bg-primary shrink-0" />
+                        自分の業務にカスタマイズ・QA
+                      </li>
+                    </ul>
                   </div>
                 </div>
               </div>
 
-              {/* Benefits */}
-              <div className="bg-gradient-to-br from-primary/5 to-primary/10 p-8 rounded-2xl mb-12">
-                <h3 className="text-2xl font-bold text-foreground mb-6 flex items-center gap-2">
-                  <span className="text-3xl">🚀</span>
-                  この講座で得られる3つの価値
-                </h3>
-                <div className="space-y-6">
-                  <div>
-                    <h4 className="text-xl font-bold text-primary mb-2">
-                      単価の桁が変わる「設計力」
-                    </h4>
-                    <p className="text-foreground/80 leading-relaxed">
-                      講師の案件が600万〜1000万円規模である理由。その裏側にある「データベースの思考法」を直接伝授します。
-                    </p>
-                  </div>
-                  <div>
-                    <h4 className="text-xl font-bold text-primary mb-2">
-                      AIを「最高の相棒」にできる
-                    </h4>
-                    <p className="text-foreground/80 leading-relaxed">
-                      全体設計ができるようになれば、AIへの指示（プロンプト）の質が劇的に向上し、爆速で開発が可能になります。
-                    </p>
-                  </div>
-                  <div>
-                    <h4 className="text-xl font-bold text-primary mb-2">
-                      共に走る「エンジニア仲間」
-                    </h4>
-                    <p className="text-foreground/80 leading-relaxed">
-                      共通言語で語り合える仲間ができ、将来的にチームで大きな案件を受注する土壌を作ります。
-                    </p>
-                  </div>
-                </div>
-              </div>
-
-              {/* Pricing */}
-              <div className="bg-card p-8 rounded-2xl border-2 border-primary/20 mb-12">
+              {/* 料金 */}
+              <div className="bg-card p-8 rounded-2xl border-2 border-primary/20 mb-10">
                 <h3 className="text-2xl font-bold text-foreground mb-6 flex items-center gap-2">
                   <span className="text-3xl">💰</span>
                   受講料金
                 </h3>
-                <div className="space-y-6">
-                  {/* Supabaseブートキャンプ単体 */}
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                   <div className="bg-background p-6 rounded-xl">
-                    <h4 className="text-xl font-bold text-foreground mb-4">Supabaseブートキャンプ単体</h4>
-                    <div className="space-y-3">
-                      <div className="flex items-center justify-between">
-                        <span className="text-foreground/80">銀行振り込み：</span>
-                        <span className="text-2xl font-bold text-[#001B3A]">29,800円</span>
-                      </div>
-                      <p className="text-sm text-muted-foreground">（手数料なし）</p>
-                      <div className="flex items-center justify-between border-t border-border pt-3">
-                        <span className="text-foreground/80">スクエア決済：</span>
-                        <span className="text-2xl font-bold text-[#001B3A]">32,900円</span>
-                      </div>
-                      <p className="text-sm text-muted-foreground">（手数料10%込み、分割可能）</p>
-                    </div>
+                    <p className="text-sm font-medium text-muted-foreground mb-2">塾生以外</p>
+                    <p className="text-4xl font-bold" style={{ color: '#001B3A' }}>¥49,800</p>
+                  </div>
+                  <div className="bg-primary/5 p-6 rounded-xl border-2 border-primary/30">
+                    <p className="text-sm font-medium text-primary mb-2">塾生価格</p>
+                    <p className="text-4xl font-bold" style={{ color: '#001B3A' }}>¥19,800</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        {/* ===== NEW RELEASE 2: AI開発者向け環境構築ブートキャンプ ===== */}
+        <section className="py-16 lg:py-24 bg-primary/3 border-b border-border">
+          <div className="max-w-4xl mx-auto px-6 lg:px-8">
+            {/* 新着バッジ */}
+            <div className="flex items-center gap-3 mb-8">
+              <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-primary text-primary-foreground text-xs font-bold tracking-wide">
+                <span className="w-1.5 h-1.5 rounded-full bg-primary-foreground animate-pulse" />
+                NEW
+              </span>
+              <span className="text-sm text-muted-foreground">2026年7〜8月開催</span>
+            </div>
+
+            <div className="prose prose-lg max-w-none">
+              {/* タイトル */}
+              <div className="mb-10">
+                <h2 className="text-3xl lg:text-4xl font-bold text-foreground mb-3">
+                  AI開発者向け環境構築ブートキャンプ
+                </h2>
+                <p className="text-lg text-muted-foreground">
+                  アプリ開発志望者向け ／ 2h × 3日間
+                </p>
+              </div>
+
+              {/* 導入文 */}
+              <div className="bg-card p-8 rounded-2xl border border-border mb-12">
+                <p className="text-lg leading-relaxed" style={{ color: '#001B3A' }}>
+                  「アプリを作りたいけど、環境構築で詰まる…」そんな壁を3日間で突破します。
+                  WSL2からClaudeCode・MCPまで、プロが使うモダン開発環境を一気に整えて、
+                  実際にアプリを世界へデプロイするところまで完走します。
+                </p>
+              </div>
+
+              {/* カリキュラム */}
+              <div className="mb-12">
+                <h3 className="text-2xl font-bold text-foreground mb-6 flex items-center gap-2">
+                  <span className="text-3xl">🗓</span>
+                  3日間のカリキュラム
+                </h3>
+
+                <div className="space-y-4">
+                  {/* Day 1 */}
+                  <div className="bg-card p-6 rounded-xl border border-border">
+                    <h4 className="text-xl font-bold text-primary mb-4">
+                      Day 1：7/25（土）
+                    </h4>
+                    <ul className="space-y-2">
+                      <li className="flex items-start gap-2 text-foreground/80 leading-relaxed">
+                        <span className="mt-1 w-1.5 h-1.5 rounded-full bg-primary shrink-0" />
+                        WSL2・Git・Node.js 環境構築
+                      </li>
+                      <li className="flex items-start gap-2 text-foreground/80 leading-relaxed">
+                        <span className="mt-1 w-1.5 h-1.5 rounded-full bg-primary shrink-0" />
+                        ClaudeCode 設定・プロジェクト接続
+                      </li>
+                    </ul>
                   </div>
 
-                  {/* AI実践起業塾追加 */}
-                  <div className="bg-primary/5 p-6 rounded-xl border-2 border-primary/20">
-                    <h4 className="text-xl font-bold text-primary mb-4">AI実践起業塾追加（セット価格）</h4>
-                    <div className="space-y-3">
-                      <div className="flex items-center justify-between">
-                        <span className="text-foreground/80">通常価格：</span>
-                        <span className="text-xl font-bold text-foreground line-through">79,800円</span>
-                      </div>
-                      <div className="flex items-center justify-between">
-                        <span className="text-lg font-bold text-primary">銀行振り込み：</span>
-                        <span className="text-3xl font-bold text-[#001B3A]">59,800円</span>
-                      </div>
-                      <p className="text-sm text-muted-foreground">（手数料なし）</p>
-                      <div className="flex items-center justify-between border-t border-primary/20 pt-3">
-                        <span className="text-foreground/80">スクエア決済：</span>
-                        <span className="text-2xl font-bold text-[#001B3A]">65,900円</span>
-                      </div>
-                      <p className="text-sm text-muted-foreground">（手数料10%込み、分割可能）</p>
-                    </div>
+                  {/* Day 2 */}
+                  <div className="bg-card p-6 rounded-xl border border-border">
+                    <h4 className="text-xl font-bold text-primary mb-4">
+                      Day 2：7/26（日）
+                    </h4>
+                    <ul className="space-y-2">
+                      <li className="flex items-start gap-2 text-foreground/80 leading-relaxed">
+                        <span className="mt-1 w-1.5 h-1.5 rounded-full bg-primary shrink-0" />
+                        MCP 連携（Calendar・Drive等）
+                      </li>
+                      <li className="flex items-start gap-2 text-foreground/80 leading-relaxed">
+                        <span className="mt-1 w-1.5 h-1.5 rounded-full bg-primary shrink-0" />
+                        エージェント設計・PDCA 開発の考え方
+                      </li>
+                    </ul>
+                  </div>
+
+                  {/* Day 3 */}
+                  <div className="bg-card p-6 rounded-xl border border-border">
+                    <h4 className="text-xl font-bold text-primary mb-4">
+                      Day 3：8/1（土）
+                    </h4>
+                    <ul className="space-y-2">
+                      <li className="flex items-start gap-2 text-foreground/80 leading-relaxed">
+                        <span className="mt-1 w-1.5 h-1.5 rounded-full bg-primary shrink-0" />
+                        実際にアプリを作る（ハンズオン）
+                      </li>
+                      <li className="flex items-start gap-2 text-foreground/80 leading-relaxed">
+                        <span className="mt-1 w-1.5 h-1.5 rounded-full bg-primary shrink-0" />
+                        デプロイ・運用設計・QA
+                      </li>
+                    </ul>
                   </div>
                 </div>
               </div>
 
-              {/* Call to Action */}
-              <div className="bg-gradient-to-r from-primary/10 to-primary/5 p-8 rounded-2xl mb-12 text-center">
-                <p className="text-lg text-foreground leading-relaxed">
-                  「AIエンジニア元年」と言われる2026年。ただAIを使うだけの人で終わるか、AIを使いこなして価値あるシステムを創る側になるか。この5日間で、あなたの未来を大きく変えていきましょう！
-                </p>
+              {/* 料金 */}
+              <div className="bg-card p-8 rounded-2xl border-2 border-primary/20 mb-10">
+                <h3 className="text-2xl font-bold text-foreground mb-6 flex items-center gap-2">
+                  <span className="text-3xl">💰</span>
+                  受講料金
+                </h3>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  <div className="bg-background p-6 rounded-xl">
+                    <p className="text-sm font-medium text-muted-foreground mb-2">塾生以外</p>
+                    <p className="text-4xl font-bold" style={{ color: '#001B3A' }}>¥79,800</p>
+                  </div>
+                  <div className="bg-primary/5 p-6 rounded-xl border-2 border-primary/30">
+                    <p className="text-sm font-medium text-primary mb-2">塾生価格</p>
+                    <p className="text-4xl font-bold" style={{ color: '#001B3A' }}>¥29,800</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        {/* ===== 過去のリリース ===== */}
+        <section className="py-16 lg:py-24 bg-muted/30">
+          <div className="max-w-4xl mx-auto px-6 lg:px-8">
+            {/* セクションヘッダー */}
+            <div className="flex items-center gap-4 mb-12">
+              <div className="h-px flex-1 bg-border" />
+              <h2 className="text-xl font-bold text-muted-foreground tracking-widest">
+                過去のリリース
+              </h2>
+              <div className="h-px flex-1 bg-border" />
+            </div>
+
+            {/* Supabase ブートキャンプ（終了） */}
+            <div className="bg-card/60 rounded-2xl border border-border overflow-hidden opacity-80">
+              {/* 終了バッジ */}
+              <div className="bg-muted px-6 py-3 flex items-center justify-between">
+                <span className="text-sm font-medium text-muted-foreground">2026年5〜6月開催</span>
+                <span className="inline-flex items-center px-3 py-1 rounded-full bg-muted-foreground/20 text-muted-foreground text-xs font-bold">
+                  終了
+                </span>
               </div>
 
-              {/* Application Button */}
-              <div className="text-center py-12 mb-12">
-                <Button
-                  asChild
-                  size="lg"
-                  className="bg-primary hover:bg-primary/90 text-primary-foreground font-bold text-lg px-12 py-6"
-                >
-                  <Link href="https://docs.google.com/forms/d/e/1FAIpQLSf0Go-4ov0rBM0ZZNPQvtBquQEDaP3YvMpb1YeanYGHy8f6Kw/viewform" target="_blank" rel="noopener noreferrer">
-                    お申し込みフォームはこちら
-                  </Link>
-                </Button>
+              <div className="p-6 lg:p-10">
+                <div className="prose prose-lg max-w-none">
+                  {/* タイトル */}
+                  <div className="mb-8">
+                    <h3 className="text-2xl lg:text-3xl font-bold text-foreground/70 mb-2">
+                      【5日間集中】AI×データベース実装ブートキャンプ
+                    </h3>
+                    <p className="text-base text-muted-foreground italic">
+                      〜「ツール屋」で終わるか、高単価な「システム構築のプロ」になるか。〜
+                    </p>
+                  </div>
+
+                  {/* バナー画像 */}
+                  <div className="mb-8">
+                    <Image
+                      src="/bootcamp-banner.png"
+                      alt="AI×データベース実装ブートキャンプ"
+                      width={1920}
+                      height={1080}
+                      className="w-full h-auto rounded-xl grayscale-[30%]"
+                    />
+                  </div>
+
+                  {/* 導入文 */}
+                  <div className="bg-background/60 p-6 rounded-xl border border-border mb-8">
+                    <p className="text-base leading-relaxed text-foreground/70">
+                      今回のテーマは「データベース（Supabase）」。前回のGASブートキャンプで「動くツール」を作れるようになった次の一歩として、「数百万〜一千万円規模の案件」を支えるプロの設計・開発手法を5日間でマスターしていただきます。
+                    </p>
+                  </div>
+
+                  {/* カリキュラム概要 */}
+                  <div className="mb-8">
+                    <h4 className="text-lg font-bold text-foreground/70 mb-4 flex items-center gap-2">
+                      <span className="text-xl">🗓</span>
+                      5日間のカリキュラム
+                    </h4>
+                    <div className="space-y-3">
+                      {[
+                        { day: "Day 1", date: "5/9（土）", title: "基礎固め「Excel地獄からの脱出」", desc: "スプレッドシートの限界を知り、リレーショナルデータベース（RDB）の思考をインストール。" },
+                        { day: "Day 2", date: "5/16（土）", title: "設計の真髄「プロの設計図・ER図」", desc: "データの重複を許さない「正規化」とテーブル同士のリレーションを学びます。" },
+                        { day: "Day 3", date: "5/23（土）", title: "実装フェーズ「SupabaseとSQL」", desc: "実際にSupabaseを構築。データのやり取りに欠かせないSQLと言語を習得。" },
+                        { day: "Day 4", date: "5/30（土）", title: "堅牢性を生む「セキュリティとアクセス制御」", desc: "プロの現場で必須となる、安全なデータ管理の仕組みを構築します。" },
+                        { day: "Day 5", date: "6/6（土）", title: "完結「アプリ公開・世界へデプロイ」", desc: "CursorでUIを作成し、Vercelへデプロイ。自分の作ったシステムが世界中で動く感動を！" },
+                      ].map((item) => (
+                        <div key={item.day} className="flex gap-4 bg-background/40 p-4 rounded-lg border border-border/50">
+                          <div className="shrink-0 w-20 text-center">
+                            <p className="text-xs font-bold text-muted-foreground">{item.day}</p>
+                            <p className="text-xs text-muted-foreground">{item.date}</p>
+                          </div>
+                          <div>
+                            <p className="text-sm font-bold text-foreground/60 mb-1">{item.title}</p>
+                            <p className="text-xs text-muted-foreground leading-relaxed">{item.desc}</p>
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+
+                  {/* 料金 */}
+                  <div className="bg-background/40 p-6 rounded-xl border border-border/50 mb-4">
+                    <h4 className="text-lg font-bold text-foreground/60 mb-4 flex items-center gap-2">
+                      <span className="text-xl">💰</span>
+                      受講料金（参考）
+                    </h4>
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm text-muted-foreground">
+                      <div className="space-y-1">
+                        <p className="font-semibold">Supabaseブートキャンプ単体</p>
+                        <p>銀行振り込み：29,800円（手数料なし）</p>
+                        <p>スクエア決済：32,900円（手数料10%込み、分割可能）</p>
+                      </div>
+                      <div className="space-y-1">
+                        <p className="font-semibold">AI実践起業塾追加（セット）</p>
+                        <p>銀行振り込み：59,800円（手数料なし）</p>
+                        <p>スクエア決済：65,900円（手数料10%込み、分割可能）</p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
