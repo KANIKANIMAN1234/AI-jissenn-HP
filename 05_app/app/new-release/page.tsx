@@ -47,7 +47,7 @@ export default function NewReleasePage() {
               {/* タイトル */}
               <div className="mb-10">
                 <h2 className="text-3xl lg:text-4xl font-bold text-foreground mb-3">
-                  AI秘書ブートキャンプ
+                  AI秘書構築ブートキャンプ
                 </h2>
                 <p className="text-lg text-muted-foreground mb-6">
                   非エンジニア向け ／ 2h × 3日間
