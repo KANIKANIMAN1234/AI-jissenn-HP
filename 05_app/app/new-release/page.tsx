@@ -168,7 +168,7 @@ export default function NewReleasePage() {
               {/* タイトル */}
               <div className="mb-10">
                 <h2 className="text-3xl lg:text-4xl font-bold text-foreground mb-3">
-                  AI開発者向け環境構築ブートキャンプ
+                  AIアプリ開発環境構築ブートキャンプ
                 </h2>
                 <p className="text-lg text-muted-foreground mb-6">
                   アプリ開発志望者向け ／ 2h × 3日間
