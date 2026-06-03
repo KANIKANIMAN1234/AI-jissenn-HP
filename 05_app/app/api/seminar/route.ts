@@ -25,11 +25,11 @@ export async function POST(request: NextRequest) {
     const newSeminar = await request.json()
     console.log("Adding new seminar:", newSeminar)
     
-    // 現在の最大display_orderを取得
-    const maxOrder = await sql`
-      SELECT COALESCE(MAX(display_order), -1) as max_order FROM seminars
+    // 既存セミナーの順序を1つずつ下げ、新規セミナーを先頭（display_order = 0）に追加
+    await sql`
+      UPDATE seminars SET display_order = display_order + 1
     `
-    const displayOrder = (maxOrder[0]?.max_order ?? -1) + 1
+    const displayOrder = 0
     
     const result = await sql`
       INSERT INTO seminars (

@@ -34,11 +34,11 @@ export async function POST(request: NextRequest) {
     const newStory = await request.json()
     console.log("Adding new story:", newStory)
     
-    // 現在の最大display_orderを取得
-    const maxOrder = await sql`
-      SELECT COALESCE(MAX(display_order), -1) as max_order FROM success_stories
+    // 既存実績の順序を1つずつ下げ、新規実績を先頭（display_order = 0）に追加
+    await sql`
+      UPDATE success_stories SET display_order = display_order + 1
     `
-    const displayOrder = (maxOrder[0]?.max_order ?? -1) + 1
+    const displayOrder = 0
     
     const result = await sql`
       INSERT INTO success_stories (
