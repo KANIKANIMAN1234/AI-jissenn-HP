@@ -270,6 +270,23 @@ export default function NewReleasePage() {
                   </div>
                 </div>
               </div>
+
+              {/* 申し込みボタン */}
+              <div className="text-center py-8">
+                <Button
+                  asChild
+                  size="lg"
+                  className="bg-primary hover:bg-primary/90 text-primary-foreground font-bold text-lg px-12 py-6"
+                >
+                  <Link
+                    href="https://forms.gle/mvy5vVviJzmTKYLd8"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    申し込みはコチラ
+                  </Link>
+                </Button>
+              </div>
             </div>
           </div>
         </section>
