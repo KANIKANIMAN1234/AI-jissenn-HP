@@ -16,7 +16,7 @@ export default function NewReleasePage() {
       <Header />
       <main className="pt-16 lg:pt-20">
         {/* Hero Section */}
-        <section className="py-16 lg:py-24 bg-gradient-to-b from-primary/5 to-background">
+        <section className="pt-12 lg:pt-16 pb-5 lg:pb-7 bg-gradient-to-b from-primary/5 to-background">
           <div className="max-w-4xl mx-auto px-6 lg:px-8 text-center">
             <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-primary/10 text-primary text-sm font-medium mb-6">
               <span className="w-2 h-2 rounded-full bg-primary animate-pulse" />
@@ -32,7 +32,7 @@ export default function NewReleasePage() {
         </section>
 
         {/* ===== NEW RELEASE 1: AI秘書ブートキャンプ ===== */}
-        <section className="py-16 lg:py-24 bg-background border-b border-border">
+        <section className="pt-5 lg:pt-7 pb-16 lg:pb-24 bg-background border-b border-border">
           <div className="max-w-4xl mx-auto px-6 lg:px-8">
             {/* 新着バッジ */}
             <div className="flex items-center gap-3 mb-8">
