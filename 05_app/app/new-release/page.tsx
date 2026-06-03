@@ -272,16 +272,16 @@ export default function NewReleasePage() {
               </div>
 
               {/* 申し込みボタン */}
-              <div className="text-center py-8">
+              <div className="py-10 lg:py-12">
                 <Button
                   asChild
-                  size="lg"
-                  className="bg-primary hover:bg-primary/90 text-primary-foreground font-bold text-lg px-12 py-6"
+                  className="w-full max-w-2xl mx-auto flex h-auto min-h-[72px] lg:min-h-[88px] bg-[#FF8C00] hover:bg-[#E67E00] text-white font-bold text-2xl sm:text-3xl lg:text-4xl tracking-wide px-8 py-8 lg:py-10 rounded-2xl shadow-lg hover:shadow-xl transition-all"
                 >
                   <Link
                     href="https://forms.gle/mvy5vVviJzmTKYLd8"
                     target="_blank"
                     rel="noopener noreferrer"
+                    className="w-full text-center"
                   >
                     申し込みはコチラ
                   </Link>
