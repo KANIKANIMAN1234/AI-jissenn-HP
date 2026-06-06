@@ -287,6 +287,16 @@ export default function NewReleasePage() {
                   </Link>
                 </Button>
               </div>
+
+              <div className="mt-4">
+                <Image
+                  src="/devenv-bootcamp-message.png"
+                  alt="あなたの本番URLは、ただのURLではありません。AIに頼む人から、AIと開発する人になった証拠です。"
+                  width={700}
+                  height={420}
+                  className="w-full h-auto rounded-2xl"
+                />
+              </div>
             </div>
           </div>
         </section>
