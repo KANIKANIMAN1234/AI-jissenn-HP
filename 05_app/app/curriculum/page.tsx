@@ -115,7 +115,7 @@ const detailedCurriculum: CurriculumSection[] = [
       {
         name: "会員向けセミナーアーカイブ",
         items: [
-          "会員向けセミナーアーカイブ(34)",
+          "会員向けセミナーアーカイブ(36)",
         ],
         detailItems: [
           "第1回 2025.07.17　グループコンサル",
@@ -153,6 +153,8 @@ const detailedCurriculum: CurriculumSection[] = [
           "第32回 Claudecodeでnote本文と漫画の挿絵挿入まで１ポン出し！",
           "第33回 ゼロからわかるDX入門セミナー！",
           "第34回 あなたのビジネスを因数分解！『思考の型』を身につけてDXを加速させるビジネスロジック入門",
+          "第35回『 アジャイル開発の基礎』",
+          "第36回『6月座談会』",
         ],
       },
     ],
