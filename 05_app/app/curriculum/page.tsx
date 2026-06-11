@@ -53,7 +53,7 @@ const detailedCurriculum: CurriculumSection[] = [
       {
         name: "無料セミナーアーカイブ",
         items: [
-          "無料セミナーアーカイブ(51)",
+          "無料セミナーアーカイブ(52)",
         ],
         detailItems: [
           "第1回『商品開発の第一歩』⇒第17回を視聴してください",
@@ -109,6 +109,7 @@ const detailedCurriculum: CurriculumSection[] = [
           "第49回『AI時代、\"ファイル管理崩壊\"してませんか？\"ちゃんと\"バックアップできてますか？』",
           "第50回『AIエージェント時代のプロンプト術』",
           "第51回『AI＋パーソナル⇒自分脳なAI秘書の事例紹介』 〜あなたの経験と感情を蓄積し、唯一無二の「コピーロボット」を育てる方法〜",
+          "第52回『Cursor VS Claude Code ＿ Fable5登場でどうなるか』",
         ],
       },
       {
