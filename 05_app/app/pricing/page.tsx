@@ -100,7 +100,7 @@ export default function PricingPage() {
                     size="lg"
                     className="w-full md:w-auto bg-primary hover:bg-primary/90 text-primary-foreground px-12 py-6 text-base"
                   >
-                    <Link href="https://docs.google.com/forms/d/e/1FAIpQLSdMl6h0GVTZ7TWJIThLuRm21oklaoiXU6Nq5pN8LhejgequMw/viewform" target="_blank" rel="noopener noreferrer">今すぐ申し込む</Link>
+                    <Link href="https://forms.gle/VJxKfQAxz5jrEQ9Z9" target="_blank" rel="noopener noreferrer">今すぐ申し込む</Link>
                   </Button>
                 </div>
               </div>
